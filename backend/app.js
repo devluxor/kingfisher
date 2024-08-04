@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === 'development') {
   morgan.token('body', req => {
     return JSON.stringify(req.body)
   })
-
 }
 
 app.use(cors())
