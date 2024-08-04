@@ -20,7 +20,16 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const temporaryNestIdValidator = (req, res, next) => {
+  if (!req.params.nest_id.match(/^\d+$/)) {
+    return response.status(401).json({ error: 'invalid nest id' });
+  }
+
+  next()
+}
+
 export {
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  temporaryNestIdValidator,
 }
