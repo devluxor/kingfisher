@@ -17,7 +17,7 @@ nestRouter.all('/:nest_id', async (req, res) => {
 
   if (clients['id1']) {
     console.log('🌈message sent!')
-    clients['id1'].send(`${nestId}, ${method}, ${new Date().toString().slice(0,25)}`);
+    clients['id1'].send(`${new Date().toString().slice(0,25)}, ${method}, ${JSON.stringify(body)}`);
   }
 
   res.status(200).send('Request received');
