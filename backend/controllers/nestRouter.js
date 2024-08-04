@@ -5,6 +5,11 @@ import { temporaryNestIdValidator } from "../utils/middleware.js";
 
 const nestRouter = Router()
 const clients = {}
+const nest = []
+
+nestRouter.get('/nest/all', (req, res) => {
+  res.status(200).send(nest)
+})
 
 nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
   const nestId = req.params.nest_id;
@@ -13,6 +18,7 @@ nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
   const body = req.body;
   // let request = await requestService.createRequest(nestId, method, path, headers, body)
   const requestInfo = { nestId, method, headers, body } // add path later
+  nest.push(requestInfo)
   
   // console.log("🤖 ~ nestsRouter.all ~ requestInfo:", requestInfo)
 
@@ -25,7 +31,6 @@ nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
 })
 
 const wsServer = new WebSocketServer({port: config.WS_PORT});
-console.log(config.WS_PORT)
 wsServer.on("connection", (ws, req) => {
   console.log('📯 Web Socket Server connected!')
   let nestId;
