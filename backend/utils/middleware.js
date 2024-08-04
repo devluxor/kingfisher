@@ -1,7 +1,7 @@
 import logger from './logger.js'
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+  response.status(404).send({ error: `unknown endpoint: ${request.originalUrl}` })
 }
 
 const errorHandler = (error, request, response, next) => {
