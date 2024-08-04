@@ -22,7 +22,7 @@ const errorHandler = (error, request, response, next) => {
 
 const temporaryNestIdValidator = (req, res, next) => {
   if (!req.params.nest_id.match(/^\d+$/)) {
-    return response.status(401).json({ error: 'invalid nest id' });
+    return res.status(401).json({ error: 'invalid nest id' });
   }
 
   next()
