@@ -33,7 +33,7 @@ nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
 const wsServer = new WebSocketServer({port: config.WS_PORT});
 wsServer.on("connection", (ws, req) => {
   console.log('📯 Web Socket Server connected!')
-  let nestId;
+  // let nestId;
 
   // does this mean that when a connection is made from the frontend,
   // a message is sent to this server with the id???
@@ -45,7 +45,7 @@ wsServer.on("connection", (ws, req) => {
   
   ws.on("close", () => {
     console.log('✖ Web Socket Server closed!')
-    delete clients['id1'];
+    delete clients['id1']
   });
 })
 
