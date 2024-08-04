@@ -1,11 +1,12 @@
 import { Router } from "express";
 import config from "../utils/config.js";
 import { WebSocketServer } from "ws";
+import { temporaryNestIdValidator } from "../utils/middleware.js";
 
 const nestRouter = Router()
 const clients = {}
 
-nestRouter.all('/:nest_id', async (req, res) => {
+nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
   const nestId = req.params.nest_id;
   const method = req.method;
   const headers = req.headers;
