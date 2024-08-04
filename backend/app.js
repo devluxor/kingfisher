@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', apiRouter)
-app.use('/', nestRouter)
+app.use('/!', nestRouter)
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
