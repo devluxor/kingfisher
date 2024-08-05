@@ -2,25 +2,24 @@ import { Router } from "express";
 import config from "../utils/config.js";
 import { WebSocketServer } from "ws";
 import { temporaryNestIdValidator } from "../utils/middleware.js";
+import { nestDBSimulator, nests } from "./apiRouter.js";
 
 const nestRouter = Router()
 const clients = {}
-const nest = []
 
-nestRouter.get('/nest/all', (req, res) => {
-  res.status(200).send(nest)
-})
-
-nestRouter.all('/:nest_id', temporaryNestIdValidator, async (req, res) => {
-  const nestId = req.params.nest_id;
+nestRouter.all('/:nestId', temporaryNestIdValidator, async (req, res) => {
+  const nestId = req.params.nestId;
   const method = req.method;
   const headers = req.headers;
   const body = req.body;
   // let request = await requestService.createRequest(nestId, method, path, headers, body)
   const requestInfo = { nestId, method, headers, body } // add path later
-  nest.push(requestInfo)
   
-  // console.log("🤖 ~ nestsRouter.all ~ requestInfo:", requestInfo)
+  // if (nests[nestId]) {
+  //   nests[nestId].requests.push(requestInfo)
+  // }
+
+  nestDBSimulator('addReq', nestId, null, requestInfo)
 
   if (clients['id1']) {
     console.log('🌈message sent!')
