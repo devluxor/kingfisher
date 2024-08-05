@@ -16,6 +16,6 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script:
+          script: |
             cd /home/lucas/kingfisher
             git pull
