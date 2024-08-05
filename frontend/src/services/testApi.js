@@ -7,8 +7,6 @@ const axiosInstance = axios.create({
 })
 
 export const createNest = async (source) => {
-  // should return a 200 code, with
-  // id of nest in request 
   try {
     const result = await axiosInstance.post('/createNest', {}, {
       cancelToken: source.token
