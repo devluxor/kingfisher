@@ -1,33 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react"
+import { createNest } from "./services/testApi"
+import axios from "axios"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentNest, setCurrentNest] = useState(null)
+
+  useEffect(() => {
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
+    (async () => {
+      try {
+        const nestId = await createNest(source)
+        setCurrentNest(nestId)
+      } catch(error) {
+        console.error(error)
+      }
+    })()
+
+    return () => {
+      source.cancel('axios request cancelled')
+    }
+  }, [])
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>🐦Welcome to Kingfisher!🐦</h1>
+      <h3>Current nest: {currentNest}</h3>
+      <button>Get request data</button>
     </>
   )
 }
