@@ -17,6 +17,10 @@ import nestRouter from './controllers/nestRouter.js'
 
 const app = express()
 
+app.use(cors())
+app.use(express.json())
+app.use(express.static('dist'))
+
 if (process.env.NODE_ENV === 'development') {
   console.log('🎑 Developing!')
 
@@ -25,15 +29,8 @@ if (process.env.NODE_ENV === 'development') {
   morgan.token('body', req => {
     return JSON.stringify(req.body)
   })
+  app.use(morgan(':method :url :status :body'))
 }
-
-app.use(cors())
-app.use(express.json())
-app.use(morgan(':method :url :status :body'))
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 app.use('/api', apiRouter)
 app.use('/!', nestRouter)

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000/api'
+const baseURL = '/api'
 
 const axiosInstance = axios.create({
   baseURL
@@ -30,7 +30,7 @@ export const getNestRequests = async (nestId) => {
 
 export const testRequest = async (nestId) => {
   try {
-    const result = await axios.get(`http://localhost:3000/!/${nestId}`)
+    const result = await axios.get(`/!/${nestId}`)
     return result.data
   } catch(error) {
     console.error(error)
