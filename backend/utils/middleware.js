@@ -21,7 +21,9 @@ const errorHandler = (error, request, response, next) => {
 }
 
 const temporaryNestIdValidator = (req, res, next) => {
-  if (!req.params.nest_id.match(/^\d+$/)) {
+  const UUID_CHARS = 22
+  const UUID_REGEX = new RegExp(`^[A-Za-z0-9]{${UUID_CHARS}}$`, 'g')
+  if (!req.params.nestId.match(UUID_REGEX)) {
     return res.status(401).json({ error: 'invalid nest id' });
   }
 
