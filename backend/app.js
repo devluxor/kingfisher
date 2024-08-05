@@ -19,11 +19,9 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static('dist'))
 
 if (process.env.NODE_ENV === 'development') {
   console.log('🎑 Developing!')
-
   // This adds a custom token to the logger 'morgan',
   // so the body of the request sent to the server is shown on the terminal
   morgan.token('body', req => {
