@@ -10,21 +10,29 @@ export const createNest = async (source) => {
   // should return a 200 code, with
   // id of nest in request 
   try {
-    const result = await axiosInstance.post('/createNest', {
-      data: 'data about the agent'
-    }, {
+    const result = await axiosInstance.post('/createNest', {}, {
       cancelToken: source.token
     })
 
     return result.data
   } catch(error) {
-    console.error(error)
+    if (error.name !== 'CanceledError') {
+      console.error(error)
+    }
   }
 }
 
 export const getNestRequests = async (nestId) => {
   try {
-    const result = await axiosInstance.get(`/${nestId}`)
+    await axiosInstance.get(`/nests/${nestId}`)
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+export const testRequest = async (nestId) => {
+  try {
+    const result = await axios.get(`http://localhost:3000/!/${nestId}`)
     return result.data
   } catch(error) {
     console.error(error)
