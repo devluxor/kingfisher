@@ -1,4 +1,4 @@
-name: Automatic deploy to Digital Ocean
+name: Automatic deployment to Digital Ocean
 
 on: 
   push:
@@ -16,4 +16,6 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: whoami
+          script:
+            cd /home/lucas/kingfisher
+            git pull
