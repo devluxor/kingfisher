@@ -10,24 +10,21 @@ function App() {
     const source = cancelToken.source();
     (async () => {
       try {
-        const nestId = await createNest(source)
-        setCurrentNest(nestId)
+        const result = await createNest(source)
+        setCurrentNest(result?.nestId)
       } catch(error) {
         console.error(error)
       }
     })()
-
-    return () => {
-      source.cancel('axios request cancelled')
-    }
   }, [])
-
 
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>
-      <h3>Current nest: {currentNest}</h3>
-      <button>Get request data</button>
+      <h3>Current nest id: {currentNest ? currentNest : 'loading id'}</h3>
+      <h4>List of received requests:</h4>
+      <ul className="received-requests"></ul>
+      <button>Make test request</button>
     </>
   )
 }
