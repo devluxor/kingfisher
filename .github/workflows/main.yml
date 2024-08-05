@@ -1,0 +1,19 @@
+name: Automatic deploy to Digital Ocean
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: whoami
