@@ -29,7 +29,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan(':method :url :status :body'))
 }
 
-app.use(express.static('dist'))
 app.use('/api', apiRouter)
 app.use('/!', nestRouter)
 app.use(unknownEndpoint)
