@@ -30,7 +30,7 @@ jobs:
             cd /home/lucas/kingfisher/frontend
             npm run build
             echo ${{secrets.PASSWORD}} | sudo -S rm -rf /var/www/kingfisher/html
-            mkdir /var/www/kingfisher/html
-            cp -r ./dist/* /var/www/kingfisher/html/
+            echo ${{secrets.PASSWORD}} | mkdir /var/www/kingfisher/html
+            echo ${{secrets.PASSWORD}} | cp -r ./dist/* /var/www/kingfisher/html/
                 
             
