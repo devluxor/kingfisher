@@ -22,6 +22,6 @@ export default () => {
   })
 
   // returns a callback that gives access to the runtime
-  // websocket client store via this closure:
+  // websocket clients store via this closure:
   return () => clients
 }
