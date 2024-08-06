@@ -14,6 +14,9 @@ import {unknownEndpoint, errorHandler} from './utils/middleware.js'
 import logger from './utils/logger.js'
 import apiRouter from './controllers/apiRouter.js'
 import nestRouter from './controllers/nestRouter.js'
+import initializeMockWSServer from "./controllers/mockWSServer.js";
+
+const mockClients = initializeMockWSServer()()
 
 const app = express()
 app.use(cors())
@@ -30,7 +33,17 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api', apiRouter)
+
+app.get('/!/ws/:nestId', (req, res) => {
+  console.log('request sent to ws server from mock client')
+  console.log(req.params)
+  const nestId = req.params.nestId
+  mockClients[nestId].send(JSON.stringify({message: 'testing message', nestId }))
+  res.send('all ok')
+})
+
 app.use('/!', nestRouter)
+
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
