@@ -94,10 +94,23 @@ function App() {
     }
   }
 
+  const copyNestId = async () => {
+    try {
+      await navigator.clipboard.writeText(currentNest)
+      console.log('Text copied to clipboard');
+    } catch (error) {
+      console.error('Failed to copy text: ', error);
+    }
+  }
+
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>
-      <h3> {currentNest ? `Current nest id: ${currentNest}` : 'loading nest'}</h3>
+      <h3 style={{display: 'inline'}}> {currentNest ? `Current nest id: ${currentNest}` : 'loading nest'}</h3>
+      <button
+        onClick={() => copyNestId()}
+
+      >Copy nest id</button>
       <button onClick={() => test(currentNest)}>Make test request</button>
       <button style={{background: 'red'}} onClick={() => resetCurrentNest()}>Reset Current Nest</button>
       <h4>List of received requests:</h4>
