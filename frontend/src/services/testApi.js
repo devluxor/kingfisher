@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 export const createNest = async (source) => {
   let configuration = {}
   if (source) configuration['cancelToken'] = source.token
-  
+
   try {
     const result = await axiosInstance.post('/createNest', {}, configuration)
     return result.data
@@ -29,7 +29,7 @@ export const getNest = async (nestId) => {
 
 export const testRequest = async (nestId) => {
   const baseURL = import.meta.env.DEV ? 
-                    `http://localhost:3000/api` : 
+                    `http://localhost:3000`: 
                     `https://kingfisher.luxor.dev`
 
   try {
