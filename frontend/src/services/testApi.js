@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const port = import.meta.env.DEV ? '3000' : '3002'
-const baseURL = `http://localhost:${port}/api`
+const baseURL = import.meta.env.DEV ? `http://localhost:${port}/api` : `https://luxor.dev/kingfisher/api`
 
 const axiosInstance = axios.create({
   baseURL
