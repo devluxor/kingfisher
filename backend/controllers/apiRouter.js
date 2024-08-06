@@ -7,7 +7,7 @@ const apiRouter = Router()
 // to delete later? 
 apiRouter.get('/nests/all', async (req, res) => {
   const nestId = req.params.nestId
-  const nests = nestDBSimulator('getAll', nestId)
+  const nests = DBSimulator('getAll', nestId)
   res.status(200).send(nests)
 })
 
