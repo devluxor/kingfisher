@@ -27,8 +27,14 @@ apiRouter.get('/nests/:nestId/', async (req, res) => {
 apiRouter.post('/createNest', async (req, res, next) => {
   try {
     const nestId = short.generate()
-    const newNest = {id: nestId, ip: req.ip, hostName: req.hostname, requests: []}
-    DBSimulator('newNest', nestId, newNest  )
+    const newNest = {
+      id: nestId, 
+      createdOn: new Date(), 
+      ip: req.ip, 
+      hostName: req.hostname, 
+      requests: []
+    }
+    DBSimulator('newNest', nestId, newNest)
     res.status(200).send({ nestId })
   } catch (e) {
     next(e); // Pass the error to the next middleware (error handler, etc.)
