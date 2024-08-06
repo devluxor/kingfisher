@@ -28,6 +28,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /home/lucas/kingfisher/frontend
-            bash build-frontend.sh
+            bash build-frontend.sh ${{secrets.PASSWORD}}
                 
             
