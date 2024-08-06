@@ -28,9 +28,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /home/lucas/kingfisher/frontend
-            npm run build
-            echo ${{secrets.PASSWORD}} | sudo -S rm -rf /var/www/kingfisher/html
-            echo ${{secrets.PASSWORD}} | mkdir /var/www/kingfisher/html
-            echo ${{secrets.PASSWORD}} | cp -r ./dist/* /var/www/kingfisher/html/
+            bash build-frontend.sh
                 
             
