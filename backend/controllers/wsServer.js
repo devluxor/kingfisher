@@ -16,7 +16,7 @@ export default () => {
     
     ws.on("close", (code, reason) => {
       console.log('✖ Connection with client closed!')
-      console.log('✖ Reason: ', code, reason)
+      console.log('✖ Reason: ', code, reason.toString())
       const nestId = reason.toString()
       delete clients[nestId]
     });
