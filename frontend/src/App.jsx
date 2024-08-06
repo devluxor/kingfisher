@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     if (!currentNest) return
 
-    const ws = new WebSocket("ws://localhost:8080")
+    const ws = new WebSocket("wss://kingfisher.luxor.dev/ws")
 
     // message related handlers:
     const onOpenConnection = () => {
