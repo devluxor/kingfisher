@@ -27,8 +27,9 @@ function App() {
 
   useEffect(() => {
     if (!currentNest) return
-
-    const ws = new WebSocket("wss://kingfisher.luxor.dev/ws")
+    
+    const wsServerURL = import.meta.env.DEV ? `ws://localhost:8080` : `wss://kingfisher.luxor.dev/ws`
+    const ws = new WebSocket(wsServerURL)
 
     // message related handlers:
     const onOpenConnection = () => {
@@ -70,9 +71,18 @@ function App() {
     try {
       const result = await createNest()
       setCurrentNest(result.nestId)
+      deleteRequestsFromList()
       localStorage.setItem('kingfisherCurrentNest', currentNest)
+
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  const deleteRequestsFromList = () => {
+    const list = document.getElementById("received-requests");
+    while (list.firstChild) {
+      list.removeChild(list.lastChild);
     }
   }
 
