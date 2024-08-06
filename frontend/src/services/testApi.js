@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.DEV ? `http://localhost:${port}/api` : `https://luxor.dev/kingfisher/api`
+const baseURL = import.meta.env.DEV ? `http://localhost:3000/api` : `https://luxor.dev/kingfisher/api`
 
 const axiosInstance = axios.create({
   baseURL
@@ -27,6 +27,10 @@ export const getNest = async (nestId) => {
 }
 
 export const testRequest = async (nestId) => {
+  const baseURL = import.meta.env.DEV ? 
+                    `http://localhost:3000/api` : 
+                    `https://kingfisher.luxor.dev`
+
   try {
     const result = await axios.get(`${baseURL}/!/${nestId}`)
     return result.data
