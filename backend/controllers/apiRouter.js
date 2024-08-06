@@ -11,7 +11,7 @@ apiRouter.get('/nests/all', async (req, res) => {
   res.status(200).send(nests)
 })
 
-apiRouter.get('/nests/:nestId/', async (req, res) => {
+apiRouter.get('/nests/:nestId', async (req, res) => {
   const nestId = req.params.nestId
   const nest = DBSimulator('get', nestId)
 
