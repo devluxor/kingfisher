@@ -97,12 +97,94 @@ function App() {
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>
-      <h3>Current nest id: {currentNest ? currentNest : 'loading nest'}</h3>
+      <h3> {currentNest ? `Current nest id: ${currentNest}` : 'loading nest'}</h3>
       <button onClick={() => test(currentNest)}>Make test request</button>
       <button style={{background: 'red'}} onClick={() => resetCurrentNest()}>Reset Current Nest</button>
       <h4>List of received requests:</h4>
       <ul id="received-requests"></ul>
+      {currentNest ? <WSCustomClient currentNest = {currentNest}/> : 'loading nest'}
     </>
+  )
+}
+
+const WSCustomClient = ({currentNest}) => {
+  const [wsServerURL, setWsServerURL] = useState('')
+  const connection = useRef(null)
+
+  const createWSClient = () => {
+    deleteMessagesFromList()
+    const ws = new WebSocket(wsServerURL)
+
+    // message related handlers:
+    const onOpenConnection = () => {
+      console.log('📯 Mock Client Created!')
+      console.log('📯 Connection to Mock Server Enabled!')
+
+      ws.send(JSON.stringify({
+        status: 'WS Connection established from Mock Client', 
+        connected: true, 
+        nestId: currentNest
+      }))
+    }
+    const onMessageReceived = (event) => {
+      console.log('📩 Message received from Mock Server!')
+      const message = document.createElement('li');
+      message.className = 'message';
+      message.textContent = event.data;
+      document.querySelector('#received-messages').append(message);
+      console.log("Message from mock server ", event.data)
+    }
+    const closeConnection = () => ws.close(1000, currentNest)
+
+    // Connection opened
+    ws.addEventListener("open", onOpenConnection)
+    
+    // Listen for messages
+    ws.addEventListener("message", onMessageReceived)
+
+    // When WS connection is closed
+    document.addEventListener("beforeunload", closeConnection)
+
+    connection.current = ws
+
+    return () => {
+      ws.removeEventListener("open", onOpenConnection)
+      ws.removeEventListener("message", onMessageReceived)
+      document.removeEventListener('beforeunload', closeConnection)
+    }
+  }
+
+  const deleteMessagesFromList = () => {
+    const list = document.getElementById("received-messages");
+    while (list.firstChild) {
+      list.removeChild(list.lastChild);
+    }
+  }
+
+  return (
+    <div>
+      <h4>Custom WS Client</h4>
+      <form 
+        onSubmit={(e) => {
+          e.preventDefault()
+          console.log('trying to connect to:', wsServerURL)
+          createWSClient()
+        }}
+      >
+        <label htmlFor="wsServerURL">WS Server URL</label><br/>
+        <input 
+          type="text" 
+          id="wsServerURL" 
+          value={wsServerURL} 
+          name="wsServerURL" 
+          placeholder="Enter url here" 
+          required
+          onChange={e => setWsServerURL(e.target.value)}
+        ></input><br/>
+        <input type="submit" value="Submit"></input>
+      </form>
+      <ul id="received-messages"></ul>
+    </div>
   )
 }
 
