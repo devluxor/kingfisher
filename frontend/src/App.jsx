@@ -69,8 +69,6 @@ function App() {
     localStorage.removeItem('kingfisherCurrentNest')
     try {
       const result = await createNest()
-      console.log(result)
-      if (!result) return
       setCurrentNest(result.nestId)
       localStorage.setItem('kingfisherCurrentNest', currentNest)
     } catch (error) {

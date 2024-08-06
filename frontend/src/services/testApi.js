@@ -7,10 +7,11 @@ const axiosInstance = axios.create({
 })
 
 export const createNest = async (source) => {
+  let configuration = {}
+  if (source) configuration['cancelToken'] = source.token
+  
   try {
-    const result = await axiosInstance.post('/createNest', {}, {
-      cancelToken: source.token
-    })
+    const result = await axiosInstance.post('/createNest', {}, configuration)
     return result.data
   } catch(error) {
     if (error.name != 'CanceledError') console.error(error)
