@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.DEV ? 'http://localhost:3000/api' : '/api'
+const port = import.meta.env.DEV ? '3000' : '3002'
+const baseURL = `http://localhost:${port}/api`
 
 const axiosInstance = axios.create({
   baseURL
@@ -27,10 +28,8 @@ export const getNest = async (nestId) => {
 }
 
 export const testRequest = async (nestId) => {
-  const URL = import.meta.env.DEV ? 'http://localhost:3000' : ''
-
   try {
-    const result = await axios.get(`${URL}/!/${nestId}`)
+    const result = await axios.get(`${baseURL}/!/${nestId}`)
     return result.data
   } catch(error) {
     console.error(error)
