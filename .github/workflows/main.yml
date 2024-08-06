@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: executing remote ssh commands
+      - name: pulling latest changes from host machine
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST_IP }}
@@ -19,3 +19,20 @@ jobs:
           script: |
             cd /home/lucas/kingfisher
             git pull
+            cd backend
+
+      - name: build frontend for production
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /home/lucas/kingfisher/backend
+            vite build --base=/kingfisher
+            echo "${{secrets.PASSWORD}}"
+            sudo -S rm -rf /var/www/kingfisher/html
+            sudo mkdir /var/www/kingfisher/html
+            sudo cp -r ./dist/* /var/www/kingfisher/html/
+                
+            
