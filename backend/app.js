@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api', apiRouter)
 
 app.get('/!/ws/:nestId', (req, res) => {
-  console.log('request sent to ws server from mock client')
+  console.log('📩 Message sent to mock client')
   console.log(req.params)
   const nestId = req.params.nestId
   mockClients[nestId].send(JSON.stringify({message: 'testing message', nestId }))
