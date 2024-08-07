@@ -14,7 +14,7 @@ import {unknownEndpoint, errorHandler} from './utils/middleware.js'
 import logger from './utils/logger.js'
 import apiRouter from './controllers/apiRouter.js'
 import nestRouter from './controllers/nestRouter.js'
-import initializeMockWSServer from "./controllers/mockWSServer.js";
+import initializeMockWSServer from "./controllers/mockWSServer.dev.js";
 
 const mockClients = initializeMockWSServer()()
 
