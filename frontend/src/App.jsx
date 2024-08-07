@@ -1,5 +1,8 @@
 import { useEffect, useState, useRef } from "react"
 import { createNest, testRequest } from "./services/testApi"
+import { createWSClient } from "./services/wsServices"
+
+
 import axios from "axios"
 
 function App() {
@@ -124,49 +127,6 @@ const WSCustomClient = ({currentNest}) => {
   const [wsServerURL, setWsServerURL] = useState('')
   const connection = useRef(null)
 
-  const createWSClient = () => {
-    deleteMessagesFromList()
-    const ws = new WebSocket(wsServerURL)
-
-    // message related handlers:
-    const onOpenConnection = () => {
-      console.log('📯 Mock Client Created!')
-      console.log('📯 Connection to Mock Server Enabled!')
-
-      ws.send(JSON.stringify({
-        status: 'WS Connection established from Mock Client', 
-        connected: true, 
-        nestId: currentNest
-      }))
-    }
-    const onMessageReceived = (event) => {
-      console.log('📩 Message received from Mock Server!')
-      const message = document.createElement('li');
-      message.className = 'message';
-      message.textContent = event.data;
-      document.querySelector('#received-messages').append(message);
-      console.log("Message from mock server ", event.data)
-    }
-    const closeConnection = () => ws.close(1000, currentNest)
-
-    // Connection opened
-    ws.addEventListener("open", onOpenConnection)
-    
-    // Listen for messages
-    ws.addEventListener("message", onMessageReceived)
-
-    // When WS connection is closed
-    document.addEventListener("beforeunload", closeConnection)
-
-    connection.current = ws
-
-    return () => {
-      ws.removeEventListener("open", onOpenConnection)
-      ws.removeEventListener("message", onMessageReceived)
-      document.removeEventListener('beforeunload', closeConnection)
-    }
-  }
-
   const deleteMessagesFromList = () => {
     const list = document.getElementById("received-messages");
     while (list.firstChild) {
@@ -181,10 +141,11 @@ const WSCustomClient = ({currentNest}) => {
         onSubmit={(e) => {
           e.preventDefault()
           console.log('trying to connect to:', wsServerURL)
-          createWSClient()
+          deleteMessagesFromList()
+          createWSClient(currentNest, wsServerURL, connection)
         }}
       >
-        <label htmlFor="wsServerURL">WS Server URL</label><br/>
+        <label htmlFor="wsServerURL">Target WS Server URL</label><br/>
         <input 
           type="text" 
           id="wsServerURL" 
@@ -194,7 +155,7 @@ const WSCustomClient = ({currentNest}) => {
           required
           onChange={e => setWsServerURL(e.target.value)}
         ></input><br/>
-        <input type="submit" value="Submit"></input>
+        <input type="submit" value="Connect to WS server"></input>
       </form>
       <ul id="received-messages"></ul>
     </div>
