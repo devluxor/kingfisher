@@ -112,7 +112,7 @@ function App() {
 
       <h3 style={{display: 'inline'}}> {currentNestId ? `Current nest id: ${currentNestId}` : 'loading nest'}</h3>
       <button
-        onClick={() => copyNestId()}
+        onClick={() => copyNestId(currentNestId)}
       >Copy nest id</button>
 
       <button onClick={() => test(currentNestId)}>Make test request</button>
