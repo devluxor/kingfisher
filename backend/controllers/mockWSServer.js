@@ -8,8 +8,8 @@ export default () => {
   wsServer.on("connection", (ws) => {
     console.log('🦘 Mock Web Socket Server connected!')
     ws.on('message', (message) => {
-      console.log('📩 Message received from mock client!')
       const clientData = JSON.parse(message.toString())
+      console.log('📩 Message received from mock client!, Data: ',clientData)
       mockClients[clientData.nestId] = ws;
     });
     

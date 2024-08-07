@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react"
 import { createNest, testRequest } from "./services/testApi"
 import WSCustomClient from "./components/WSCustomClient"
-
+import { createWSClient } from "./services/wsServices"
 
 import axios from "axios"
 
 function App() {
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherCurrentNest)
   const connection = useRef(null)
-  
+
   // will create a custom hook useCreateNest if not in storage
   useEffect(() => {
     const cancelToken = axios.CancelToken;
@@ -30,46 +30,18 @@ function App() {
 
   useEffect(() => {
     if (!currentNestId) return
-    
-    const wsServerURL = import.meta.env.DEV ? `ws://localhost:8080` : `wss://kingfisher.luxor.dev/ws`
-    const ws = new WebSocket(wsServerURL)
 
-    // message related handlers:
-    const onOpenConnection = () => {
-      ws.send(JSON.stringify({
-        status: 'WS Connection established from client', 
-        connected: true, 
-        nestId: currentNestId
-      }))
-    }
-    const onMessageReceived = (event) => {
-      const request = document.createElement('li');
-      request.className = 'request';
-      request.textContent = event.data;
-      document.querySelector('#received-requests').append(request);
-      console.log("Message from server ", event.data)
-    }
-    const closeConnection = () => ws.close(1000, currentNestId)
-
-    ws.addEventListener("open", onOpenConnection)
-    ws.addEventListener("message", onMessageReceived)
-    document.addEventListener("beforeunload", closeConnection)
-
-    connection.current = ws
-
-    return () => {
-      ws.removeEventListener("open", onOpenConnection)
-      ws.removeEventListener("message", onMessageReceived)
-      document.removeEventListener('beforeunload', closeConnection)
-    }
+    const cleanUpConnection = createWSClient(currentNestId, null, connection)
+    return cleanUpConnection
   }, [currentNestId])
 
-  const resetCurrentNestId = async () => {
+  const resetCurrentNest = async () => {
     localStorage.removeItem('kingfisherCurrentNest')
     try {
       const result = await createNest()
       setCurrentNestId(result.nestId)
       deleteRequestsFromList()
+      deleteMessagesFromList()
       localStorage.setItem('kingfisherCurrentNest', currentNestId)
 
     } catch (error) {
@@ -79,7 +51,14 @@ function App() {
 
   const deleteRequestsFromList = () => {
     const list = document.getElementById("received-requests");
-    while (list.firstChild) {
+    while (list?.firstChild) {
+      list.removeChild(list.lastChild);
+    }
+  }
+
+  const deleteMessagesFromList = () => {
+    const list = document.getElementById("received-messages");
+    while (list?.firstChild) {
       list.removeChild(list.lastChild);
     }
   }
@@ -106,12 +85,10 @@ function App() {
       <h1>🐦Welcome to Kingfisher!🐦</h1>
 
       <h3 style={{display: 'inline'}}> {currentNestId ? `Current nest id: ${currentNestId}` : 'loading nest'}</h3>
-      <button
-        onClick={() => copyNestId(currentNestId)}
-      >Copy nest id</button>
+      <button onClick={() => copyNestId(currentNestId)}>Copy nest id</button>
 
       <button onClick={() => test(currentNestId)}>Make test request</button>
-      <button style={{background: 'red'}} onClick={() => resetCurrentNestId()}>Reset Current Nest</button>
+      <button style={{background: 'red'}} onClick={() => resetCurrentNest()}>Reset Current Nest</button>
 
       <h4>List of received requests:</h4>
       <ul id="received-requests"></ul>

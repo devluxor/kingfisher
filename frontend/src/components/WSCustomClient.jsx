@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { createWSClient } from "../services/wsServices"
 
-const WSCustomClient = ({currentNest}) => {
+const WSCustomClient = ({currentNestId}) => {
   const [wsServerURL, setWsServerURL] = useState('')
   const connection = useRef(null)
 
@@ -20,7 +20,7 @@ const WSCustomClient = ({currentNest}) => {
           e.preventDefault()
           console.log('trying to connect to:', wsServerURL)
           deleteMessagesFromList()
-          createWSClient(currentNest, wsServerURL, connection)
+          createWSClient(currentNestId, wsServerURL, connection)
         }}
       >
         <label htmlFor="wsServerURL">Target WS Server URL</label><br/>
