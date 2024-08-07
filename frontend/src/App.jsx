@@ -15,9 +15,9 @@ function App() {
     const source = cancelToken.source();
     (async () => {
       try {
-        const result = await createNest(source)
-        if (!result || localStorage.kingfisherCurrentNest) return
+        if (localStorage.kingfisherCurrentNest) return
 
+        const result = await createNest(source)
         setCurrentNestId(result.nestId)
         localStorage.setItem('kingfisherCurrentNest', result.nestId)
       } catch(error) {
