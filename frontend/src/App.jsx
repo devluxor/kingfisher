@@ -6,7 +6,7 @@ import WSCustomClient from "./components/WSCustomClient"
 import axios from "axios"
 
 function App() {
-  const [currentNest, setCurrentNest] = useState(localStorage.kingfisherCurrentNest)
+  const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherCurrentNest)
   const connection = useRef(null)
   
   // will create a custom hook useCreateNest if not in storage
@@ -18,7 +18,7 @@ function App() {
         const result = await createNest(source)
         if (!result || localStorage.kingfisherCurrentNest) return
 
-        setCurrentNest(result.nestId)
+        setCurrentNestId(result.nestId)
         localStorage.setItem('kingfisherCurrentNest', result.nestId)
       } catch(error) {
         console.error(error)
@@ -29,7 +29,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!currentNest) return
+    if (!currentNestId) return
     
     const wsServerURL = import.meta.env.DEV ? `ws://localhost:8080` : `wss://kingfisher.luxor.dev/ws`
     const ws = new WebSocket(wsServerURL)
@@ -39,7 +39,7 @@ function App() {
       ws.send(JSON.stringify({
         status: 'WS Connection established from client', 
         connected: true, 
-        nestId: currentNest
+        nestId: currentNestId
       }))
     }
     const onMessageReceived = (event) => {
@@ -49,7 +49,7 @@ function App() {
       document.querySelector('#received-requests').append(request);
       console.log("Message from server ", event.data)
     }
-    const closeConnection = () => ws.close(1000, currentNest)
+    const closeConnection = () => ws.close(1000, currentNestId)
 
     // Connection opened
     ws.addEventListener("open", onOpenConnection)
@@ -67,15 +67,15 @@ function App() {
       ws.removeEventListener("message", onMessageReceived)
       document.removeEventListener('beforeunload', closeConnection)
     }
-  }, [currentNest])
+  }, [currentNestId])
 
-  const resetCurrentNest = async () => {
+  const resetCurrentNestId = async () => {
     localStorage.removeItem('kingfisherCurrentNest')
     try {
       const result = await createNest()
-      setCurrentNest(result.nestId)
+      setCurrentNestId(result.nestId)
       deleteRequestsFromList()
-      localStorage.setItem('kingfisherCurrentNest', currentNest)
+      localStorage.setItem('kingfisherCurrentNest', currentNestId)
 
     } catch (error) {
       console.error(error)
@@ -97,9 +97,9 @@ function App() {
     }
   }
 
-  const copyNestId = async () => {
+  const copyNestId = async (currentNestId) => {
     try {
-      await navigator.clipboard.writeText(currentNest)
+      await navigator.clipboard.writeText(currentNestId)
       console.log('Text copied to clipboard');
     } catch (error) {
       console.error('Failed to copy text: ', error);
@@ -109,19 +109,19 @@ function App() {
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>
-      
-      <h3 style={{display: 'inline'}}> {currentNest ? `Current nest id: ${currentNest}` : 'loading nest'}</h3>
+
+      <h3 style={{display: 'inline'}}> {currentNestId ? `Current nest id: ${currentNestId}` : 'loading nest'}</h3>
       <button
         onClick={() => copyNestId()}
       >Copy nest id</button>
 
-      <button onClick={() => test(currentNest)}>Make test request</button>
-      <button style={{background: 'red'}} onClick={() => resetCurrentNest()}>Reset Current Nest</button>
+      <button onClick={() => test(currentNestId)}>Make test request</button>
+      <button style={{background: 'red'}} onClick={() => resetCurrentNestId()}>Reset Current Nest</button>
 
       <h4>List of received requests:</h4>
       <ul id="received-requests"></ul>
 
-      {currentNest ? <WSCustomClient currentNest = {currentNest}/> : 'loading nest'}
+      {currentNestId ? <WSCustomClient currentNestId = {currentNestId}/> : 'loading nest'}
     </>
   )
 }
