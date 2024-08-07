@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react"
-import { createNest, testRequest } from "./services/testApi"
+import { createNest } from "./services/testApi"
 import WSCustomClient from "./components/WSCustomClient"
 import { createWSClient } from "./services/wsServices"
+import { deleteMessagesFromList, deleteRequestsFromList, test, copyNestId } from './utils/helpers'
 
 import axios from "axios"
 
@@ -9,7 +10,7 @@ function App() {
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherCurrentNest)
   const connection = useRef(null)
 
-  // will create a custom hook useCreateNest if not in storage
+  // will create a custom hook useCreateNest?
   useEffect(() => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
@@ -28,6 +29,7 @@ function App() {
     return () => source.cancel()
   }, [])
 
+  // creates main WS client connection
   useEffect(() => {
     if (!currentNestId) return
 
@@ -43,40 +45,8 @@ function App() {
       deleteRequestsFromList()
       deleteMessagesFromList()
       localStorage.setItem('kingfisherCurrentNest', currentNestId)
-
     } catch (error) {
       console.error(error)
-    }
-  }
-
-  const deleteRequestsFromList = () => {
-    const list = document.getElementById("received-requests");
-    while (list?.firstChild) {
-      list.removeChild(list.lastChild);
-    }
-  }
-
-  const deleteMessagesFromList = () => {
-    const list = document.getElementById("received-messages");
-    while (list?.firstChild) {
-      list.removeChild(list.lastChild);
-    }
-  }
-
-  const test = async (nestId) => {
-    try {
-      await testRequest(nestId)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const copyNestId = async (currentNestId) => {
-    try {
-      await navigator.clipboard.writeText(currentNestId)
-      console.log('Text copied to clipboard');
-    } catch (error) {
-      console.error('Failed to copy text: ', error);
     }
   }
 
