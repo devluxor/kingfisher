@@ -51,13 +51,8 @@ function App() {
     }
     const closeConnection = () => ws.close(1000, currentNestId)
 
-    // Connection opened
     ws.addEventListener("open", onOpenConnection)
-    
-    // Listen for messages
     ws.addEventListener("message", onMessageReceived)
-
-    // When WS connection is closed
     document.addEventListener("beforeunload", closeConnection)
 
     connection.current = ws
