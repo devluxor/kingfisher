@@ -7,8 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node index.js",
-    "start:dev": "NODE_ENV=development nodemon index.js",
-    "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend"
+    "start:dev": "NODE_ENV=development nodemon index.js"
   },
   "author": "Lucas Sorribes - devluxor",
   "license": "MIT",
