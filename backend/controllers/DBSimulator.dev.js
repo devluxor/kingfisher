@@ -1,4 +1,4 @@
-let nests = {}
+const nests = {}
 
 export default (mode, nestId, newNest, req) => {
   try {
