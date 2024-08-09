@@ -21,7 +21,6 @@ export const createWSClient = (currentNest, wsServerURL, connection) => {
 
   const onMessageReceived = (event) => {
     console.log(`📩 Message received from WS${isMockWSClient? ' mock' : ''} Server!`)
-    // console.log(`Message from WS${isMockWSClient? 'mock' : ''} server `, event.data)
     const message = document.createElement('li');
     message.className = isMockWSClient? 'message' : 'request';
     message.textContent = event.data;
