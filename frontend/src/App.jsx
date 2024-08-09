@@ -16,13 +16,12 @@ function App() {
 
   // will create a custom hook useCreateNest?
   useEffect(() => {
-    console.log('use effect to get new nest in action')
+    console.log('🤖 use effect to get new nest in action')
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
     (async () => {
       try {
         if (localStorage.kingfisherNest && location.pathname !== `/${currentNestId}`) {
-          console.log('🔎 Nest id found in localStorage')
           navigate(`/${localStorage.kingfisherNest}`, {replace: true})
           return
         } else if (localStorage.kingfisherNest) return
@@ -31,9 +30,8 @@ function App() {
         const result = await createNest(source)
         console.log('🐦 new nest created')
         const nestId = result.nestId
-        setCurrentNestId(nestId)
         localStorage.setItem('kingfisherNest', result.nestId)
-        navigate(`${nestId}`, {replace: true})
+        setCurrentNestId(nestId)
       } catch(error) {
         console.error(error)
       }
@@ -56,12 +54,12 @@ function App() {
       const result = await createNest()
       const newNestId = result.nestId
       console.log('🐦 request to creat new nest sent')
-      setCurrentNestId(newNestId)
       console.log('🐦 new nest created')
       deleteRequestsFromList()
       deleteMessagesFromList()
       localStorage.setItem('kingfisherNest', newNestId)
-      navigate(`/${newNestId}`, {replace: true})
+      console.log('setter called, will triger a rerender, use effect will be called')
+      setCurrentNestId(newNestId)
     } catch (error) {
       console.error(error)
     }
