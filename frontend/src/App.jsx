@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { createNest } from "./services/testApi"
+import { createNest, isNestInDb } from "./services/testApi"
 import WSCustomClient from "./components/WSCustomClient"
-import { test, copyNestId, setupHistory, saveNestInHistory, saveNestInLocalStorage } from './utils/helpers'
+import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isNestInHistoryCache } from './utils/helpers'
 
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -14,39 +14,43 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  setupHistory()
-
-  // now we should:
-  // when we enter a url with a nest id THAT EXISTS IN THE DB:
-  // if:
-      // we are not resetting (we don't want to create a new nest, we just want to visit an existing one)
-          // with a flag 'resetting?', via state passed from the app as a prop to the request list element 
-      // the nest id in the url path corresponds to an existing id in the db
-          // make an api call, if successful, the nest exists, and load the data,
-          // if 404 error, that means it does not exist, and we should just create a new one normally
-  // we want:
-      // get nest data from the backend
-      // load nest data
-
+  setupHistoryCache(currentNestId)
+  
+  // I'd like to move this to a custom hook
   useEffect(() => {
     console.log('🤖 use effect to get new nest in action')
+    const nestIdInURL = location.pathname.slice(1);
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
+
     (async () => {
+      if (nestIdInURL === currentNestId) {
+        console.log('nest id in url === current nest id, so a new nest shouldn\'t be created' )
+        return
+      } else if (!nestIdInURL && !currentNestId) {
+        console.log('nest id in url not equal to current active nest in local store, creating new nest...')
+      } else if (nestIdInURL !== currentNestId && (isNestInHistoryCache(nestIdInURL) || await isNestInDb(nestIdInURL))) {
+        // the deleted branch condition was:
+          // if (!currentNestId && (isNestInHistoryCache(URLNestId) || await isNestInDb(URLNestId))) ...
+        console.log('⛵ NAVIGATE = url nest id found in local HistoryCache or in DB')
+        saveNestInHistoryCache(nestIdInURL)
+        saveNestInLocalStorage(nestIdInURL)
+        setCurrentNestId(nestIdInURL)
+        return
+      } else if (nestIdInURL !== currentNestId) {
+        console.log('nest id in url not equal to nest in localStorage:', currentNestId)
+        navigate(`/${currentNestId}`, {replace: true})
+        return
+      } 
+      
+
       try {
-        if (localStorage.kingfisherNest && location.pathname !== `/${currentNestId}`) {
-          navigate(`/${localStorage.kingfisherNest}`, {replace: true})
-          return
-        } else if (localStorage.kingfisherNest) {
-          return 
-        }
-        
         console.log('🐦 request to creat new nest sent')
         const result = await createNest(source)
         console.log('🐦 new nest created')
         const nestId = result.nestId
         saveNestInLocalStorage(nestId)
-        saveNestInHistory(nestId)
+        saveNestInHistoryCache(nestId)
         setCurrentNestId(nestId)
       } catch(error) {
         console.error(error)
@@ -63,9 +67,9 @@ function App() {
       <button onClick={() => copyNestId(currentNestId)}>Copy nest id</button>
       <button onClick={() => test(currentNestId)}>Make test request</button>
 
-      <RequestsList currentNestId={currentNestId} setCurrentNestId={setCurrentNestId}/>
+      {currentNestId ? <RequestsList currentNestId={currentNestId} setCurrentNestId={setCurrentNestId}/>: 'loading nest'}
 
-      {currentNestId && <WSCustomClient currentNestId = {currentNestId} /> }
+      {currentNestId ? <WSCustomClient currentNestId = {currentNestId} />: 'loading nest'}
     </>
   )
 }

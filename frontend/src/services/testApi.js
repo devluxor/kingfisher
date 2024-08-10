@@ -32,6 +32,18 @@ export const getNest = async (nestId, source) => {
   }
 }
 
+export const isNestInDb = async (nestId) => {
+  if (!nestId) return false
+  
+  console.log('🤩 making api call to check for existence in DB')
+  try {
+    const result = await axiosInstance.get(`/nests/e/${nestId}`)
+    return result.data
+  } catch(error) {
+    console.error(error)
+  }
+}
+
 export const testRequest = async (nestId) => {
   const baseURL = import.meta.env.DEV ? 
                     `http://localhost:3000`: 
