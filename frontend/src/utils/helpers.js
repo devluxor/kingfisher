@@ -17,9 +17,12 @@ export const copyNestId = async (currentNestId) => {
   }
 }
 
-export const setupHistory = () => {
-  if (!localStorage.getItem('kingfisherHistory')) {
-    localStorage.setItem('kingfisherHistory', JSON.stringify({}))
+export const setupHistoryCache = (currentNestId) => {
+  if (!localStorage.getItem('kingfisherHistoryCache') || localStorage.getItem('kingfisher')?.length === 0) {
+    const store = {}
+    if (currentNestId) store[currentNestId] = true
+
+    localStorage.setItem('kingfisherHistoryCache', JSON.stringify(store))
   }
 }
 
@@ -27,19 +30,24 @@ export const saveNestInLocalStorage = (nestId) => {
   localStorage.setItem('kingfisherNest', nestId)
 }
 
-export const saveNestInHistory = (nestId) => {
+export const saveNestInHistoryCache = (nestId) => {
   const MAX_BYTE_SIZE = 4_999_900
-  const history = JSON.parse(localStorage.getItem('kingfisherHistory'))
-  const historySize = new Blob([history]).size
-  if (historySize >= MAX_BYTE_SIZE) {
+  const HistoryCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
+  const HistoryCacheSize = new Blob([HistoryCache]).size
+  if (HistoryCacheSize >= MAX_BYTE_SIZE) {
     alert(`
-      Warning! The history exceeds the maximum size allowed of 5 Mb, 
+      Warning! The HistoryCache exceeds the maximum size allowed of 5 Mb, 
       new entries will replace the older ones until the storage is manually cleared.
     `)
-    const firstKey = Object.keys(history)
-    delete history[firstKey]
+    const firstKey = Object.keys(HistoryCache)
+    delete HistoryCache[firstKey]
   }
 
-  history[nestId] = true
-  localStorage.setItem('kingfisherHistory', JSON.stringify(history))
+  HistoryCache[nestId] = true
+  localStorage.setItem('kingfisherHistoryCache', JSON.stringify(HistoryCache))
+}
+
+export const isNestInHistoryCache = (nestId) => {
+  const HistoryCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
+  return nestId in HistoryCache 
 }
