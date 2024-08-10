@@ -12,6 +12,8 @@ export default (mode, nestId, newNest, req) => {
       return nestId
     } else if (mode === 'getAll') {
       return nests
+    } else if (mode === 'exist') {
+      return !!nests[nestId]
     }
   } catch (e) {
     console.error(e)
