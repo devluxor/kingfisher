@@ -1,20 +1,33 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { createNest } from "./services/testApi"
 import WSCustomClient from "./components/WSCustomClient"
-import { createWSClient } from "./services/wsServices"
-import { deleteMessagesFromList, deleteRequestsFromList, test, copyNestId } from './utils/helpers'
+import { test, copyNestId, setupHistory, saveNestInHistory, saveNestInLocalStorage } from './utils/helpers'
 
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
 
+import RequestsList from "./components/RequestList.jsx"
+
 function App() {
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherNest)
-  const connection = useRef(null)
   console.log('APP RENDERED')
   const navigate = useNavigate()
   const location = useLocation()
 
-  // will create a custom hook useCreateNest?
+  setupHistory()
+
+  // now we should:
+  // when we enter a url with a nest id THAT EXISTS IN THE DB:
+  // if:
+      // we are not resetting (we don't want to create a new nest, we just want to visit an existing one)
+          // with a flag 'resetting?', via state passed from the app as a prop to the request list element 
+      // the nest id in the url path corresponds to an existing id in the db
+          // make an api call, if successful, the nest exists, and load the data,
+          // if 404 error, that means it does not exist, and we should just create a new one normally
+  // we want:
+      // get nest data from the backend
+      // load nest data
+
   useEffect(() => {
     console.log('🤖 use effect to get new nest in action')
     const cancelToken = axios.CancelToken;
@@ -24,13 +37,16 @@ function App() {
         if (localStorage.kingfisherNest && location.pathname !== `/${currentNestId}`) {
           navigate(`/${localStorage.kingfisherNest}`, {replace: true})
           return
-        } else if (localStorage.kingfisherNest) return
+        } else if (localStorage.kingfisherNest) {
+          return 
+        }
         
         console.log('🐦 request to creat new nest sent')
         const result = await createNest(source)
         console.log('🐦 new nest created')
         const nestId = result.nestId
-        localStorage.setItem('kingfisherNest', result.nestId)
+        saveNestInLocalStorage(nestId)
+        saveNestInHistory(nestId)
         setCurrentNestId(nestId)
       } catch(error) {
         console.error(error)
@@ -39,45 +55,17 @@ function App() {
 
     return () => source.cancel()
   }, [navigate, location, currentNestId])
-
-  // creates main WS client connection
-  useEffect(() => {
-    if (!currentNestId) return
-
-    const cleanUpConnection = createWSClient(currentNestId, null, connection)
-    return cleanUpConnection
-  }, [currentNestId])
-
-  const resetCurrentNest = async () => {
-    localStorage.removeItem('kingfisherNest')
-    try {
-      const result = await createNest()
-      const newNestId = result.nestId
-      console.log('🐦 request to creat new nest sent')
-      console.log('🐦 new nest created')
-      deleteRequestsFromList()
-      deleteMessagesFromList()
-      localStorage.setItem('kingfisherNest', newNestId)
-      console.log('setter called, will triger a rerender, use effect will be called')
-      setCurrentNestId(newNestId)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
+  
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>
-      <h3 style={{display: 'inline'}}> {currentNestId ? `Current nest id: ${currentNestId}` : 'loading nest'}</h3>
+      <h3 > {currentNestId ? `Current nest id: ${currentNestId}` : 'loading nest'}</h3>
       <button onClick={() => copyNestId(currentNestId)}>Copy nest id</button>
-
       <button onClick={() => test(currentNestId)}>Make test request</button>
-      <button style={{background: 'red'}} onClick={() => resetCurrentNest()}>Reset Current Nest</button>
 
-      <h4>List of received requests:</h4>
-      <ul id="received-requests"></ul>
+      <RequestsList currentNestId={currentNestId} setCurrentNestId={setCurrentNestId}/>
 
-      {currentNestId ? <WSCustomClient currentNestId = {currentNestId}/> : 'loading nest'}
+      {currentNestId && <WSCustomClient currentNestId = {currentNestId} /> }
     </>
   )
 }

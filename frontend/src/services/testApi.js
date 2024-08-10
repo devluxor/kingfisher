@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.DEV ? `http://localhost:3000/api` : `https://luxor.dev/kingfisher/api`
+const baseURL = import.meta.env.DEV ? 
+                  `http://localhost:3000/api` : 
+                  `https://luxor.dev/kingfisher/api`
 
 const axiosInstance = axios.create({
   baseURL
@@ -18,12 +20,15 @@ export const createNest = async (source) => {
   }
 }
 
-export const getNest = async (nestId) => {
+export const getNest = async (nestId, source) => {
+  let configuration = {}
+  if (source) configuration['cancelToken'] = source.token
+
   try {
-    const result = await axiosInstance.get(`/nests/${nestId}`)
+    const result = await axiosInstance.get(`/nests/${nestId}`, {}, configuration)
     return result.data
   } catch(error) {
-    console.error(error)
+    if (error.name != 'CanceledError') console.error(error)
   }
 }
 
