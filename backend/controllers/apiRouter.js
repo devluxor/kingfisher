@@ -4,12 +4,19 @@ import DBSimulator from "./DBSimulator.dev.js";
 
 const apiRouter = Router()
 
+apiRouter.get('/nests/e/:nestId', async (req, res) => {
+  const nestId = req.params.nestId
+  const response = DBSimulator('exist', nestId)
+  res.status(200).send(response)
+})
+
 // to delete later? 
 apiRouter.get('/nests/all', async (req, res) => {
   const nestId = req.params.nestId
   const nests = DBSimulator('getAll', nestId)
   res.status(200).send(nests)
 })
+
 
 apiRouter.get('/nests/:nestId', async (req, res) => {
   const nestId = req.params.nestId
