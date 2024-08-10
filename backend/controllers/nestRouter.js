@@ -15,15 +15,16 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   const headers = req.headers
   const body = req.body
   const timeOfArrival = new Date()
+  const id = Math.floor(Math.random() * 100000)
   // let request = await requestService.createRequest(nestId, method, path, headers, body)
-  const requestInfo = { nestId, timeOfArrival, method, path, headers, body } // add path later
+  const processedRequest = { id, nestId, timeOfArrival, method, path, headers, body } // add path later
 
-  DBSimulator('addReq', nestId, null, requestInfo)
+  DBSimulator('addReq', nestId, null, processedRequest)
 
   const clients = wsClients()
   if (clients[nestId]) {
     console.log('🌈message sent from the server!')
-    clients[nestId].send(`${dateFormatter(timeOfArrival)}, ${method}, ${path}, ${JSON.stringify(body)}`)
+    clients[nestId].send(JSON.stringify(processedRequest))
   }
 
   res.status(200).send('Request received')

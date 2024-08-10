@@ -10,8 +10,7 @@ import config from './utils/config.js'
 import morgan from 'morgan'
 
 // custom middleware (error handlers, unknown route handler, custom loggers, etc)
-import {unknownEndpoint, errorHandler} from './utils/middleware.js'
-import logger from './utils/logger.js'
+import { unknownEndpoint, errorHandler } from './utils/middleware.js'
 import apiRouter from './controllers/apiRouter.js'
 import nestRouter from './controllers/nestRouter.js'
 import initializeMockWSServer from "./controllers/mockWSServer.dev.js";
@@ -36,10 +35,16 @@ app.use('/api', apiRouter)
 
 app.get('/!/ws/:nestId', (req, res) => {
   console.log('📩 Message sent to mock client')
-  console.log(req.params)
   const nestId = req.params.nestId
-  mockClients[nestId].send(JSON.stringify({message: 'testing message', nestId }))
-  res.send('all ok')
+
+  mockClients[nestId].send(JSON.stringify({
+    id: Math.floor(Math.random() * 10000),
+    timeOfArrival: new Date(),
+    message: 'testing message', 
+    nestId 
+  }))
+
+  res.status(200).send('all ok')
 })
 
 app.use('/!', nestRouter)
