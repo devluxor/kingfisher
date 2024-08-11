@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { createNest, isNestInDb } from "./services/testApi"
 import WSCustomClient from "./components/WSCustomClient"
-import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isNestInHistoryCache } from './utils/helpers'
+import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isNestInHistoryCache, isValidNestId } from './utils/helpers'
 
 import axios from "axios"
-import { useLocation, useNavigate } from "react-router-dom"
+import { Await, useLocation, useNavigate } from "react-router-dom"
 
 import RequestsList from "./components/RequestList.jsx"
 
@@ -24,34 +24,41 @@ function App() {
     const source = cancelToken.source();
 
     (async () => {
-      if (nestIdInURL === currentNestId) {
-        console.log('nest id in url === current nest id, so a new nest shouldn\'t be created' )
-        return
-      } else if (!nestIdInURL && !currentNestId) {
-        console.log('nest id in url not equal to current active nest in local store, creating new nest...')
-      } else if (nestIdInURL !== currentNestId && (isNestInHistoryCache(nestIdInURL) || await isNestInDb(nestIdInURL))) {
-        // the deleted branch condition was:
-          // if (!currentNestId && (isNestInHistoryCache(URLNestId) || await isNestInDb(URLNestId))) ...
-        console.log('⛵ NAVIGATE = url nest id found in local HistoryCache or in DB')
+
+      if (!isValidNestId(nestIdInURL) && !currentNestId ) {
+        console.log('nest id in url invalid, no nest in storage, creating new nest...')
+
+      } else if (isValidNestId(nestIdInURL) && nestIdInURL !== currentNestId && await isNestInDb(nestIdInURL)) {
+        console.log('url nest id valid, not equal to nest id stored, nest exists in db, changing to nest from url...')
+
         saveNestInHistoryCache(nestIdInURL)
         saveNestInLocalStorage(nestIdInURL)
+
         setCurrentNestId(nestIdInURL)
         return
-      } else if (nestIdInURL !== currentNestId) {
-        console.log('nest id in url not equal to nest in localStorage:', currentNestId)
+      } else if (isValidNestId(nestIdInURL) && nestIdInURL === currentNestId && await isNestInDb(nestIdInURL)) {
+        console.log('nest id in url equal to nest id in storage, and nest exists in DB')
+        saveNestInHistoryCache(nestIdInURL)
+        saveNestInLocalStorage(nestIdInURL)
+        return
+      } else if (!isValidNestId(nestIdInURL) && currentNestId && await isNestInDb(currentNestId)) {
+        console.log('nest id in url not valid, but found valid nest in localStorage, and nest exists in db:', currentNestId)
         navigate(`/${currentNestId}`, {replace: true})
         return
-      } 
-      
+      } else if (isValidNestId(nestIdInURL) && !await isNestInDb(nestIdInURL)) {
+        console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
+      }
 
       try {
         console.log('🐦 request to creat new nest sent')
         const result = await createNest(source)
+        console.log(result)
         console.log('🐦 new nest created')
         const nestId = result.nestId
         saveNestInLocalStorage(nestId)
         saveNestInHistoryCache(nestId)
         setCurrentNestId(nestId)
+        navigate(`/${nestId}`, {replace: true})
       } catch(error) {
         console.error(error)
       }
