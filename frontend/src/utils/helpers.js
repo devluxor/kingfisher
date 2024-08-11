@@ -17,11 +17,10 @@ export const copyNestId = async (currentNestId) => {
   }
 }
 
-export const setupHistoryCache = (currentNestId) => {
-  if (!localStorage.getItem('kingfisherHistoryCache') || localStorage.getItem('kingfisher')?.length === 0) {
+export const setupHistoryCache = () => {
+  const localStore = localStorage.kingfisherHistoryCache
+  if (!localStore) {
     const store = {}
-    if (currentNestId) store[currentNestId] = true
-
     localStorage.setItem('kingfisherHistoryCache', JSON.stringify(store))
   }
 }
@@ -32,22 +31,29 @@ export const saveNestInLocalStorage = (nestId) => {
 
 export const saveNestInHistoryCache = (nestId) => {
   const MAX_BYTE_SIZE = 4_999_900
-  const HistoryCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
-  const HistoryCacheSize = new Blob([HistoryCache]).size
-  if (HistoryCacheSize >= MAX_BYTE_SIZE) {
+  const historyCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
+  const historyCacheSize = new Blob([historyCache]).size
+  if (historyCacheSize >= MAX_BYTE_SIZE) {
     alert(`
-      Warning! The HistoryCache exceeds the maximum size allowed of 5 Mb, 
+      Warning! The historyCache exceeds the maximum size allowed of 5 Mb, 
       new entries will replace the older ones until the storage is manually cleared.
     `)
-    const firstKey = Object.keys(HistoryCache)
-    delete HistoryCache[firstKey]
+    const firstKey = Object.keys(historyCache)
+    delete historyCache[firstKey]
   }
 
-  HistoryCache[nestId] = true
-  localStorage.setItem('kingfisherHistoryCache', JSON.stringify(HistoryCache))
+  historyCache[nestId] = true
+  localStorage.setItem('kingfisherHistoryCache', JSON.stringify(historyCache))
 }
 
 export const isNestInHistoryCache = (nestId) => {
   const HistoryCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
   return nestId in HistoryCache 
+}
+
+export const isValidNestId = (nestId) => {
+  const UUID_CHARS = 22
+  const UUID_REGEX = new RegExp(`^[A-Za-z0-9]{${UUID_CHARS}}$`, 'g')
+
+  return nestId && nestId.match(UUID_REGEX)
 }
