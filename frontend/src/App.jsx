@@ -52,7 +52,6 @@ function App() {
       try {
         console.log('🐦 request to creat new nest sent')
         const result = await createNest(source)
-        console.log(result)
         console.log('🐦 new nest created')
         const nestId = result.nestId
         saveNestInLocalStorage(nestId)

@@ -9,13 +9,10 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   console.log('RequestList Rendered')
   const [requests, setRequests] = useState([])
   const [loadingRequests, setLoadingRequests] = useState(false)
-  const connection = useRef(null)
   const navigate = useNavigate()
 
   // api call to get nest data and load requests
   useEffect(() => {
-    // if (!currentNestId) return
-
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
     (async () => {
@@ -38,10 +35,7 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   
   // set the ws connection
   useEffect(() => {
-    // if (!currentNestId) return
-
-    const cleanUpConnection = createWSClient(currentNestId, null, connection, setRequests)
-    return cleanUpConnection
+    createWSClient(currentNestId, null, setRequests)
   }, [currentNestId])
 
   const resetCurrentNest = async () => {
@@ -77,7 +71,7 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
 }
 
 const RequestListElement = ({r}) => {
-  return <li className="request">🎈 {r.timeOfArrival} {r.method} {r.path}</li>
+  return <li className="request">🎈 {String(r.timeOfArrival)} {r.method} {r.path}</li>
 }
 
 export default RequestsList
