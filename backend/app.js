@@ -13,9 +13,6 @@ import morgan from 'morgan'
 import { unknownEndpoint, errorHandler } from './utils/middleware.js'
 import apiRouter from './controllers/apiRouter.js'
 import nestRouter from './controllers/nestRouter.js'
-import initializeMockWSServer from "./controllers/mockWSServer.dev.js";
-
-const mockClients = initializeMockWSServer()()
 
 const app = express()
 app.use(cors())
@@ -29,24 +26,10 @@ if (process.env.NODE_ENV === 'development') {
     return JSON.stringify(req.body)
   })
   app.use(morgan(':method :url :status :body'))
+  console.log('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
 }
 
 app.use('/api', apiRouter)
-
-app.get('/!/ws/:nestId', (req, res) => {
-  console.log('📩 Message sent to mock client')
-  const nestId = req.params.nestId
-
-  mockClients[nestId].send(JSON.stringify({
-    id: Math.floor(Math.random() * 10000),
-    timeOfArrival: new Date(),
-    message: 'testing message', 
-    nestId 
-  }))
-
-  res.status(200).send('all ok')
-})
-
 app.use('/!', nestRouter)
 
 app.use(unknownEndpoint)

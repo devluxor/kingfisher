@@ -1,6 +1,7 @@
 import { Router } from "express";
 import short from 'short-uuid';
 import DBSimulator from "./DBSimulator.dev.js";
+import { initializeCustomWSClient } from "./externalWSConnection.js";
 
 const apiRouter = Router()
 
@@ -16,7 +17,6 @@ apiRouter.get('/nests/all', async (req, res) => {
   const nests = DBSimulator('getAll', nestId)
   res.status(200).send(nests)
 })
-
 
 apiRouter.get('/nests/:nestId', async (req, res) => {
   const nestId = req.params.nestId
@@ -39,12 +39,37 @@ apiRouter.post('/createNest', async (req, res, next) => {
       createdOn: new Date(), 
       ip: req.ip, 
       hostName: req.hostname, 
-      requests: []
+      requests: [],
+      wsConnections: {},
     }
     DBSimulator('newNest', nestId, newNest)
     res.status(200).send({ nestId })
   } catch (e) {
-    next(e); // Pass the error to the next middleware (error handler, etc.)
+    next(e);
+  }
+})
+
+const wsConnections = {}
+
+apiRouter.post('/createWsConnection', async (req, res, next) => {
+  try {
+    const nestId = req.body.nestId
+    const wsServerURL = req.body.wsServerURL
+    const closeWSClient = initializeCustomWSClient(wsServerURL, nestId)
+    wsConnections[nestId] = closeWSClient
+    const result = DBSimulator('newWs', nestId, null, null, wsServerURL)
+    res.status(200).send({nestId: result})
+  } catch (e) {
+    next(e);
+  }
+})
+
+apiRouter.post('/closeWsConnection/:nestId', async (req, res, next) => {
+  try {
+    wsConnections[req.params.nestId].close()
+    res.status(200).send()
+  } catch (e) {
+    next(e);
   }
 })
 

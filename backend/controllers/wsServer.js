@@ -6,12 +6,12 @@ export default () => {
 
   const wsServer = new WebSocketServer({port: config.WS_PORT});
   wsServer.on("connection", (ws) => {
-    console.log('📯 Web Socket Server connected!')
+    console.log('📯 Web Socket Backend Server connected!')
 
     ws.on('message', (message) => {
       const clientData = JSON.parse(message.toString())
       clients[clientData.nestId] = ws;
-      console.log('📩 Message received from client!', clientData)
+      console.log('🎨 Connection with frontend app established!', clientData)
     });
     
     ws.on("close", (code, reason) => {
