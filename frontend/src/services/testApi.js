@@ -65,3 +65,12 @@ export const createWSCustomClientInBackend = async (nestId, wsServerURL) => {
     console.error(error)
   }
 }
+
+export const closeWSCustomClientInBackend = async (nestId) => {
+  try {
+    const result = await axios.post(`${baseURL}/closeWsConnection/${nestId}`)
+    return result.data
+  } catch(error) {
+    console.error(error)
+  }
+}
