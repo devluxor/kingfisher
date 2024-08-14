@@ -38,12 +38,6 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
     DBSimulatorDev('wsMessage', nestId, null, processedMessageData, wsServerURL)
 
-    // localServerClients.forEach(client => {
-    //   if (client.readyState === WebSocket.OPEN) {
-    //     client.send(JSON.stringify(processedMessageData));
-    //   }
-    // });
-
     clients[nestId].send(JSON.stringify(processedMessageData))
   })
 
