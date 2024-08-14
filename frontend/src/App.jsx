@@ -19,7 +19,6 @@ function App() {
 
   setupHistoryCache(currentNestId)
   
-  // I'd like to move this to a custom hook
   useEffect(() => {
     console.log('🤖 use effect to get new nest in action')
     const nestIdInURL = location.pathname.slice(1);
@@ -27,11 +26,12 @@ function App() {
     const source = cancelToken.source();
 
     (async () => {
+      const nestInURLExists = await isNestInDb(nestIdInURL)
 
       if (!isValidNestId(nestIdInURL) && !currentNestId ) {
         console.log('nest id in url invalid, no nest in storage, creating new nest...')
 
-      } else if (isValidNestId(nestIdInURL) && nestIdInURL !== currentNestId && await isNestInDb(nestIdInURL)) {
+      } else if (isValidNestId(nestIdInURL) && nestIdInURL !== currentNestId && nestInURLExists) {
         console.log('url nest id valid, not equal to nest id stored, nest exists in db, changing to nest from url...')
 
         saveNestInHistoryCache(nestIdInURL)
@@ -39,7 +39,7 @@ function App() {
 
         setCurrentNestId(nestIdInURL)
         return
-      } else if (isValidNestId(nestIdInURL) && nestIdInURL === currentNestId && await isNestInDb(nestIdInURL)) {
+      } else if (isValidNestId(nestIdInURL) && nestIdInURL === currentNestId && nestInURLExists) {
         console.log('nest id in url equal to nest id in storage, and nest exists in DB')
         saveNestInHistoryCache(nestIdInURL)
         saveNestInLocalStorage(nestIdInURL)
@@ -48,7 +48,7 @@ function App() {
         console.log('nest id in url not valid, but found valid nest in localStorage, and nest exists in db:', currentNestId)
         navigate(`/${currentNestId}`, {replace: true})
         return
-      } else if (isValidNestId(nestIdInURL) && !await isNestInDb(nestIdInURL)) {
+      } else if (isValidNestId(nestIdInURL) && !nestInURLExists) {
         console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
       }
 
