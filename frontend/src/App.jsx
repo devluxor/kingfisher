@@ -10,6 +10,7 @@ import RequestsList from "./components/RequestList.jsx"
 
 function App() {
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherNest)
+  
   console.log('APP RENDERED')
   const navigate = useNavigate()
   const location = useLocation()

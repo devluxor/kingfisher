@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useContext, useEffect } from "react"
 import { createWSClient } from "../services/wsServices"
 import { closeWSCustomClientInBackend, createWSCustomClientInBackend } from "../services/testApi"
+import { WSContext } from "../utils/contexts/ExternalWSConnection"
 
 const WSCustomClient = ({currentNestId}) => {
   const [messages, setMessages] = useState([])
   const [connectionEstablished, setConnectionEstablished] = useState((connection) => connection)
+  const { activeWSConnection } = useContext(WSContext)
 
   const createConnection = async (wsServerURL) => {
     try {
@@ -27,6 +29,7 @@ const WSCustomClient = ({currentNestId}) => {
     try {
       console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
+      activeWSConnection.close()
       setMessages([])
       setConnectionEstablished(false)
     } catch (error) {
@@ -42,7 +45,7 @@ const WSCustomClient = ({currentNestId}) => {
         closeConnection={closeConnection}
         currentNestId={currentNestId}
       />
-      {connectionEstablished && <MessagesList messages={messages}/>}
+      {activeWSConnection && connectionEstablished && <MessagesList messages={messages}/>}
     </div>
   )
 }
@@ -51,12 +54,20 @@ const WSConnectionControls = ({createConnection, closeConnection, currentNestId}
   console.log('WSConnectionControls rendered')
   const [wsServerURL, setWsServerURL] = useState('')
   const [connected, setConnected] = useState(false)
-  const connection = useRef(null)
-  
+  // const connection = useRef(null)
+  const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
+
   const validWSURL = (url) => {
     const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
     return url.match(wsRegexp)
   }
+
+  useEffect(() => {
+    if (!activeWSConnection) {
+      console.log('🍙🍘🍘🍙🍙🍙🍙')
+      setWsServerURL('')
+    }
+  }, [activeWSConnection])
 
   const initializeConnection = async (e) => {
     e.preventDefault()
@@ -70,7 +81,7 @@ const WSConnectionControls = ({createConnection, closeConnection, currentNestId}
       ws.close()
       window.removeEventListener('beforeunload', this)
     })
-    connection.current = ws
+    setActiveWSConnection(ws)
     setConnected(true)
   }
 
@@ -78,7 +89,7 @@ const WSConnectionControls = ({createConnection, closeConnection, currentNestId}
     e.preventDefault()
     // close ws connection frontend (client) with backend (server) that updates DOM
     console.log('CLOSING WS FRONTEND-BACKEND')
-    connection.current.close()
+    activeWSConnection.close()
     // close backend WS connection with external (custom) server
     closeConnection()
     setConnected(false)
@@ -96,8 +107,8 @@ const WSConnectionControls = ({createConnection, closeConnection, currentNestId}
         required
         onChange={e => setWsServerURL(e.target.value)}
       ></input><br/>
-      {!connected && <button onClick={initializeConnection} >Connect to WS server</button>}
-      {connected && <button onClick={disconnectWS} >Disconnect from WS Server</button>}
+      {(!activeWSConnection || !connected) && <button onClick={initializeConnection} >Connect to WS server</button>}
+      {activeWSConnection && connected && <button onClick={disconnectWS} >Disconnect from WS Server</button>}
     </form>
   )
 }

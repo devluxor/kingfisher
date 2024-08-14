@@ -1,6 +1,7 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, useContext } from "react"
+import { WSContext } from "../utils/contexts/ExternalWSConnection"
 import axios from "axios"
-import { getNest, createNest } from "../services/testApi"
+import { getNest, createNest, closeWSCustomClientInBackend } from "../services/testApi"
 import { createWSClient } from "../services/wsServices"
 import { saveNestInHistoryCache, saveNestInLocalStorage } from "../utils/helpers"
 import { useNavigate } from "react-router-dom"
@@ -9,6 +10,7 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   console.log('RequestList Rendered')
   const [requests, setRequests] = useState([])
   const [loadingRequests, setLoadingRequests] = useState(false)
+  const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
   const navigate = useNavigate()
 
   // api call to get nest data and load requests
@@ -41,7 +43,14 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   const resetCurrentNest = async () => {
     localStorage.removeItem('kingfisherNest')
     try {
-      console.log('RESET = 🐦 request to creat new nest sent')
+      if (activeWSConnection) {
+        console.log(activeWSConnection)
+        await closeWSCustomClientInBackend(currentNestId)
+        activeWSConnection.close()
+        setActiveWSConnection(null)
+        console.log(document.getElementById('wsServerURL'))
+      }
+      console.log('RESET = 🐦 request to create new nest sent')
       const result = await createNest()
       const newNestId = result.nestId
       console.log('RESET = 🐦 new nest created')
