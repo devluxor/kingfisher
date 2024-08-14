@@ -1,49 +1,22 @@
 import {useState, useEffect } from "react"
-import axios from "axios"
-import { getNest } from "../services/testApi"
 import { createWSClient } from "../services/wsServices"
-
+import useFetchNest from "../utils/hooks/useFetchNest"
 
 const RequestsList = ({currentNestId}) => {
   console.log('RequestList Rendered')
   const [requests, setRequests] = useState([])
-  const [loadingRequests, setLoadingRequests] = useState(false)
-  // const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
-  // const navigate = useNavigate()
+  const {nest, loading, error} = useFetchNest(currentNestId)
 
-  // api call to get nest data and load requests
-  // make custom hook ?
   useEffect(() => {
-    const cancelToken = axios.CancelToken;
-    const source = cancelToken.source();
-    let ignore = false;
-    (async () => {
-      if (ignore) return
-
-      setLoadingRequests(true)
-      try {
-        console.log('🐲 calling api to get nest data')
-        const response = await getNest(currentNestId, source)
-        setRequests(response.requests)
-      } catch (e) {
-        console.error(e)
-      }
-      setLoadingRequests(false)
-    })()
-
-    return () => {
-      ignore = true
-      setLoadingRequests(false)
-      source.cancel()
-    }
-  }, [currentNestId])
+    if (!loading && !error && nest) setRequests(nest.requests)
+  }, [loading, error, nest])
   
   // set the ws connection
   useEffect(() => {
     createWSClient(currentNestId, null, setRequests)
   }, [currentNestId])
 
-  if (loadingRequests || !currentNestId) return <h3>Loading Requests</h3>
+  if (loading || !currentNestId) return <h3>Loading Requests</h3>
 
   return (
     <> 

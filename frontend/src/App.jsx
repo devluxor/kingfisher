@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import RequestsList from "./components/RequestList.jsx"
 
 function App() {
+  // const [currentNest, setCurrentNest] = useState()
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherNest)
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
 
@@ -91,7 +92,6 @@ function App() {
     }
   }
 
-  
   return (
     <>
       <h1>🐦Welcome to Kingfisher!🐦</h1>

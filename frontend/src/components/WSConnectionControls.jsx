@@ -3,41 +3,25 @@ import axios from "axios"
 import { getNest } from "../services/testApi"
 import { WSContext } from "../utils/contexts/ExternalWSConnection"
 import { createWSCustomClientInBackend, closeWSCustomClientInBackend } from "../services/testApi"
+import useFetchNest from "../utils/hooks/useFetchNest"
 
 const WSConnectionControls = ({createConnection, closeConnection, currentNestId, setMessages}) => {
   console.log('WSConnectionControls rendered')
   const [wsServerURL, setWsServerURL] = useState('')
   const [connected, setConnected] = useState(false)
-  // const connection = useRef(null)
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
 
-  useEffect(() => {
-    if (!activeWSConnection || !validWSURL(wsServerURL)) return
-  
-    const cancelToken = axios.CancelToken;
-    const source = cancelToken.source();
-    let ignore = false;
-    (async () => {
-      try {
-        if (ignore) return
+  const {nest, loading, error} = useFetchNest(currentNestId)
 
-        console.log('🐲 calling api to get nest WS CONNECTION DATA data')
-        const nest = await getNest(currentNestId, source)
-        const url = nest.wsConnections[wsServerURL] ?
+  useEffect(() => {
+    if (!loading && !error && nest) {
+      const url = nest.wsConnections[wsServerURL] ?
                       wsServerURL :
                       `${wsServerURL}/`
-        setMessages((m) => [...m, ...(nest.wsConnections[url]? nest.wsConnections[url] : [])])
-      } catch (e) {
-        console.error(e)
-      }
-    })()
-  
-    return () => {
-      ignore = false
-      source.cancel()
+      setMessages((m) => [...m, ...(nest.wsConnections[url]? nest.wsConnections[url] : [])])
     }
-  }, [activeWSConnection, currentNestId, setMessages, wsServerURL])
-
+  }, [loading, error, nest, setMessages, wsServerURL])
+  
   const validWSURL = (url) => {
     const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
     return url.match(wsRegexp)
