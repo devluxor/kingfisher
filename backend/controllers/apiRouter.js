@@ -60,7 +60,6 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
     const result = DBSimulator('newWs', nestId, null, null, wsServerURL)
     res.status(200).send({nestId: result})
   } catch (e) {
-    console.log(e)
     next(e);
   }
 })
