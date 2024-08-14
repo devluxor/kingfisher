@@ -43,7 +43,7 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
     //     client.send(JSON.stringify(processedMessageData));
     //   }
     // });
-
+    console.log(clients, nestId)
     clients[nestId].send(JSON.stringify(processedMessageData))
   })
 
