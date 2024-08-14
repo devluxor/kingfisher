@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { temporaryNestIdValidator } from "../utils/middleware.js";
-import DBSimulator from "./DBSimulator.dev.js";
+import DBSimulator from "../DBSimulator.dev.js";
 import initializeWSServer from "./wsServer.js";
 import { dateFormatter } from "../utils/others.js";
 

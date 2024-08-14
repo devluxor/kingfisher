@@ -1,7 +1,7 @@
 import { Router } from "express";
 import short from 'short-uuid';
-import DBSimulator from "./DBSimulator.dev.js";
-import { initializeCustomWSClient } from "./externalWSConnection.js";
+import DBSimulator from "../DBSimulator.dev.js";
+import { initializeCustomWSClient } from "../externalWSConnection.js";
 
 const apiRouter = Router()
 

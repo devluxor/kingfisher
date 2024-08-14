@@ -1,6 +1,6 @@
 import DBSimulatorDev from "./DBSimulator.dev.js";
 import {WebSocket, WebSocketServer} from "ws";
-import { isJson } from "../utils/others.js";
+import { isJson } from "./utils/others.js";
 
 let frontendWSClients = {}
 // 2: this server will send messages to client in frontend app
