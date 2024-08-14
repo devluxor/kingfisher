@@ -26,12 +26,13 @@ function App() {
     const source = cancelToken.source();
 
     (async () => {
-      const nestInURLExists = await isNestInDb(nestIdInURL)
+      const isURLNestInDB = await isNestInDb(nestIdInURL)
+      const validIDFormatInURL = isValidNestId(nestIdInURL)
 
-      if (!isValidNestId(nestIdInURL) && !currentNestId ) {
+      if (!validIDFormatInURL && !currentNestId ) {
         console.log('nest id in url invalid, no nest in storage, creating new nest...')
 
-      } else if (isValidNestId(nestIdInURL) && nestIdInURL !== currentNestId && nestInURLExists) {
+      } else if (validIDFormatInURL && nestIdInURL !== currentNestId && isURLNestInDB) {
         console.log('url nest id valid, not equal to nest id stored, nest exists in db, changing to nest from url...')
 
         saveNestInHistoryCache(nestIdInURL)
@@ -39,16 +40,16 @@ function App() {
 
         setCurrentNestId(nestIdInURL)
         return
-      } else if (isValidNestId(nestIdInURL) && nestIdInURL === currentNestId && nestInURLExists) {
+      } else if (validIDFormatInURL && nestIdInURL === currentNestId && isURLNestInDB) {
         console.log('nest id in url equal to nest id in storage, and nest exists in DB')
         saveNestInHistoryCache(nestIdInURL)
         saveNestInLocalStorage(nestIdInURL)
         return
-      } else if (!isValidNestId(nestIdInURL) && currentNestId && await isNestInDb(currentNestId)) {
+      } else if (!validIDFormatInURL && currentNestId && await isNestInDb(currentNestId)) {
         console.log('nest id in url not valid, but found valid nest in localStorage, and nest exists in db:', currentNestId)
         navigate(`/${currentNestId}`, {replace: true})
         return
-      } else if (isValidNestId(nestIdInURL) && !nestInURLExists) {
+      } else if (validIDFormatInURL && !isURLNestInDB) {
         console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
       }
 
