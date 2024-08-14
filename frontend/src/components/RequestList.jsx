@@ -48,7 +48,6 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
         await closeWSCustomClientInBackend(currentNestId)
         activeWSConnection.close()
         setActiveWSConnection(null)
-        console.log(document.getElementById('wsServerURL'))
       }
       console.log('RESET = 🐦 request to create new nest sent')
       const result = await createNest()
