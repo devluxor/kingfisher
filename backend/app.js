@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'development') {
   console.log('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
 }
 
-app.get('/api/testroute', (req, res) => {
+app.get('/api/testroute2', (req, res) => {
   res.status(200).send('test route successfull')
 })
 
