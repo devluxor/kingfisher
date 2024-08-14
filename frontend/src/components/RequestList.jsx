@@ -14,13 +14,14 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   const navigate = useNavigate()
 
   // api call to get nest data and load requests
+  // make custom hook ?
   useEffect(() => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
     let ignore = false;
     (async () => {
       if (ignore) return
-      
+
       setLoadingRequests(true)
       try {
         console.log('🐲 calling api to get nest data')
