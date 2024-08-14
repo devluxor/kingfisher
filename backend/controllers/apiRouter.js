@@ -66,7 +66,11 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
 
 apiRouter.post('/closeWsConnection/:nestId', async (req, res, next) => {
   try {
-    wsConnections[req.params.nestId].close()
+    const connection =  wsConnections[req.params.nestId]
+    if (connection) {
+      connection.close()
+    }
+    
     res.status(200).send()
   } catch (e) {
     next(e);
