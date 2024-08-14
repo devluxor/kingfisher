@@ -17,7 +17,10 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
   useEffect(() => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
+    let ignore = false;
     (async () => {
+      if (ignore) return
+      
       setLoadingRequests(true)
       try {
         console.log('🐲 calling api to get nest data')
@@ -30,6 +33,7 @@ const RequestsList = ({currentNestId, setCurrentNestId}) => {
     })()
 
     return () => {
+      ignore = true
       setLoadingRequests(false)
       source.cancel()
     }
