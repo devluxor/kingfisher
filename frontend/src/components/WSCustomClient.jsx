@@ -12,7 +12,7 @@ const WSCustomClient = ({currentNestId}) => {
       await createWSCustomClientInBackend(currentNestId, wsServerURL)
       const wsURL = import.meta.env.DEV ? 
                       'ws://localhost:9090' : 
-                      'https://kingfisher.luxor.dev/ws-external'
+                      'wss://kingfisher.luxor.dev/ws-external'
 
       console.log('CREATING CLIENT IN THE FRONTEND')
       const ws = createWSClient(currentNestId, wsURL, setMessages)
