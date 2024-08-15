@@ -106,6 +106,7 @@ function App() {
       console.log('RESET = setter called, will triger a rerender, use effect will be called again')
       setCurrentNest(newNest)
       setRequests(newNest.requests)
+
       navigate(`/${newNestId}`, {replace: true})
     } catch (error) {
       console.error(error)
@@ -127,9 +128,9 @@ function App() {
       {currentNest && <button onClick={() => test(currentNest.id)}>Make test request</button>}
       {currentNest && <button style={{background: 'red'}} onClick={resetCurrentNest}>Reset Current Nest</button>}
 
-      {currentNest ? <RequestsList requests={requests} setRequests={setRequests}/>: 'loading nest'}
+      {currentNest ? <RequestsList requests={requests} setRequests={setRequests} />: 'loading nest'}
 
-      {/* {currentNest ? <WSCustomClient messages={null} />: 'loading nest'} */}
+      {currentNest ? <WSCustomClient currentNest={currentNest} />: 'loading nest'}
     </>
   )
 }

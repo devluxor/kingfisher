@@ -29,7 +29,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter) => {
       ...messageData
     }
     
-    setter((previousState) => [...previousState, processedMessageData])
+    setter((previousState) => [...(previousState ? previousState : []), processedMessageData])
   }
   
   const closeConnection = () => ws.close(1000, currentNestId)
