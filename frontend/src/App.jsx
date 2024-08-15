@@ -7,9 +7,10 @@ import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import RequestsList from "./components/RequestList.jsx"
+import useFetchNest from "./utils/hooks/useFetchNest.jsx"
 
 function App() {
-  // const [currentNest, setCurrentNest] = useState()
+  const [currentNest, setCurrentNest] = useState()
   const [currentNestId, setCurrentNestId] = useState(localStorage.kingfisherNest)
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
 
@@ -21,7 +22,9 @@ function App() {
   
   useEffect(() => {
     console.log('🤖 use effect to get new nest in action')
+    // removes final forward slash:
     const nestIdInURL = location.pathname.slice(1);
+
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
@@ -37,7 +40,6 @@ function App() {
 
         saveNestInHistoryCache(nestIdInURL)
         saveNestInLocalStorage(nestIdInURL)
-
         setCurrentNestId(nestIdInURL)
         return
       } else if (validIDFormatInURL && nestIdInURL === currentNestId && isURLNestInDB) {
@@ -55,12 +57,13 @@ function App() {
 
       try {
         console.log('🐦 request to creat new nest sent')
-        const result = await createNest(source)
+        const newNest = await createNest(source)
         console.log('🐦 new nest created')
-        const nestId = result.nestId
+        const nestId = newNest.id
         saveNestInLocalStorage(nestId)
         saveNestInHistoryCache(nestId)
         setCurrentNestId(nestId)
+        setCurrentNest(newNest)
         navigate(`/${nestId}`, {replace: true})
       } catch(error) {
         console.error(error)
@@ -69,6 +72,41 @@ function App() {
 
     return () => source.cancel()
   }, [navigate, location, currentNestId])
+
+  // const {nest, loading, error} = useFetchNest(currentNestId) 
+  // useEffect(() => {
+  //   if (!loading && !error && nest) setRequests(nest.requests)
+  // }, [loading, error, nest])
+
+  // const [nest, setNest] = useState()
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState()
+
+  // useEffect(() => {
+  //   const cancelToken = axios.CancelToken;
+  //   const source = cancelToken.source();
+  //   let ignore = false;
+  //   (async () => {
+  //     if (ignore) return
+  
+  //     setLoading(true)
+  //     try {
+  //       console.log('🐲 calling api to get nest data')
+  //       const response = await getNest(currentNestId, source)
+  //       setNest(response)
+  //     } catch (e) {
+  //       console.error(e)
+  //       setError(e)
+  //     }
+  //     setLoading(false)
+  //   })()
+  
+  //   return () => {
+  //     ignore = true
+  //     setLoading(false)
+  //     source.cancel()
+  //   }
+  // }, [currentNestId])
 
   const resetCurrentNest = async () => {
     localStorage.removeItem('kingfisherNest')
