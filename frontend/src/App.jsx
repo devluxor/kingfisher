@@ -4,10 +4,14 @@ import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestIn
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
+import RequestsList from './components/RequestsList.jsx'
+import { createWSClient } from "./services/wsServices.js"
 
+import WSCustomClient from './components/WSCustomClient.jsx'
 
 function App() {
   const [currentNest, setCurrentNest] = useState((c) => c)
+  const [requests, setRequests] = useState([])
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
 
   console.log('APP RENDERED')
@@ -50,6 +54,7 @@ function App() {
           saveNestInHistoryCache(nest.id)
           saveNestInLocalStorage(nest.id)
           setCurrentNest(nest)
+          setRequests(nest.requests)
           navigate(`/${nest.id}`, {replace: true})
         } catch(e) {
           console.error(e)
@@ -100,11 +105,19 @@ function App() {
       saveNestInHistoryCache(newNestId)
       console.log('RESET = setter called, will triger a rerender, use effect will be called again')
       setCurrentNest(newNest)
+      setRequests(newNest.requests)
       navigate(`/${newNestId}`, {replace: true})
     } catch (error) {
       console.error(error)
     }
   }
+
+  // ws client to get requests on real time
+  useEffect(() => {
+    if (!currentNest) return
+
+    createWSClient(currentNest.id, null, setRequests)
+  }, [currentNest])
 
   return (
     <>
@@ -114,9 +127,9 @@ function App() {
       {currentNest && <button onClick={() => test(currentNest.id)}>Make test request</button>}
       {currentNest && <button style={{background: 'red'}} onClick={resetCurrentNest}>Reset Current Nest</button>}
 
-      {/* {currentNest ? <RequestsList currentNest={currentNest}/>: 'loading nest'} */}
+      {currentNest ? <RequestsList requests={requests} setRequests={setRequests}/>: 'loading nest'}
 
-      {/* {currentNestId ? <WSCustomClient currentNest={currentNest} currentNestId={currentNestId}/>: 'loading nest'} */}
+      {/* {currentNest ? <WSCustomClient messages={null} />: 'loading nest'} */}
     </>
   )
 }
