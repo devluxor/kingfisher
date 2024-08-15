@@ -24,6 +24,8 @@ apiRouter.get('/nests/:nestId', async (req, res) => {
 
   if (nest) {
     return res.status(200).send(nest)
+  } else if (!nest) {
+    return res.status(404).send(false)
   }
 
   res.status(404).send({
@@ -43,7 +45,7 @@ apiRouter.post('/createNest', async (req, res, next) => {
       wsConnections: {},
     }
     DBSimulator('newNest', nestId, newNest)
-    res.status(200).send({ nestId })
+    res.status(201).send(newNest)
   } catch (e) {
     next(e);
   }
@@ -58,7 +60,7 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
     const closeWSClient = initializeCustomWSClient(wsServerURL, nestId)
     wsConnections[nestId] = closeWSClient
     const result = DBSimulator('newWs', nestId, null, null, wsServerURL)
-    res.status(200).send({nestId: result})
+    res.status(201).send({nestId: result})
   } catch (e) {
     next(e);
   }
