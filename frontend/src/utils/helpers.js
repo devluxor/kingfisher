@@ -31,7 +31,7 @@ export const saveNestInLocalStorage = (nestId) => {
 
 export const saveNestInHistoryCache = (nestId) => {
   const MAX_BYTE_SIZE = 4_999_900
-  const historyCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
+  const historyCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache') || "{}")
   const historyCacheSize = new Blob([historyCache]).size
   if (historyCacheSize >= MAX_BYTE_SIZE) {
     alert(`

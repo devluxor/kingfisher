@@ -34,7 +34,6 @@ function App() {
       const validIDFormatInURL = isValidNestId(nestIdInURL)
       const isURLNestInDB = validIDFormatInURL && await isNestInDb(nestIdInURL)
       const storedNest = localStorage.kingfisherNest
-      console.log(storedNest)
 
       if (!validIDFormatInURL && !storedNest ) {
         console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
