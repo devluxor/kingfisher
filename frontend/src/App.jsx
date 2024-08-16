@@ -32,19 +32,25 @@ function App() {
 
     (async () => {
       const validIDFormatInURL = isValidNestId(nestIdInURL)
-      const isURLNestInDB = validIDFormatInURL && await isNestInDb(nestIdInURL)
       const storedNest = localStorage.kingfisherNest
+      let needsToCheckExistence = true
+      let isURLNestInDB;
 
       if (!validIDFormatInURL && !storedNest ) {
         console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
-
+        needsToCheckExistence = false
       } else if (validIDFormatInURL && nestIdInURL === currentNest?.id) {
         console.log('id in url === current nest id, doing nothing, as the nest is already loaded')
-
         return
-      } else if (validIDFormatInURL && !isURLNestInDB) {
+      }
+      
+      if (needsToCheckExistence) {
+        isURLNestInDB = validIDFormatInURL && await isNestInDb(nestIdInURL)
+      }
+
+      if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
         console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
-      } else if ((validIDFormatInURL && isURLNestInDB) || (isNestInDb(storedNest))) {
+      } else if (needsToCheckExistence && ((validIDFormatInURL && isURLNestInDB) || (await isNestInDb(storedNest)))) {
         console.log('url nest id valid, and nest exists in db, OR stored nest is in DB, changing to nest from url...')
         const nestId = validIDFormatInURL ? nestIdInURL : storedNest
         try {
