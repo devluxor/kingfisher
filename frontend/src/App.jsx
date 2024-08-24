@@ -76,7 +76,6 @@ function App() {
           return
         }
 
-        console.log(newNest)
         console.log('🐦 new nest created')
         const nestId = newNest.id
         saveNestInLocalStorage(nestId)

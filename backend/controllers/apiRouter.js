@@ -24,8 +24,6 @@ apiRouter.get('/nests/:nestId', async (req, res) => {
 
   if (nest) {
     return res.status(200).send(nest)
-  } else if (!nest) {
-    return res.status(404).send(false)
   }
 
   res.status(404).send({
@@ -40,7 +38,7 @@ apiRouter.post('/createNest', async (req, res, next) => {
       id: nestId, 
       createdOn: new Date(), 
       ip: req.ip, 
-      hostName: req.hostname, 
+      host: req.hostname, 
       requests: [],
       wsConnections: {},
     }
