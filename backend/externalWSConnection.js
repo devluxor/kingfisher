@@ -27,12 +27,14 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
   })
 
   ws.addEventListener("message", (event) => {
-    
     const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
+
     const processedMessageData = {
       ...(messageData?.id || {id: Math.floor(Math.random() * 10000)}),
-      ...(messageData?.timeOfArrival || {timeOfArrival: new Date()}),
-      data: messageData
+      nestId,
+      serverURL: wsServerURL, 
+      data: messageData,
+      arrivedOn: new Date(),
     }
 
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)

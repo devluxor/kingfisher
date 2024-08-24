@@ -14,10 +14,18 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   const path = req.params[0]
   const headers = req.headers
   const body = req.body
-  const timeOfArrival = new Date()
+  const arrivedOn = new Date()
   const id = Math.floor(Math.random() * 100000)
   // let request = await requestService.createRequest(nestId, method, path, headers, body)
-  const processedRequest = { id, nestId, timeOfArrival, method, path, headers, body } // add path later
+  const processedRequest = { 
+    id, 
+    nestId, 
+    path, 
+    headers, 
+    method, 
+    body,
+    arrivedOn, 
+  }
 
   DBSimulator('addReq', nestId, null, processedRequest)
 

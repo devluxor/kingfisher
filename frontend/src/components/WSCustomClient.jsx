@@ -84,7 +84,7 @@ const MessagesList = ({messages}) => {
     <>
     {messages.length > 0 ? 
       <ul id="received-messages">{
-        messages.map(m => <li key={m.id}>🦜{JSON.stringify(m.timeOfArrival)}</li>)
+        messages.map(m => <li key={m.id}>🦜{JSON.stringify(m.arrivedOn)} {m.data}</li>)
       }</ul> 
       : 'no messages yet '
     }
