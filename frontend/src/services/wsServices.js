@@ -23,9 +23,10 @@ export const createWSClient = (currentNestId, wsServerURL, setter) => {
     console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
 
     const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
+    console.log(messageData)
     const processedMessageData = {
       ...(messageData?.id || {id: Math.floor(Math.random() * 1000)}),
-      ...(messageData?.timeOfArrival || {timeOfArrival: new Date()}),
+      ...(messageData?.arrivedOn || {arrivedOn: new Date()}),
       ...messageData
     }
     

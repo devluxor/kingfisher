@@ -16,7 +16,9 @@ const RequestsList = ({requests}) => {
 }
 
 const RequestListElement = ({r}) => {
-  return <li className="request">🎈 {String(r.arrivedOn)} {r.method} {r.path? r.path : "/"}</li>
+  const arrivedOn = String(r.arrivedOn || r.arrived_on)
+  // const path = 
+  return <li className="request">🎈 {arrivedOn} {r.method} {r.path? r.path : "/"}</li>
 }
 
 export default RequestsList

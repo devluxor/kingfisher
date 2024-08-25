@@ -1,5 +1,15 @@
 import { testRequest } from "../services/testApi";
 
+export const processNest = (sqlNest) => {
+  return {
+    id: sqlNest[0].nest_id,
+    ip: sqlNest[0].nest_ip,
+    host: sqlNest[0].nest_host_name,
+    createdOn: sqlNest[0].nest_created_on,
+    requests: sqlNest[0].id ? sqlNest : [],
+  }
+}
+
 export const test = async (nestId) => {
   try {
     await testRequest(nestId)

@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react"
-import { createNest, isNestInDb, closeWSCustomClientInBackend, getNest } from "./services/testApi"
-import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId } from './utils/helpers'
+import { createNest, isNestInDb, closeWSCustomClientInBackend, getNest, getSQLNest } from "./services/testApi"
+import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -32,11 +32,11 @@ function App() {
 
     (async () => {
       const validIDFormatInURL = isValidNestId(nestIdInURL)
-      const storedNest = localStorage.kingfisherNest
+      const storedNestId = localStorage.kingfisherNest
       let needsToCheckExistence = true
       let isURLNestInDB;
 
-      if (!validIDFormatInURL && !storedNest ) {
+      if (!validIDFormatInURL && !storedNestId ) {
         console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
         needsToCheckExistence = false
       } else if (validIDFormatInURL && nestIdInURL === currentNest?.id) {
@@ -44,23 +44,50 @@ function App() {
         return
       }
       
+      let nestInDB
       if (needsToCheckExistence) {
-        isURLNestInDB = validIDFormatInURL && await isNestInDb(nestIdInURL)
+        nestInDB = await getSQLNest(nestIdInURL) 
+        isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
       }
 
       if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
         console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
-      } else if (needsToCheckExistence && ((validIDFormatInURL && isURLNestInDB) || (await isNestInDb(storedNest)))) {
+      } else if (needsToCheckExistence && validIDFormatInURL && isURLNestInDB) {
         console.log('url nest id valid, and nest exists in db, OR stored nest is in DB, changing to nest from url...')
-        const nestId = validIDFormatInURL ? nestIdInURL : storedNest
+        // const nestId = validIDFormatInURL ? nestIdInURL : storedNest
         try {
           console.log('getting nest...')
-          const nest = await getNest(nestId)
+          // const nest = await getNest(nestIdInURL)
+          // console.log(nest)
+          const sqlData = await getSQLNest(nestIdInURL)
+          const nest = processNest(sqlData)
+          // console.log(processNest(sqlnest))
           saveNestInHistoryCache(nest.id)
           saveNestInLocalStorage(nest.id)
           setCurrentNest(nest)
           setRequests(nest.requests)
           navigate(`/${nest.id}`, {replace: true})
+        } catch(e) {
+          console.error(e)
+        }
+
+        return
+      }
+      const storedNest = await getSQLNest(storedNestId)
+      const storedNestIsInDB = storedNest.length > 0
+      if (needsToCheckExistence && storedNestIsInDB) {
+        console.log('url nest id valid, stored nest is in DB, changing to nest from url...')
+    
+        try {
+          console.log('getting nest...')
+          // const nest = await getNest(storedNestId)
+          const sqlData = await getSQLNest(nestIdInURL)
+          const nest = processNest(sqlData)
+          saveNestInHistoryCache(nest.id)
+          saveNestInLocalStorage(nest.id)
+          setCurrentNest(nest)
+          setRequests(nest.requests)
+          navigate(`/${nest.id}`, { replace: true })
         } catch(e) {
           console.error(e)
         }

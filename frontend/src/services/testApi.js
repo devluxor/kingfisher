@@ -32,6 +32,18 @@ export const getNest = async (nestId, source) => {
   }
 }
 
+export const getSQLNest = async (nestId, source) => {
+  let configuration = {}
+  if (source) configuration['cancelToken'] = source.token
+
+  try {
+    const result = await axiosInstance.get(`/sqlnest/${nestId}`, {}, configuration)
+    return result.data
+  } catch(error) {
+    if (error.name != 'CanceledError') console.error(error)
+  }
+}
+
 export const isNestInDb = async (nestId) => {
   if (!nestId) return false
   
