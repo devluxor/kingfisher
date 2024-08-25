@@ -1,31 +1,23 @@
-CREATE TABLE nest (
+CREATE TABLE nests (
     id VARCHAR(22) PRIMARY KEY,
     ip VARCHAR(39) NOT NULL,
     host_name VARCHAR(300) NOT NULL,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE request (
-    id VARCHAR(22) NOT NULL,
-    nest_id VARCHAR(22) REFERENCES nest(id) NOT NULL,
+CREATE TABLE requests (
+    id VARCHAR(22) PRIMARY KEY,
+    nest_id VARCHAR(22) REFERENCES nests(id) NOT NULL,
     method VARCHAR(500) NOT NULL,
-    URL_path VARCHAR(500) NOT NULL,
+    path VARCHAR(500) NOT NULL,
     headers VARCHAR(65535) NOT NULL,
     body VARCHAR(65535) NOT NULL,
     arrived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE ws_connection (
-    id VARCHAR(22) NOT NULL,
-    nest_id VARCHAR(22) REFERENCES nest(id) NOT NULL,
-    server_URL VARCHAR(500) NOT NULL,
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE ws_message (
-    id VARCHAR(22) NOT NULL,
-    nest_id VARCHAR(22) REFERENCES nest(id) NOT NULL,
-    ws_connection_id VARCHAR(22) REFERENCES ws_connection(id) NOT NULL,
+CREATE TABLE ws_messages (
+    id VARCHAR(22) PRIMARY KEY,
+    nest_id VARCHAR(22) REFERENCES nests(id) NOT NULL,
     server_URL VARCHAR(500) NOT NULL,
     data_payload VARCHAR(65535),
     arrived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
