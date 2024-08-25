@@ -2,8 +2,26 @@ import { Router } from "express";
 import short from 'short-uuid';
 import DBSimulator from "../DBSimulator.dev.js";
 import { initializeCustomWSClient } from "../externalWSConnection.js";
+import { createNest, getNest, getWSMessages } from '../services/db-service.js'
 
 const apiRouter = Router()
+
+apiRouter.get('/sqlnest/:nestId', async (req, res) => {
+  const nestId = req.params.nestId
+  // const response = DBSimulator('exist', nestId)
+  const result = await getNest(nestId)
+  console.log(result)
+  res.status(200).send(result)
+})
+
+apiRouter.get('/sqlmsg/:nestId/:server', async (req, res) => {
+  const nestId = req.params.nestId
+  const server = decodeURI(req.params.server)
+  // const response = DBSimulator('exist', nestId)
+  const result = await getWSMessages(nestId, 'https://echo.websocket.org/')
+  console.log(result)
+  res.status(200).send(result)
+})
 
 apiRouter.get('/nests/e/:nestId', async (req, res) => {
   const nestId = req.params.nestId
@@ -43,6 +61,7 @@ apiRouter.post('/createNest', async (req, res, next) => {
       wsConnections: {},
     }
     DBSimulator('newNest', nestId, newNest)
+    createNest(nestId, req.ip, req.hostname)
     res.status(201).send(newNest)
   } catch (e) {
     next(e);

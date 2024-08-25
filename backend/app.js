@@ -2,6 +2,8 @@
 // present in other folders (`utils`, `controllers`...)
 import express from 'express'
 import cors from 'cors'
+import pkg from 'pg';
+const { Pool } = pkg;
 
 // handles environment variables like passwords, api keys, ports, etc
 import config from './utils/config.js'
@@ -17,6 +19,7 @@ import nestRouter from './controllers/nestRouter.js'
 const app = express()
 app.use(cors())
 app.use(express.json())
+let pool
 
 if (process.env.NODE_ENV === 'development') {
   console.log('🎑 Developing!')

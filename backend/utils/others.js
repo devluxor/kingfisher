@@ -1,3 +1,5 @@
+import short from "short-uuid";
+
 export const dateFormatter = (date) => {
   return date.toString().slice(0,25)
 }
@@ -12,4 +14,8 @@ export const isJson = (item) => {
   }
     
   return typeof value === "object" && value !== null;
+}
+
+export const generateId = () => {
+  return short.generate()
 }

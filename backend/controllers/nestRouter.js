@@ -3,6 +3,7 @@ import { temporaryNestIdValidator } from "../utils/middleware.js";
 import DBSimulator from "../DBSimulator.dev.js";
 import initializeWSServer from "./wsServer.js";
 import { dateFormatter } from "../utils/others.js";
+import { addRequest } from "../services/db-service.js";
 
 const nestRouter = Router()
 const wsClients = initializeWSServer()
@@ -16,7 +17,7 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   const body = req.body
   const arrivedOn = new Date()
   const id = Math.floor(Math.random() * 100000)
-  // let request = await requestService.createRequest(nestId, method, path, headers, body)
+
   const processedRequest = { 
     id, 
     nestId, 
@@ -28,7 +29,7 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   }
 
   DBSimulator('addReq', nestId, null, processedRequest)
-
+  addRequest(processedRequest)
   const clients = wsClients()
   if (clients[nestId]) {
     console.log('🌈message sent from the server!')
