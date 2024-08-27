@@ -21,16 +21,9 @@ export const createWSClient = (currentNestId, wsServerURL, setter) => {
 
   const onMessageReceived = (event) => {
     console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
+    const messageData = isJson(event.data) ? JSON.parse(event.data) : {data: event.data}
 
-    const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
-    console.log(messageData)
-    const processedMessageData = {
-      ...(messageData?.id || {id: Math.floor(Math.random() * 1000)}),
-      ...(messageData?.arrivedOn || {arrivedOn: new Date()}),
-      ...messageData
-    }
-    
-    setter((previousState) => [...(previousState ? previousState : []), processedMessageData])
+    setter((previousState) => [...(previousState ? previousState : []), messageData])
   }
   
   const closeConnection = () => ws.close(1000, currentNestId)
