@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { createNest, isNestInDb, closeWSCustomClientInBackend, getNest, getSQLNest } from "./services/testApi"
+import { createNest, closeWSCustomClientInBackend, getSQLNest } from "./services/testApi"
 import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
@@ -50,44 +50,37 @@ function App() {
         isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
       }
 
+      const loadNestData = async (nestData) => {
+        const nest = processNest(nestData)
+        saveNestInHistoryCache(nest.id)
+        saveNestInLocalStorage(nest.id)
+        setCurrentNest(nest)
+        setRequests(nest.requests)
+        navigate(`/${nest.id}`, {replace: true})
+      }
+
       if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
         console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
       } else if (needsToCheckExistence && validIDFormatInURL && isURLNestInDB) {
-        console.log('url nest id valid, and nest exists in db, OR stored nest is in DB, changing to nest from url...')
-        // const nestId = validIDFormatInURL ? nestIdInURL : storedNest
+        console.log('url nest id valid, and nest exists in db, changing to nest from url...')
+
         try {
-          console.log('getting nest...')
-          // const nest = await getNest(nestIdInURL)
-          // console.log(nest)
-          const sqlData = await getSQLNest(nestIdInURL)
-          const nest = processNest(sqlData)
-          // console.log(processNest(sqlnest))
-          saveNestInHistoryCache(nest.id)
-          saveNestInLocalStorage(nest.id)
-          setCurrentNest(nest)
-          setRequests(nest.requests)
-          navigate(`/${nest.id}`, {replace: true})
+          loadNestData(nestInDB)
         } catch(e) {
           console.error(e)
         }
 
         return
       }
+
       const storedNest = await getSQLNest(storedNestId)
       const storedNestIsInDB = storedNest.length > 0
       if (needsToCheckExistence && storedNestIsInDB) {
-        console.log('url nest id valid, stored nest is in DB, changing to nest from url...')
+        console.log('url id absent, stored nest is in DB, changing to nest from url...')
     
         try {
           console.log('getting nest...')
-          // const nest = await getNest(storedNestId)
-          const sqlData = await getSQLNest(nestIdInURL)
-          const nest = processNest(sqlData)
-          saveNestInHistoryCache(nest.id)
-          saveNestInLocalStorage(nest.id)
-          setCurrentNest(nest)
-          setRequests(nest.requests)
-          navigate(`/${nest.id}`, { replace: true })
+          loadNestData(storedNest)
         } catch(e) {
           console.error(e)
         }
@@ -144,7 +137,7 @@ function App() {
     }
   }
 
-  // ws client to get requests on real time
+  // ws client to get requests without HTTP req/res cycles
   useEffect(() => {
     if (!currentNest) return
 
