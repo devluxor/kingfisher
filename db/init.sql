@@ -19,6 +19,6 @@ CREATE TABLE ws_messages (
     id VARCHAR(22) PRIMARY KEY,
     nest_id VARCHAR(22) REFERENCES nests(id) NOT NULL,
     server_URL VARCHAR(500) NOT NULL,
-    data_payload VARCHAR(65535),
+    data VARCHAR(65535),
     arrived_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
