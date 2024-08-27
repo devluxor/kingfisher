@@ -2,7 +2,7 @@ import { Router } from "express";
 import { temporaryNestIdValidator } from "../utils/middleware.js";
 import DBSimulator from "../DBSimulator.dev.js";
 import initializeWSServer from "./wsServer.js";
-import { dateFormatter } from "../utils/others.js";
+import { dateFormatter, generateId } from "../utils/others.js";
 import { addRequest } from "../services/db-service.js";
 
 const nestRouter = Router()
@@ -16,7 +16,7 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   const headers = req.headers
   const body = req.body
   const arrivedOn = new Date()
-  const id = Math.floor(Math.random() * 100000)
+  const id = generateId()
 
   const processedRequest = { 
     id, 
@@ -28,7 +28,7 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
     arrivedOn, 
   }
 
-  DBSimulator('addReq', nestId, null, processedRequest)
+  // DBSimulator('addReq', nestId, null, processedRequest)
   addRequest(processedRequest)
   const clients = wsClients()
   if (clients[nestId]) {
