@@ -36,7 +36,7 @@ export const createNest = async (nestId, ip, hostName) => {
     );
     return result.rows[0];
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -57,15 +57,15 @@ export const addRequest = async ({id, nestId, method, path, headers, body}) => {
     );
     return result.rows[0];
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
-export const addWSMessage = async ({kingfisherId, nestId, serverURL, data}) => {
+export const addWSMessage = async ({id, nestId, serverURL, data}) => {
   const dataJSON = JSON.stringify(data)
   const sqlQuery = `
     INSERT INTO 
-        ws_messages (id, nest_id, server_url, data_payload, arrived_on) 
+        ws_messages (id, nest_id, server_url, data, arrived_on) 
     VALUES 
         ($1, $2, $3, $4, NOW())
     `
@@ -73,11 +73,11 @@ export const addWSMessage = async ({kingfisherId, nestId, serverURL, data}) => {
   try {
     const result = await db.query(
       sqlQuery,
-      [kingfisherId, nestId, serverURL, dataJSON]
+      [id, nestId, serverURL, dataJSON]
     );
     return result.rows[0];
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -108,7 +108,7 @@ export const getNest = async (nestId) => {
     );
     return result.rows;
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -118,7 +118,7 @@ export const getWSMessages = async (nestId, wsServerURL) => {
         ws_messages.id,
         ws_messages.nest_id,
         ws_messages.server_URL,
-        ws_messages.data_payload,
+        ws_messages.data,
         ws_messages.arrived_on
     FROM
         ws_messages
@@ -134,6 +134,6 @@ export const getWSMessages = async (nestId, wsServerURL) => {
     );
     return result.rows;
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
