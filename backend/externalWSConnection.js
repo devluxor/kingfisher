@@ -1,7 +1,7 @@
-import DBSimulatorDev from "./DBSimulator.dev.js";
+import inMemoryDB from "./inMemoryDB.js";
 import {WebSocket, WebSocketServer} from "ws";
 import { generateId, isJson } from "./utils/others.js";
-import { addWSMessage } from "./services/db-service.js";
+import { storeWSMessage } from "./services/db-service.js";
 
 let frontendWSClients = {}
 // 2: this server will send messages to client in frontend app
@@ -27,11 +27,11 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
     console.log(`🏠WS Custom Client Created in Backend!`)
   })
 
-  ws.addEventListener("message", (event) => {
+  ws.addEventListener("message", async (event) => {
     const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
-
+    console.log(event.data)
     const processedMessageData = {
-      kingfisherId: generateId(),
+      id: generateId(),
       nestId,
       serverURL: wsServerURL, 
       data: messageData,
@@ -39,8 +39,8 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
     }
 
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
-    DBSimulatorDev('wsMessage', nestId, null, processedMessageData, wsServerURL)
-    addWSMessage(processedMessageData)
+    inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
+    await storeWSMessage(processedMessageData)
     clients[nestId].send(JSON.stringify(processedMessageData))
   })
 

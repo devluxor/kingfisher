@@ -21,7 +21,7 @@ const db = new Pool({
   }
 })();
 
-export const createNest = async (nestId, ip, hostName) => {
+export const storeNest = async (nestId, ip, hostName) => {
   const sqlQuery = `
     INSERT INTO 
         nests (id, ip, host_name, created_on) 
@@ -40,7 +40,7 @@ export const createNest = async (nestId, ip, hostName) => {
   }
 }
 
-export const addRequest = async ({id, nestId, method, path, headers, body}) => {
+export const storeRequest = async ({id, nestId, method, path, headers, body}) => {
   const headersJSON = JSON.stringify(headers)
   const bodyJSON = JSON.stringify(body)
   const sqlQuery = `
@@ -61,7 +61,7 @@ export const addRequest = async ({id, nestId, method, path, headers, body}) => {
   }
 }
 
-export const addWSMessage = async ({id, nestId, serverURL, data}) => {
+export const storeWSMessage = async ({id, nestId, serverURL, data}) => {
   const dataJSON = JSON.stringify(data)
   const sqlQuery = `
     INSERT INTO 

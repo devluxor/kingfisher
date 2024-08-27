@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { temporaryNestIdValidator } from "../utils/middleware.js";
-import DBSimulator from "../DBSimulator.dev.js";
+import inMemoryDB from "../inMemoryDB.js";
 import initializeWSServer from "./wsServer.js";
 import { dateFormatter, generateId } from "../utils/others.js";
-import { addRequest } from "../services/db-service.js";
+import { storeRequest } from "../services/db-service.js";
 
 const nestRouter = Router()
 const wsClients = initializeWSServer()
@@ -28,8 +28,8 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
     arrivedOn, 
   }
 
-  // DBSimulator('addReq', nestId, null, processedRequest)
-  addRequest(processedRequest)
+  // inMemoryDB('addReq', nestId, null, processedRequest)
+  storeRequest(processedRequest)
   const clients = wsClients()
   if (clients[nestId]) {
     console.log('🌈message sent from the server!')
