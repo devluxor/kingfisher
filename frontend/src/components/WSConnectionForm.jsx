@@ -16,6 +16,7 @@ const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWs
 
   const connectionOff = (e) => {
     e.preventDefault()
+    setWsServerURL('')
     closeConnection()
   }
 
