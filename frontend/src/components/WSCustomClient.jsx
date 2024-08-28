@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react"
 import { createWSClient } from "../services/wsServices"
-import { closeWSCustomClientInBackend, createWSCustomClientInBackend, getNest } from "../services/testApi"
+import { closeWSCustomClientInBackend, createWSCustomClientInBackend, getWSMessages } from "../services/testApi"
 import { WSContext } from "../utils/contexts/ExternalWSConnection"
 import WSConnectionForm from "./WSConnectionForm"
 
@@ -26,7 +26,6 @@ const WSCustomClient = ({currentNest}) => {
     try {
       console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
       await createWSCustomClientInBackend(currentNestId, wsServerURL)
-      const nest = await getNest(currentNest.id) 
       const wsURL = import.meta.env.DEV ? 
                       'ws://localhost:9090' : 
                       'wss://kingfisher.luxor.dev/ws-external'
@@ -43,7 +42,8 @@ const WSCustomClient = ({currentNest}) => {
       })
       setActiveWS(ws)
       setConnectionEstablished(true)
-      setMessages(nest.wsConnections[wsServerURL])
+      const wsMessages = await getWSMessages(currentNestId, wsServerURL)
+      setMessages(wsMessages)
       return ws
     } catch (error) {
       console.error(error)
@@ -55,7 +55,6 @@ const WSCustomClient = ({currentNest}) => {
       console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
       activeWS.close()
-      // activeWSConnection.close()
       setMessages([])
       setConnectionEstablished(false)
     } catch (error) {
@@ -84,11 +83,19 @@ const MessagesList = ({messages}) => {
     <>
     {messages.length > 0 ? 
       <ul id="received-messages">{
-        messages.map(m => <li key={m.kingfisherId}>🦜{JSON.stringify(m.arrivedOn)} {m.data}</li>)
+        messages.map(m => <Message key={m.id} m={m}/>)
       }</ul> 
       : 'no messages yet '
     }
     </>
+  )
+}
+
+const Message = ({m}) => {
+  const date = m.arrived_on || m.arrivedOn
+
+  return (
+    <li>🦜{JSON.stringify(date)} {JSON.stringify(m.data)}</li>
   )
 }
 

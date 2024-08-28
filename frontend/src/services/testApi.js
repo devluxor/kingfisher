@@ -32,27 +32,14 @@ export const getNest = async (nestId, source) => {
   }
 }
 
-export const getSQLNest = async (nestId, source) => {
-  let configuration = {}
-  if (source) configuration['cancelToken'] = source.token
+export const getWSMessages = async (nestId, serverURL) => {
+  const encodedServerURL = encodeURIComponent(serverURL)
 
   try {
-    const result = await axiosInstance.get(`/sqlnest/${nestId}`, {}, configuration)
+    const result = await axiosInstance.get(`/wsm/${nestId}/${encodedServerURL}`)
     return result.data
   } catch(error) {
     if (error.name != 'CanceledError') console.error(error)
-  }
-}
-
-export const isNestInDb = async (nestId) => {
-  if (!nestId) return false
-  
-  console.log('🤩 making api call to check for existence in DB')
-  try {
-    const result = await axiosInstance.get(`/nests/e/${nestId}`)
-    return result.data
-  } catch(error) {
-    console.error(error)
   }
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { createNest, closeWSCustomClientInBackend, getSQLNest } from "./services/testApi"
+import { createNest, closeWSCustomClientInBackend, getNest } from "./services/testApi"
 import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
@@ -46,7 +46,7 @@ function App() {
       
       let nestInDB
       if (needsToCheckExistence) {
-        nestInDB = await getSQLNest(nestIdInURL) 
+        nestInDB = await getNest(nestIdInURL) 
         isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
       }
 
@@ -73,7 +73,7 @@ function App() {
         return
       }
 
-      const storedNest = await getSQLNest(storedNestId)
+      const storedNest = await getNest(storedNestId)
       const storedNestIsInDB = storedNest.length > 0
       if (needsToCheckExistence && storedNestIsInDB) {
         console.log('url id absent, stored nest is in DB, changing to nest from url...')
