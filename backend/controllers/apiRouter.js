@@ -16,6 +16,7 @@ apiRouter.get('/nests/:nestId', async (req, res) => {
 apiRouter.get('/wsm/:nestId/:server', async (req, res) => {
   const nestId = req.params.nestId
   const server = decodeURI(req.params.server)
+  console.log(nestId, server)
   const result = await getWSMessages(nestId, server)
   res.status(200).send(result)
 })
