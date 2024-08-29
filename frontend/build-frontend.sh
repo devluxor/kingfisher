@@ -10,5 +10,5 @@ sudo mkdir /var/www/kingfisher/html
 sudo cp -r ./dist/* /var/www/kingfisher/html/
 echo "New build installed successfully and ready to be served"
 echo "Restarting services..."
-pm2 restart 2
+pm2 restart Kingfisher
 echo "👋 Goodbye!"
