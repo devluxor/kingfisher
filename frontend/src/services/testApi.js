@@ -37,7 +37,7 @@ export const getWSMessages = async (nestId, serverURL) => {
 
   try {
     const result = await axiosInstance.get(
-      `/wsm/${nestId}/${encodedServerURL}`,
+      `/wsm/${nestId}`,
       {
         headers: {
           wsServerURL: serverURL
