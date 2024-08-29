@@ -41,7 +41,6 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
     inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
     await storeWSMessage(processedMessageData)
-    console.log(clients)
     clients[nestId].send(JSON.stringify(processedMessageData))
   })
 
