@@ -6,34 +6,26 @@ import { getNest, getWSMessages, storeNest } from '../services/db-service.js'
 
 const apiRouter = Router()
 
-apiRouter.get('/nests/:nestId', async (req, res) => {
-  const nestId = req.params.nestId
-  const result = await getNest(nestId)
-  inMemoryDB.loadNest(nestId)
-  res.status(200).send(result)
+apiRouter.get('/nests/:nestId', async (req, res, next) => {
+  try {
+    const nestId = req.params.nestId
+    const result = await getNest(nestId)
+    inMemoryDB.loadNest(nestId)
+    res.status(200).send(result)
+  } catch (e) {
+    next(e);
+  }
 })
 
-apiRouter.get('/wsm/:nestId', async (req, res) => {
-  // console.log(req.headers)
-  const nestId = req.params.nestId
-  // const server = decodeURI(req.params.server)
-  // console.log(nestId, server)
-  const result = await getWSMessages(nestId, req.headers.wsserverurl)
-  res.status(200).send(result)
+apiRouter.get('/wsm/:nestId', async (req, res, next) => {
+  try {
+    const nestId = req.params.nestId
+    const result = await getWSMessages(nestId, req.headers['X-Kingfisher-wsServerURL'])
+    res.status(200).send(result)
+  } catch (e) {
+    next(e);
+  }
 })
-
-// apiRouter.get('/nests/e/:nestId', async (req, res) => {
-//   const nestId = req.params.nestId
-//   const response = inMemoryDB('exist', nestId)
-//   res.status(200).send(response)
-// })
-
-// to delete later? 
-// apiRouter.get('/nests/all', async (req, res) => {
-//   const nestId = req.params.nestId
-//   const nests = inMemoryDB('getAll', nestId)
-//   res.status(200).send(nests)
-// })
 
 apiRouter.post('/createNest', async (req, res, next) => {
   try {
@@ -62,7 +54,6 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
     const wsServerURL = req.body.wsServerURL
     const closeWSClient = initializeCustomWSClient(wsServerURL, nestId)
     wsConnections[nestId] = closeWSClient
-    // const result = inMemoryDB('newWSConnection', nestId, null, null, wsServerURL)
     inMemoryDB.addNewWSConnection(nestId, wsServerURL)
     res.status(201).send({nestId})
   } catch (e) {
