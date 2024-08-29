@@ -1,7 +1,7 @@
 import { Router } from "express";
 import short from 'short-uuid';
-import inMemoryDB from "../inMemoryDB.js";
-import { initializeCustomWSClient } from "../externalWSConnection.js";
+import inMemoryDB from "../services/inMemoryDB.js";
+import { initializeCustomWSClient } from "../services/externalWSConnection.js";
 import { getNest, getWSMessages, storeNest } from '../services/db-service.js'
 
 const apiRouter = Router()

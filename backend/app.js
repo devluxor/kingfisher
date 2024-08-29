@@ -6,7 +6,6 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 // handles environment variables like passwords, api keys, ports, etc
-import config from './utils/config.js'
 
 //  HTTP request logger middleware for node.js
 import morgan from 'morgan'
@@ -19,12 +18,9 @@ import nestRouter from './controllers/nestRouter.js'
 const app = express()
 app.use(cors())
 app.use(express.json())
-let pool
 
 if (process.env.NODE_ENV === 'development') {
   console.log('🎑 Developing!')
-  // This adds a custom token to the logger 'morgan',
-  // so the body of the request sent to the server is shown on the terminal
   morgan.token('body', req => {
     return JSON.stringify(req.body)
   })

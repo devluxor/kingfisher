@@ -1,7 +1,7 @@
 import inMemoryDB from "./inMemoryDB.js";
 import {WebSocket, WebSocketServer} from "ws";
-import { generateId, isJson } from "./utils/others.js";
-import { storeWSMessage } from "./services/db-service.js";
+import { generateId, isJson } from "../utils/others.js";
+import { storeWSMessage } from "./db-service.js";
 
 let frontendWSClients = {}
 // 2: this server will send messages to client in frontend app
