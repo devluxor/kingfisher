@@ -7,7 +7,6 @@ import { storeRequest } from "../services/db-service.js";
 const nestRouter = Router()
 const wsClients = initializeWSServer()
 
-// This route represents the main endpoint
 nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
   const nestId = req.params.nestId
   const method = req.method
@@ -27,7 +26,6 @@ nestRouter.all('/:nestId*', temporaryNestIdValidator, async (req, res) => {
     arrivedOn, 
   }
 
-  // inMemoryDB('addReq', nestId, null, processedRequest)
   storeRequest(processedRequest)
   const clients = wsClients()
   if (clients[nestId]) {

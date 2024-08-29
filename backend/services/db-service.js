@@ -14,10 +14,10 @@ const db = new Pool({
   try {
     const client = await db.connect();
     const result = await client.query('SELECT NOW()');
-    console.log(`🌮🌮🌮🌮🌮🌮🌮PostgreSQL connected successfully: ${result.rows[0].now}`);
+    console.log(`🌮PostgreSQL connected successfully: ${result.rows[0].now}`);
   } catch (err) {
     console.error(err);
-    console.log('🌋🌋🌋🌋🌋🌋🌋Error connecting to PostgreSQL');
+    console.log('🌋Error connecting to PostgreSQL');
   }
 })();
 

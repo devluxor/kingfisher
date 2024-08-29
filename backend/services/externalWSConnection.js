@@ -4,8 +4,8 @@ import { generateId, isJson } from "../utils/others.js";
 import { storeWSMessage } from "./db-service.js";
 
 let frontendWSClients = {}
-// 2: this server will send messages to client in frontend app
-// for it to upload the DOM
+// 2: this server will send messages to ws client in frontend app
+// for it to upload the DOM with the newly arrived messages
 const wsLocalServer = new WebSocketServer({port: 9090})
 
 wsLocalServer.on('connection', (ws) => {
