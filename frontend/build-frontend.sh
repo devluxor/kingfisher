@@ -2,6 +2,7 @@
 
 echo "🏗 Building frontend..."
 npm install # if new packages have been installed during development
+npm audit fix
 npm run build
 echo $1 | sudo -S rm -rf /var/www/kingfisher/html
 echo "Previous build destroyed"
