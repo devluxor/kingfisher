@@ -36,7 +36,14 @@ export const getWSMessages = async (nestId, serverURL) => {
   const encodedServerURL = encodeURIComponent(serverURL)
 
   try {
-    const result = await axiosInstance.get(`/wsm/${nestId}/${encodedServerURL}`)
+    const result = await axiosInstance.get(
+      `/wsm/${nestId}/${encodedServerURL}`,
+      {
+        headers: {
+          wsServerURL: serverURL
+        }
+      }
+    )
     return result.data
   } catch(error) {
     if (error.name != 'CanceledError') console.error(error)
