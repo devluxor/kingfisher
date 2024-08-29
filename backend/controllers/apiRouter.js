@@ -20,7 +20,7 @@ apiRouter.get('/nests/:nestId', async (req, res, next) => {
 apiRouter.get('/wsm/:nestId', async (req, res, next) => {
   try {
     const nestId = req.params.nestId
-    const result = await getWSMessages(nestId, req.headers['X-Kingfisher-wsServerURL'])
+    const result = await getWSMessages(nestId, req.headers['x-kingfisher-wsserverurl'])
     res.status(200).send(result)
   } catch (e) {
     next(e);

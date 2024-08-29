@@ -38,7 +38,7 @@ export const getWSMessages = async (nestId, serverURL) => {
       `/wsm/${nestId}`,
       {
         headers: {
-          'X-Kingfisher-wsServerURL': serverURL
+          'x-kingfisher-wsserverurl': serverURL
         }
       }
     )
