@@ -33,14 +33,12 @@ export const getNest = async (nestId, source) => {
 }
 
 export const getWSMessages = async (nestId, serverURL) => {
-  const encodedServerURL = encodeURIComponent(serverURL)
-
   try {
     const result = await axiosInstance.get(
       `/wsm/${nestId}`,
       {
         headers: {
-          wsServerURL: serverURL
+          'X-Kingfisher-wsServerURL': serverURL
         }
       }
     )
