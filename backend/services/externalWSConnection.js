@@ -1,6 +1,6 @@
 import inMemoryDB from "./inMemoryDB.js";
 import {WebSocket, WebSocketServer} from "ws";
-import { generateId, isJson } from "../utils/others.js";
+import { generateId, isJson, isValidWSURL } from "../utils/others.js";
 import { storeWSMessage } from "./db-service.js";
 
 let frontendWSClients = {}
@@ -19,13 +19,25 @@ wsLocalServer.on('connection', (ws) => {
 })
 
 // 1: this client will receive messages from the external WS server
-export const initializeCustomWSClient = (wsServerURL, nestId) => {
+export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
+  console.log(wsServerURL)
+  
+  if (!isValidWSURL(wsServerURL)) {
+    console.error('WebSocket error: INVALID WS SERVER URL')
+    return
+  }
+  
   const clients = frontendWSClients
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
     console.log(`🏠WS Custom Client Created in Backend!`)
   })
+
+  ws.addEventListener("error", (event) => {
+    console.error("WebSocket error: ", event.error);
+    ws.close()
+  });
 
   ws.addEventListener("message", async (event) => {
     const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
@@ -47,6 +59,6 @@ export const initializeCustomWSClient = (wsServerURL, nestId) => {
   ws.addEventListener('close', () => {
     console.log('connection with external ws server closed')
   })
-
+  
   return ws
 }

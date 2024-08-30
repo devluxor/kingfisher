@@ -19,3 +19,8 @@ export const isJson = (item) => {
 export const generateId = () => {
   return short.generate()
 }
+
+export const isValidWSURL = (url) => {
+  const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
+  return url.match(wsRegexp)
+}

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import short from 'short-uuid';
 import inMemoryDB from "../services/inMemoryDB.js";
-import { initializeCustomWSClient } from "../services/externalWSConnection.js";
+import { initializeCustomWSConnectionClient } from "../services/externalWSConnection.js";
 import { getNest, getWSMessages, storeNest } from '../services/db-service.js'
 
 const apiRouter = Router()
@@ -52,7 +52,7 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
   try {
     const nestId = req.body.nestId
     const wsServerURL = req.body.wsServerURL
-    const closeWSClient = initializeCustomWSClient(wsServerURL, nestId)
+    const closeWSClient = initializeCustomWSConnectionClient(wsServerURL, nestId)
     wsConnections[nestId] = closeWSClient
     inMemoryDB.addNewWSConnection(nestId, wsServerURL)
     res.status(201).send({nestId})
