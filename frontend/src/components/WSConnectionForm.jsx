@@ -1,15 +1,11 @@
+import { isValidWSURL } from "../utils/helpers"
+
 const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWsServerURL, connectionEstablished}) => {
   console.log('WSConnectionForm rendered')
-
     
-  const validWSURL = (url) => {
-    const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
-    return url.match(wsRegexp)
-  }
-
   const connectionOn = (e) => {
     e.preventDefault()
-    if (!validWSURL(wsServerURL)) return
+    if (!isValidWSURL(wsServerURL)) return
 
     createConnection()
   }
