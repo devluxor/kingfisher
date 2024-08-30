@@ -36,7 +36,7 @@ function App() {
       let needsToCheckExistence = true
       let isURLNestInDB;
 
-      if (!validIDFormatInURL && !storedNestId ) {
+      if (!validIDFormatInURL && !storedNestId) {
         console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
         needsToCheckExistence = false
       } else if (validIDFormatInURL && nestIdInURL === currentNest?.id) {
@@ -46,7 +46,7 @@ function App() {
       
       let nestInDB
       if (needsToCheckExistence) {
-        nestInDB = await getNest(nestIdInURL) 
+        nestInDB = validIDFormatInURL ? await getNest(nestIdInURL) : []
         isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
       }
 
