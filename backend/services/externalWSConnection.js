@@ -27,9 +27,9 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   if (!isValidWSURL(wsServerURL)) {
     console.error('WebSocket error: INVALID WS SERVER URL')
     return
-  }
+  };
   
-  const clients = frontendWSClients
+  const clients = (() => frontendWSClients)()
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
@@ -56,7 +56,13 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
     inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
     await storeWSMessage(processedMessageData)
-    clients[nestId].send(JSON.stringify(processedMessageData))
+    try {
+      clients[nestId].send(JSON.stringify(processedMessageData))
+    } catch (e) {
+      console.log('🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭')
+      console.log(`nest with id ${nestId} not found in clients or clients` )
+      console.error(e)
+    }
   })
 
   ws.addEventListener('close', () => {
