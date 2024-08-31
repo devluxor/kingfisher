@@ -13,7 +13,7 @@ wsLocalServer.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     const clientData = JSON.parse(message.toString())
-    console.log('📩 Message received from frontend app!', clientData)
+    console.log('📩 Message received from frontend app!, updater connection ws backend(server)-frontend(client) established', clientData)
     // instead of assigning to just one ws, assign property to an array
     // with all ws, and then send to each client in that array, instead of just one
     frontendWSClients[clientData.nestId] = ws
@@ -52,7 +52,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
       data: messageData,
       arrivedOn: new Date(),
     }
-
+    
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
     inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
     await storeWSMessage(processedMessageData)
