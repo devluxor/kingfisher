@@ -52,8 +52,8 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
   try {
     const nestId = req.body.nestId
     const wsServerURL = req.body.wsServerURL
-    const closeWSClient = initializeCustomWSConnectionClient(wsServerURL, nestId)
-    wsConnections[nestId] = closeWSClient
+    const ws = initializeCustomWSConnectionClient(wsServerURL, nestId)
+    wsConnections[nestId] = ws
     inMemoryDB.addNewWSConnection(nestId, wsServerURL)
     res.status(201).send({nestId})
   } catch (e) {

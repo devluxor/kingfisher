@@ -1,4 +1,5 @@
-export const createWSClient = (currentNestId, wsServerURL, setter) => {
+// add error handler as fourth parameter ??
+export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler) => {
   const isCustomWSServer = !!wsServerURL
 
   if (!wsServerURL) {
@@ -21,9 +22,17 @@ export const createWSClient = (currentNestId, wsServerURL, setter) => {
 
   const onMessageReceived = (event) => {
     console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
-    const messageData = isJson(event.data) ? JSON.parse(event.data) : {data: event.data}
+    const message = isJson(event.data) ? JSON.parse(event.data) : {data: event.data}
+    console.log(message)
 
-    setter((previousState) => [...(previousState ? previousState : []), messageData])
+    if (message.error) {
+      console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
+      errorHandler(true)
+      ws.close()
+      return
+    }
+
+    setter((previousState) => [...(previousState ? previousState : []), message])
   }
   
   const closeConnection = () => ws.close(1000, currentNestId)

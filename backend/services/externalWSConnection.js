@@ -14,6 +14,8 @@ wsLocalServer.on('connection', (ws) => {
   ws.on('message', (message) => {
     const clientData = JSON.parse(message.toString())
     console.log('📩 Message received from frontend app!', clientData)
+    // instead of assigning to just one ws, assign property to an array
+    // with all ws, and then send to each client in that array, instead of just one
     frontendWSClients[clientData.nestId] = ws
   });
 })
@@ -36,6 +38,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
 
   ws.addEventListener("error", (event) => {
     console.error("WebSocket error: ", event.error);
+    setTimeout(() => clients[nestId].send(JSON.stringify({error: event.error})), 100)
     ws.close()
   });
 

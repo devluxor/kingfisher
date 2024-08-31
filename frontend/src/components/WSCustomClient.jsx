@@ -5,21 +5,42 @@ import { WSContext } from "../utils/contexts/ExternalWSConnection"
 import WSConnectionForm from "./WSConnectionForm"
 
 const WSCustomClient = ({currentNest}) => {
+  console.log('WSCustomClient rendered')
   const [connectionEstablished, setConnectionEstablished] = useState((connection) => connection)
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
   const [activeWS, setActiveWS] = useState((ws) => ws)  
   const [messages, setMessages] = useState([])
+  const [errorInConnection, setErrorInConnection] = useState(false)
   const [wsServerURL, setWsServerURL] = useState('')
   const currentNestId = currentNest.id
 
   useEffect(() => {
     if (!activeWSConnection) {
       setWsServerURL('')
+      setMessages([])
       setActiveWS(false)
       setConnectionEstablished(false)
-      setMessages([])
     }
-  }, [activeWSConnection])
+  }, [activeWSConnection]);
+
+  (async () => {
+    if (!errorInConnection) return;
+
+
+    try {
+      console.log('ERROR IN CONNECTION EXTERNAL WS SERVER - BACKEND WS CLIENT 👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢')
+      await closeWSCustomClientInBackend(currentNestId)
+      activeWS.close()
+      setWsServerURL('')
+      setMessages([])
+      setConnectionEstablished(false)
+      setActiveWS(false)
+      setErrorInConnection(false) 
+    } catch (e) {
+      console.error(e)
+    }
+  
+  })()
 
   // api call to get nest data and load requests
   const createConnection = async () => {
@@ -31,10 +52,10 @@ const WSCustomClient = ({currentNest}) => {
                       'wss://kingfisher.luxor.dev/ws-external'
 
       console.log('CREATING CLIENT IN THE FRONTEND')
-      const ws = createWSClient(currentNestId, wsURL, setMessages)
+      const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection);
       setActiveWSConnection(ws)
-      window.addEventListener('beforeunload', function() {
-        closeWSCustomClientInBackend(currentNestId)
+      window.addEventListener('beforeunload', async function() {
+        await closeWSCustomClientInBackend(currentNestId)
         ws.close()
         setConnectionEstablished(false)
         setActiveWS(null)
