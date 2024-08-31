@@ -38,7 +38,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
 
   ws.addEventListener("error", (event) => {
     console.error("WebSocket error: ", event.error);
-    setTimeout(() => clients[nestId].send(JSON.stringify({error: event.error})), 500)
+    setTimeout(() => clients[nestId].send(JSON.stringify({error: event.error})), 2000)
     ws.close()
   });
 
