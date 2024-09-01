@@ -7,16 +7,16 @@ let frontendWSClients = {}
 // for it to upload the DOM with the newly arrived messages
 const wsLocalServer = new WebSocketServer({port: 9090})
 
-wsLocalServer.on('connection', (ws) => {
+wsLocalServer.on('connection', (ws, request) => {
   console.log('📯 Frontend App connected!')
+  const nestId = request.url.split('=')[1]
+  frontendWSClients[nestId] = ws
 
   ws.on('message', (message) => {
     const clientData = JSON.parse(message.toString())
     console.log('📩 Message received from frontend app!, updater connection ws backend(server)-frontend(client) established', clientData)
-    // if (frontendWSClients[clientData.nestId]) {
-    //   frontendWSClients[clientData.nestId].terminate()
-    // }
-    frontendWSClients[clientData.nestId] = ws
+
+    // frontendWSClients[clientData.nestId] = ws
   });
 })
 
