@@ -2,6 +2,7 @@ import { Router } from "express";
 import { initializeCustomWSConnectionClient } from "../services/externalWSConnection.js";
 import { getNest, getWSMessages, storeNest } from '../services/db-service.js'
 import { generateId } from "../utils/others.js";
+import { WebSocket } from "ws";
 
 const apiRouter = Router()
 
@@ -63,7 +64,7 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
 apiRouter.post('/closeWsConnection/:nestId', async (req, res, next) => {
   try {
     const connection =  wsConnections[req.params.nestId]
-    if (connection) {
+    if (connection && connection?.readyState === WebSocket.OPEN) {
       connection.close()
     }
     
