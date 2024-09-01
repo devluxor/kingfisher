@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { temporaryNestIdValidator } from "../utils/middleware.js";
-import initializeWSServer from "./wsServer.js";
+import initializeWSServer from "./requestsWSServer.js";
 import { generateId } from "../utils/others.js";
 import { storeRequest } from "../services/db-service.js";
 

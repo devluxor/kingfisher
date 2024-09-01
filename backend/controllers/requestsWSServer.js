@@ -5,12 +5,16 @@ export default () => {
   const clients = {}
 
   const wsServer = new WebSocketServer({port: config.WS_PORT});
-  wsServer.on("connection", (ws) => {
-    console.log('📯 Web Socket Backend Server connected!')
+  wsServer.on("connection", (ws, req) => {
+    console.log('📯 Web Socket Requests Backend Server connected!')
 
     ws.on('message', (message) => {
       const clientData = JSON.parse(message.toString())
-      clients[clientData.nestId] = ws;
+
+      if (!clients[clientData.nestId]) {
+        clients[clientData.nestId] = ws
+      }
+
       console.log('🎨 Connection with frontend app established!', clientData)
     });
     
@@ -23,6 +27,6 @@ export default () => {
   })
 
   // returns a callback that gives access to the runtime
-  // websocket clients store via this closure:
+  // websocket clients store object via this closure:
   return () => clients
 }
