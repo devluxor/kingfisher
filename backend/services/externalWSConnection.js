@@ -8,7 +8,7 @@ let frontendWSClients = {}
 const wsLocalServer = new WebSocketServer({port: 9090})
 
 wsLocalServer.on('connection', (ws, request) => {
-  console.log('📯 Frontend App connected!')
+  console.log('📯 Frontend App connected with backend ws server for custom ws connections!!!!')
   const nestId = request.url.split('=')[1]
   frontendWSClients[nestId] = ws
 
