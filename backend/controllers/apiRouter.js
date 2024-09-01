@@ -10,7 +10,7 @@ apiRouter.get('/nests/:nestId', async (req, res, next) => {
   try {
     const nestId = req.params.nestId
     const result = await getNest(nestId)
-    inMemoryDB.loadNest(nestId)
+    // inMemoryDB.loadNest(nestId)
     res.status(200).send(result)
   } catch (e) {
     next(e);
@@ -34,12 +34,10 @@ apiRouter.post('/createNest', async (req, res, next) => {
       id: nestId, 
       createdOn: new Date(), 
       ip: req.ip, 
-      host: req.hostname, 
-      requests: [],
-      wsConnections: {},
+      host: req.hostname,
     }
     await storeNest(nestId, req.ip, req.hostname)
-    inMemoryDB.loadNest(nestId)
+    // inMemoryDB.loadNest(nestId)
     res.status(201).send(newNest)
   } catch (e) {
     next(e);
@@ -54,7 +52,7 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
     const wsServerURL = req.body.wsServerURL
     const ws = initializeCustomWSConnectionClient(wsServerURL, nestId)
     wsConnections[nestId] = ws
-    inMemoryDB.addNewWSConnection(nestId, wsServerURL)
+    // inMemoryDB.addNewWSConnection(nestId, wsServerURL)
     res.status(201).send({nestId})
   } catch (e) {
     next(e);

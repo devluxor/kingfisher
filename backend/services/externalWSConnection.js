@@ -21,6 +21,7 @@ wsLocalServer.on('connection', (ws) => {
 })
 
 // 1: this client will receive messages from the external WS server
+// located using the URL introduced in the frontend input
 export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   console.log(wsServerURL)
   
@@ -29,7 +30,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     return
   };
   
-  const clients = (() => frontendWSClients)()
+  const clients = (() => frontendWSClients)();
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
@@ -54,9 +55,10 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     }
     
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
-    inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
+    // inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
     await storeWSMessage(processedMessageData)
     try {
+      if (!clients[nestId]) throw new Error(`NO FRONTEND CLIENT FOUND IN CLIENTS: ${clients}`)
       clients[nestId].send(JSON.stringify(processedMessageData))
     } catch (e) {
       console.log('🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭')
