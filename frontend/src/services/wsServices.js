@@ -1,3 +1,5 @@
+import { isJson } from "../utils/helpers"
+
 // add error handler as fourth parameter ??
 export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler) => {
   const isCustomWSServer = !!wsServerURL
@@ -43,16 +45,4 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   document.addEventListener("beforeunload", closeConnection)
 
   return ws
-}
-
-const isJson = (item) => {
-  let value = typeof item !== "string" ? JSON.stringify(item) : item;
-
-  try {
-    value = JSON.parse(value);
-  } catch (e) {
-    return false;
-  }
-    
-  return typeof value === "object" && value !== null;
 }
