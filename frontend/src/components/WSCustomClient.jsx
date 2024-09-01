@@ -42,18 +42,16 @@ const WSCustomClient = ({currentNest}) => {
   
   })()
 
-  // api call to get nest data and load requests
   const createConnection = async () => {
     try {
-      console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
-      await createWSCustomClientInBackend(currentNestId, wsServerURL)
-      const wsURL = import.meta.env.DEV ? 
-                      'ws://localhost:9090' : 
-                      'wss://kingfisher.luxor.dev/ws-external'
-
       console.log('CREATING CLIENT IN THE FRONTEND')
+      const wsURL = import.meta.env.DEV ? 
+      'ws://localhost:9090' : 
+      'wss://kingfisher.luxor.dev/ws-external'
       const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection);
+      
       setActiveWSConnection(ws)
+
       window.addEventListener('beforeunload', async function() {
         await closeWSCustomClientInBackend(currentNestId)
         ws.close()
@@ -61,10 +59,15 @@ const WSCustomClient = ({currentNest}) => {
         setActiveWS(null)
         window.removeEventListener('beforeunload', this)
       })
+
       setActiveWS(ws)
       setConnectionEstablished(true)
       const wsMessages = await getWSMessages(currentNestId, wsServerURL)
       setMessages(wsMessages)
+
+      console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
+      await createWSCustomClientInBackend(currentNestId, wsServerURL)
+      
       return ws
     } catch (error) {
       console.error(error)
