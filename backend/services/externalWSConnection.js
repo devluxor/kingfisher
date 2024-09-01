@@ -64,7 +64,13 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     }
   })
 
-  ws.addEventListener('close', () => console.log('connection with external ws server closed'))
+  ws.addEventListener('close', () => {
+    console.log('connection with external ws server closed')
+    if (clients[nestId]) {
+      clients[nestId].terminate()
+      delete clients[nestId]
+    }
+  })
   
   return ws
 }
