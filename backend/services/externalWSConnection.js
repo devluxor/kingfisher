@@ -1,4 +1,3 @@
-import inMemoryDB from "./inMemoryDB.js";
 import {WebSocket, WebSocketServer} from "ws";
 import { generateId, isJson, isValidWSURL } from "../utils/others.js";
 import { storeWSMessage } from "./db-service.js";
@@ -14,9 +13,9 @@ wsLocalServer.on('connection', (ws) => {
   ws.on('message', (message) => {
     const clientData = JSON.parse(message.toString())
     console.log('📩 Message received from frontend app!, updater connection ws backend(server)-frontend(client) established', clientData)
-    // instead of assigning to just one ws, assign property to an array
-    // with all ws, and then send to each client in that array, instead of just one
-    frontendWSClients[clientData.nestId] = ws
+    if (!frontendWSClients[clientData.nestId]) {
+      frontendWSClients[clientData.nestId] = ws
+    }
   });
 })
 
@@ -55,10 +54,8 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     }
     
     console.log('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessageData)
-    // inMemoryDB.addNewWSMessage(nestId, wsServerURL, processedMessageData)
     await storeWSMessage(processedMessageData)
     try {
-      if (!clients[nestId]) throw new Error(`NO FRONTEND CLIENT FOUND IN CLIENTS: ${clients}`)
       clients[nestId].send(JSON.stringify(processedMessageData))
     } catch (e) {
       console.log('🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭🎭')
@@ -67,9 +64,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     }
   })
 
-  ws.addEventListener('close', () => {
-    console.log('connection with external ws server closed')
-  })
+  ws.addEventListener('close', () => console.log('connection with external ws server closed'))
   
   return ws
 }
