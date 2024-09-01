@@ -1,11 +1,12 @@
 import {WebSocket, WebSocketServer} from "ws";
 import { generateId, isJson, isValidWSURL } from "../utils/others.js";
 import { storeWSMessage } from "./db-service.js";
+import config from "../utils/config.js";
 
 let frontendWSClients = {}
 // 2: this server will send messages to ws client in frontend app
 // for it to upload the DOM with the newly arrived messages
-const wsLocalServer = new WebSocketServer({port: 9090})
+const wsLocalServer = new WebSocketServer({port: config.WS_PORT_CUSTOM})
 
 wsLocalServer.on('connection', (ws, request) => {
   console.log('📯 Frontend App connected with backend ws server for custom ws connections!!!!')
