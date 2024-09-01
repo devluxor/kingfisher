@@ -13,9 +13,9 @@ wsLocalServer.on('connection', (ws) => {
   ws.on('message', (message) => {
     const clientData = JSON.parse(message.toString())
     console.log('📩 Message received from frontend app!, updater connection ws backend(server)-frontend(client) established', clientData)
-    if (frontendWSClients[clientData.nestId]) {
-      frontendWSClients[clientData.nestId].terminate()
-    }
+    // if (frontendWSClients[clientData.nestId]) {
+    //   frontendWSClients[clientData.nestId].terminate()
+    // }
     frontendWSClients[clientData.nestId] = ws
   });
 })
