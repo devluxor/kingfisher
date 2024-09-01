@@ -30,20 +30,21 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     return
   };
   
-  const clients = (() => frontendWSClients)();
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
     console.log(`🏠WS Custom Client Created in Backend!`)
   })
-
+  
   ws.addEventListener("error", (event) => {
+    const clients = (() => frontendWSClients)();
     console.error("WebSocket error: ", event.error);
     setTimeout(() => clients[nestId].send(JSON.stringify({error: event.error})), 2000)
     ws.close()
   });
 
   ws.addEventListener("message", async (event) => {
+    const clients = (() => frontendWSClients)();
     const messageData = isJson(event.data) ? JSON.parse(event.data) : event.data
     console.log(event.data)
     const processedMessageData = {
