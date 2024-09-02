@@ -7,7 +7,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   const isCustomWSServer = !!wsServerURL
 
   if (!wsServerURL) {
-    wsServerURL = import.meta.env.DEV ? 
+    wsServerURL = developmentMode ? 
       `ws://localhost:8080?nestId=${currentNestId}` : 
       `wss://kingfisher.luxor.dev/ws?nestId=${currentNestId}`
   } 
@@ -17,10 +17,10 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
 
   // message related handlers:
   const onOpenConnection = () => {
-    console.log(`📯WS${isCustomWSServer? ' Custom' : ''} Client Created!`)
-    console.log(`📯Connection to WS${isCustomWSServer? ' Custom' : ''} Server Enabled!`)
+    developmentMode && console.log(`📯WS${isCustomWSServer? ' Custom' : ''} Client Created!`)
+    developmentMode && console.log(`📯Connection to WS${isCustomWSServer? ' Custom' : ''} Server Enabled!`)
 
-    ws.send(JSON.stringify({
+    developmentMode && ws.send(JSON.stringify({
       status: `WS Connection established from${isCustomWSServer? ' Custom' : ''} Client`,
       connected: true,
       nestId: currentNestId
@@ -28,12 +28,12 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   }
 
   const onMessageReceived = (event) => {
-    console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
+    developmentMode && console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
     const message = isJson(event.data) ? JSON.parse(event.data) : {data: event.data}
-    console.log(message)
+    developmentMode && console.log(message)
 
     if (message.error) {
-      console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
+      developmentMode && console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
       errorHandler(true)
       ws.close()
       return
