@@ -15,7 +15,7 @@ nestRouter.all('/:nestId*', nestIdValidator, async (req, res, next) => {
     await storeRequest(processedRequest)
     const clients = wsClients()
     if (clients[nestId]) {
-      logger.info('🌈message sent from the server!')
+      logger.info('🌈 Request received in nest, sending message to frontend client!')
       clients[nestId].send(JSON.stringify(processedRequest))
     }
   

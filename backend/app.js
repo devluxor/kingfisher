@@ -19,12 +19,12 @@ app.use(cors())
 app.use(express.json())
 
 if (process.env.NODE_ENV === 'development') {
-  logger.info('🎑 Developing!')
   morgan.token('body', req => {
     return JSON.stringify(req.body)
   })
   app.use(morgan(':method :url :status :body'))
-  logger.info('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
+  logger.info('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
+  logger.info('🎑 Development mode!')
 }
 
 app.use('/api', apiRouter)

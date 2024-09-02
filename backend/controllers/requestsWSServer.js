@@ -7,12 +7,12 @@ export default () => {
 
   const wsServer = new WebSocketServer({port: config.WS_PORT});
   wsServer.on("connection", (ws, request) => {
-    logger.info('📯 Web Socket Requests Backend Server connected!')
+    logger.info('📯 Backend-Frontend Request WebSocket Channel connected!')
     const nestId = request.url.split('=')[1]
     clients[nestId] = ws
 
     ws.on("close", (code, reason) => {
-      logger.info('✖ Connection with client closed!')
+      logger.info('✖ Backend-Frontend Request WebSocket Channel closed!')
       logger.info('✖ Reason: ', code, reason.toString())
       const nestId = reason.toString()
       delete clients[nestId]

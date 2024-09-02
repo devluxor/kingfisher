@@ -10,7 +10,7 @@ let frontendWSClients = {}
 const wsLocalServer = new WebSocketServer({port: config.WS_PORT_CUSTOM})
 
 wsLocalServer.on('connection', (ws, request) => {
-  logger.info('📯 Frontend App connected with backend ws server for custom ws connections!!!!')
+  logger.info('📯 Backend-Frontend Custom Connection WebSocket Channel connected!')
   const nestId = request.url.split('=')[1]
   frontendWSClients[nestId] = ws
 })
@@ -28,7 +28,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
-    logger.info(`🏠WS Custom Client Created in Backend!`)
+    logger.info(`🏠 Custom WebSocket Client connected in backend to external server: `, wsServerURL)
   })
   
   ws.addEventListener("error", (event) => {
@@ -41,13 +41,13 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener("message", async (event) => {
     const clients = (() => frontendWSClients)();
     const processedMessage = processWSMessage(event.data, nestId, wsServerURL)
-    logger.info('🚀 MESSAGE FROM EXTERNAL WS SERVER RECEIVED', processedMessage)
+    logger.info(`🚀 Message from external WebSocket server ${wsServerURL} received by backend client`, event.data)
     await storeWSMessage(processedMessage)
     clients[nestId]?.send(JSON.stringify(processedMessage))
   })
 
   ws.addEventListener('close', () => {
-    logger.info('connection with external ws server closed')
+    logger.info('❌ Connection with external ws server closed')
     const clients = (() => frontendWSClients)();
     clients[nestId]?.terminate()
   })
