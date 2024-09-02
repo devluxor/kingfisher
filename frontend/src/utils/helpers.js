@@ -1,5 +1,7 @@
 import { testRequest } from "../services/testApi";
 
+const developmentMode = import.meta.env.DEV
+
 export const processNest = (sqlNest) => {
   return {
     id: sqlNest[0].nest_id,

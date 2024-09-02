@@ -1,5 +1,7 @@
 import { isJson } from "../utils/helpers"
 
+const developmentMode = import.meta.env.DEV
+
 // add error handler as fourth parameter ??
 export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler) => {
   const isCustomWSServer = !!wsServerURL

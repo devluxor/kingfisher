@@ -1,7 +1,10 @@
 import { isValidWSURL } from "../utils/helpers"
 
+const developmentMode = import.meta.env.DEV
+
+
 const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWsServerURL, connectionEstablished}) => {
-  console.log('WSConnectionForm rendered')
+  developmentMode && console.log('WSConnectionForm rendered')
     
   const connectionOn = (e) => {
     e.preventDefault()

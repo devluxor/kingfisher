@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { getNest } from "../../services/testApi"
 
+const developmentMode = import.meta.env.DEV
+
 
 const useFetchNest = (currentNestId) => {
   const [nest, setNest] = useState()

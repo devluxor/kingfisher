@@ -6,15 +6,16 @@ import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
 import RequestsList from './components/RequestsList.jsx'
 import { createWSClient } from "./services/wsServices.js"
-
 import WSCustomClient from './components/WSCustomClient.jsx'
+
+const developmentMode = import.meta.env.DEV
 
 function App() {
   const [currentNest, setCurrentNest] = useState((c) => c)
   const [requests, setRequests] = useState([])
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
 
-  console.log('APP RENDERED')
+  developmentMode && console.log('APP RENDERED')
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -23,7 +24,7 @@ function App() {
   }
   
   useEffect(() => {
-    console.log('🤖 use effect to get new nest in action')
+    developmentMode && console.log('🤖 use effect to get new nest in action')
     // removes final forward slash:
     const nestIdInURL = location.pathname.slice(1);
 
@@ -37,10 +38,10 @@ function App() {
       let isURLNestInDB;
 
       if (!validIDFormatInURL && !storedNestId) {
-        console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
+        developmentMode && console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
         needsToCheckExistence = false
       } else if (validIDFormatInURL && nestIdInURL === currentNest?.id) {
-        console.log('id in url === current nest id, doing nothing, as the nest is already loaded')
+        developmentMode && console.log('id in url === current nest id, doing nothing, as the nest is already loaded')
         return
       }
       
@@ -60,9 +61,9 @@ function App() {
       }
 
       if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
-        console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
+        developmentMode && console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
       } else if (needsToCheckExistence && validIDFormatInURL && isURLNestInDB) {
-        console.log('url nest id valid, and nest exists in db, changing to nest from url...')
+        developmentMode && console.log('url nest id valid, and nest exists in db, changing to nest from url...')
 
         try {
           loadNestData(nestInDB)
@@ -76,10 +77,10 @@ function App() {
       const storedNest = await getNest(storedNestId)
       const storedNestIsInDB = storedNest.length > 0
       if (needsToCheckExistence && storedNestIsInDB) {
-        console.log('url id absent, stored nest is in DB, changing to nest from url...')
+        developmentMode && console.log('url id absent, stored nest is in DB, changing to nest from url...')
     
         try {
-          console.log('getting nest...')
+          developmentMode && console.log('getting nest...')
           loadNestData(storedNest)
         } catch(e) {
           console.error(e)
@@ -89,18 +90,19 @@ function App() {
       }
 
       try {
-        console.log('🐦 request to create new nest sent')
+        developmentMode && console.log('🐦 request to create new nest sent')
         const newNest = await createNest(source)
         if (!newNest) {
-          console.log('nest returned from createNest invalid', newNest)
+          developmentMode && console.log('nest returned from createNest invalid', newNest)
           return
         }
 
-        console.log('🐦 new nest created')
+        developmentMode && console.log('🐦 new nest created')
         const nestId = newNest.id
         saveNestInLocalStorage(nestId)
         saveNestInHistoryCache(nestId)
         setCurrentNest(newNest)
+        setRequests([])
         navigate(`/${nestId}`, {replace: true})
       } catch(error) {
         console.error(error)
@@ -119,17 +121,17 @@ function App() {
         activeWSConnection.close()
         setActiveWSConnection(null)
       }
-      console.log('RESET = 🐦 request to create new nest sent')
+      developmentMode && console.log('RESET = 🐦 request to create new nest sent')
       const newNest = await createNest()
       if (!newNest) return
 
       const newNestId = newNest.id
-      console.log('RESET = 🐦 new nest created')
+      developmentMode && console.log('RESET = 🐦 new nest created')
       saveNestInLocalStorage(newNestId)
       saveNestInHistoryCache(newNestId)
-      console.log('RESET = setter called, will triger a rerender, use effect will be called again')
+      developmentMode && console.log('RESET = setter called, will triger a rerender, use effect will be called again')
       setCurrentNest(newNest)
-      setRequests(newNest.requests)
+      setRequests([])
 
       navigate(`/${newNestId}`, {replace: true})
     } catch (error) {

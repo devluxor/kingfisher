@@ -4,8 +4,10 @@ import { closeWSCustomClientInBackend, createWSCustomClientInBackend, getWSMessa
 import { WSContext } from "../utils/contexts/ExternalWSConnection"
 import WSConnectionForm from "./WSConnectionForm"
 
+const developmentMode = import.meta.env.DEV
+
 const WSCustomClient = ({currentNest}) => {
-  console.log('WSCustomClient rendered')
+  developmentMode && console.log('WSCustomClient rendered')
   const [connectionEstablished, setConnectionEstablished] = useState((connection) => connection)
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
   const [activeWS, setActiveWS] = useState((ws) => ws)  
@@ -28,7 +30,7 @@ const WSCustomClient = ({currentNest}) => {
 
 
     try {
-      console.log('ERROR IN CONNECTION EXTERNAL WS SERVER - BACKEND WS CLIENT 👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢')
+      developmentMode && console.log('ERROR IN CONNECTION EXTERNAL WS SERVER - BACKEND WS CLIENT 👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢')
       await closeWSCustomClientInBackend(currentNestId)
       activeWS.close()
       setWsServerURL('')
@@ -44,10 +46,10 @@ const WSCustomClient = ({currentNest}) => {
 
   const createConnection = async () => {
     try {
-      console.log('CREATING CLIENT IN THE FRONTEND')
-      const wsURL = import.meta.env.DEV ? 
-      `ws://localhost:9090?nestId=${currentNestId}` : 
-      `wss://kingfisher.luxor.dev/ws-external?nestId=${currentNestId}`
+      developmentMode && console.log('CREATING CLIENT IN THE FRONTEND')
+      const wsURL = developmentMode ? 
+        `ws://localhost:9090?nestId=${currentNestId}` : 
+        `wss://kingfisher.luxor.dev/ws-external?nestId=${currentNestId}`
       const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection);
       
       setActiveWSConnection(ws)
@@ -65,7 +67,7 @@ const WSCustomClient = ({currentNest}) => {
       const wsMessages = await getWSMessages(currentNestId, wsServerURL)
       setMessages(wsMessages)
 
-      console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
+      developmentMode && console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
       await createWSCustomClientInBackend(currentNestId, wsServerURL)
 
       return ws
@@ -76,7 +78,7 @@ const WSCustomClient = ({currentNest}) => {
 
   const closeConnection = async () => {
     try {
-      console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
+      developmentMode && console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
       activeWS.close()
       setMessages([])

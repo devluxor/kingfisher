@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.DEV ? 
+const developmentMode = import.meta.env.DEV
+
+const baseURL = developmentMode ? 
                   `http://localhost:3000/api` : 
                   `https://luxor.dev/kingfisher/api`
 
@@ -49,7 +51,7 @@ export const getWSMessages = async (nestId, serverURL) => {
 }
 
 export const testRequest = async (nestId) => {
-  const baseURL = import.meta.env.DEV ? 
+  const baseURL = developmentMode ? 
                     `http://localhost:3000`: 
                     `https://kingfisher.luxor.dev`
 
