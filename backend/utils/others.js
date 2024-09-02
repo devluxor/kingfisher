@@ -24,3 +24,25 @@ export const isValidWSURL = (url) => {
   const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
   return url.match(wsRegexp)
 }
+
+export const processRequest = (request) => {
+  const nestId = request.params.nestId
+  const method = request.method
+  const path = request.params[0]
+  const headers = request.headers
+  const body = request.body
+  const arrivedOn = new Date()
+  const id = generateId()
+
+  const processedRequest = { 
+    id, 
+    nestId, 
+    path, 
+    headers, 
+    method, 
+    body,
+    arrivedOn, 
+  }
+
+  return processedRequest
+}
