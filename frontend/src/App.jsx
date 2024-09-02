@@ -51,7 +51,7 @@ function App() {
         isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
       }
 
-      const loadNestData = async (nestData) => {
+      const loadNestData = (nestData) => {
         const nest = processNest(nestData)
         saveNestInHistoryCache(nest.id)
         saveNestInLocalStorage(nest.id)
@@ -121,6 +121,7 @@ function App() {
         activeWSConnection.close()
         setActiveWSConnection(null)
       }
+      
       developmentMode && console.log('RESET = 🐦 request to create new nest sent')
       const newNest = await createNest()
       if (!newNest) return
