@@ -2,8 +2,6 @@
 // present in other folders (`utils`, `controllers`...)
 import express from 'express'
 import cors from 'cors'
-import pkg from 'pg';
-const { Pool } = pkg;
 
 // handles environment variables like passwords, api keys, ports, etc
 

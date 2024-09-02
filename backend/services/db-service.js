@@ -16,7 +16,7 @@ const db = new Pool({
     const result = await client.query('SELECT NOW()');
     console.log(`🌮PostgreSQL connected successfully: ${result.rows[0].now}`);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     console.log('🌋Error connecting to PostgreSQL');
   }
 })();
@@ -36,7 +36,7 @@ export const storeNest = async (nestId, ip, hostName) => {
     );
     return result.rows[0];
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -57,7 +57,7 @@ export const storeRequest = async ({id, nestId, method, path, headers, body}) =>
     );
     return result.rows[0];
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -77,7 +77,7 @@ export const storeWSMessage = async ({id, nestId, serverURL, data}) => {
     );
     return result.rows[0];
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -108,7 +108,7 @@ export const getNest = async (nestId) => {
     );
     return result.rows;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
@@ -134,6 +134,6 @@ export const getWSMessages = async (nestId, wsServerURL) => {
     );
     return result.rows;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }

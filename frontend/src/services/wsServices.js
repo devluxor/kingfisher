@@ -5,7 +5,9 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   const isCustomWSServer = !!wsServerURL
 
   if (!wsServerURL) {
-    wsServerURL = import.meta.env.DEV ? `ws://localhost:8080` : `wss://kingfisher.luxor.dev/ws`
+    wsServerURL = import.meta.env.DEV ? 
+      `ws://localhost:8080?nestId=${currentNestId}` : 
+      `wss://kingfisher.luxor.dev/ws?nestId=${currentNestId}`
   } 
 
   // connects to ws server in backend (either for the request ws connection, or custom-external ws connection)

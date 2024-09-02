@@ -20,7 +20,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-const temporaryNestIdValidator = (req, res, next) => {
+const nestIdValidator = (req, res, next) => {
   const UUID_CHARS = 22
   const UUID_REGEX = new RegExp(`^[A-Za-z0-9]{${UUID_CHARS}}$`, 'g')
   if (!req.params.nestId.match(UUID_REGEX)) {
@@ -33,5 +33,5 @@ const temporaryNestIdValidator = (req, res, next) => {
 export {
   unknownEndpoint,
   errorHandler,
-  temporaryNestIdValidator,
+  nestIdValidator,
 }

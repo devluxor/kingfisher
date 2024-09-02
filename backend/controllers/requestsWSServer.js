@@ -5,18 +5,20 @@ export default () => {
   const clients = {}
 
   const wsServer = new WebSocketServer({port: config.WS_PORT});
-  wsServer.on("connection", (ws, req) => {
+  wsServer.on("connection", (ws, request) => {
     console.log('📯 Web Socket Requests Backend Server connected!')
+    const nestId = request.url.split('=')[1]
+    clients[nestId] = ws
 
-    ws.on('message', (message) => {
-      const clientData = JSON.parse(message.toString())
+    // ws.on('message', (message) => {
+    //   const clientData = JSON.parse(message.toString())
 
-      if (!clients[clientData.nestId]) {
-        clients[clientData.nestId] = ws
-      }
+    //   if (!clients[clientData.nestId]) {
+    //     clients[clientData.nestId] = ws
+    //   }
 
-      console.log('🎨 Connection with frontend app established!', clientData)
-    });
+    //   console.log('🎨 Connection with frontend app established!', clientData)
+    // });
     
     ws.on("close", (code, reason) => {
       console.log('✖ Connection with client closed!')

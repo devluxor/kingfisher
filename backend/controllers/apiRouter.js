@@ -44,9 +44,6 @@ apiRouter.post('/createNest', async (req, res, next) => {
 
 // custom ws connections for external ws server - kingfisher backend client
 // (there can only be one custom connection per nest)
-
-// what if we open the same nest using another browser, and try to make another ws
-// custom connection while the initial is still on???????
 const wsConnections = {}
 
 apiRouter.post('/createWsConnection', async (req, res, next) => {
