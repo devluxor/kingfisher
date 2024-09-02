@@ -1,4 +1,5 @@
 import config from '../utils/config.js'
+import logger from "../utils/logger.js";
 import pkg from 'pg';
 const { Pool } = pkg;
 
@@ -14,10 +15,10 @@ const db = new Pool({
   try {
     const client = await db.connect();
     const result = await client.query('SELECT NOW()');
-    console.log(`🌮PostgreSQL connected successfully: ${result.rows[0].now}`);
+    logger.info(`🌮PostgreSQL connected successfully: ${result.rows[0].now}`);
   } catch (err) {
     logger.error(err);
-    console.log('🌋Error connecting to PostgreSQL');
+    logger.info('🌋Error connecting to PostgreSQL');
   }
 })();
 

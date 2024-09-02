@@ -2,6 +2,7 @@
 // present in other folders (`utils`, `controllers`...)
 import express from 'express'
 import cors from 'cors'
+import logger from "./utils/logger.js";
 
 // handles environment variables like passwords, api keys, ports, etc
 
@@ -18,12 +19,12 @@ app.use(cors())
 app.use(express.json())
 
 if (process.env.NODE_ENV === 'development') {
-  console.log('🎑 Developing!')
+  logger.info('🎑 Developing!')
   morgan.token('body', req => {
     return JSON.stringify(req.body)
   })
   app.use(morgan(':method :url :status :body'))
-  console.log('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
+  logger.info('SERVER STARTED 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟')
 }
 
 app.use('/api', apiRouter)

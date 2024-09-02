@@ -46,3 +46,15 @@ export const processRequest = (request) => {
 
   return processedRequest
 }
+
+export const processWSMessage = (messageEvent, nestId, wsServerURL) => {
+  const messageData = isJson(messageEvent) ? JSON.parse(messageEvent) : messageEvent
+  const processedMessage = {
+    id: generateId(),
+    nestId,
+    serverURL: wsServerURL, 
+    data: messageData,
+    arrivedOn: new Date(),
+  }
+  return processedMessage
+}
