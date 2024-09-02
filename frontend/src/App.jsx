@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useCallback } from "react"
 import { createNest, closeWSCustomClientInBackend, getNest } from "./services/testApi"
 import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
@@ -11,13 +11,22 @@ import WSCustomClient from './components/WSCustomClient.jsx'
 const developmentMode = import.meta.env.DEV
 
 function App() {
+  developmentMode && console.log('APP RENDERED')
+
   const [currentNest, setCurrentNest] = useState((c) => c)
   const [requests, setRequests] = useState([])
   const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
-
-  developmentMode && console.log('APP RENDERED')
   const navigate = useNavigate()
   const location = useLocation()
+
+  const loadNestData = useCallback((nestData) => {
+    const nest = processNest(nestData)
+    saveNestInHistoryCache(nest.id)
+    saveNestInLocalStorage(nest.id)
+    setCurrentNest(nest)
+    setRequests(nest.requests)
+    navigate(`/${nest.id}`, {replace: true})
+  }, [navigate])
 
   if (currentNest?.id) {
     setupHistoryCache(currentNest.id)
@@ -49,15 +58,6 @@ function App() {
       if (needsToCheckExistence) {
         nestInDB = validIDFormatInURL ? await getNest(nestIdInURL) : []
         isURLNestInDB = validIDFormatInURL && nestInDB.length > 0
-      }
-
-      const loadNestData = (nestData) => {
-        const nest = processNest(nestData)
-        saveNestInHistoryCache(nest.id)
-        saveNestInLocalStorage(nest.id)
-        setCurrentNest(nest)
-        setRequests(nest.requests)
-        navigate(`/${nest.id}`, {replace: true})
       }
 
       if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
@@ -110,7 +110,7 @@ function App() {
     })()
 
     return () => source.cancel()
-  }, [navigate, location, currentNest])
+  }, [navigate, location, currentNest, loadNestData])
 
   const resetCurrentNest = async () => {
     localStorage.removeItem('kingfisherNest')
