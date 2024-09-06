@@ -1,0 +1,94 @@
+
+.main-container.LowerSection {
+  height: max(100px, 35%);
+  background-color: rgb(61, 42, 42);
+  /* border: 1px solid salmon; */
+  display: flex;
+  justify-content: space-between;
+  /* justify-content: center; */
+}
+
+.request-details, .message-details {
+  border: 1px solid greenyellow;
+  width: max(600px, 36%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  /* display: none; */
+}
+
+.request-method, .message-server-url, .request-body-and-headers, .message-data {
+  width: max(500px, 95%);
+  height: 80px;
+  border-radius: 30px;
+  padding: 10px;
+  color: black;
+}
+
+.request-method {
+  /* font-weight: 900; */
+  font-size: 60px;
+  font-family: monospace;
+  display: flex;
+}
+
+.request-method > p {
+  font-size: 20px;
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.message-server-url {
+  font-size: 40px;
+  font-family: monospace;
+}
+
+
+.request-method, .request-body-and-headers  {
+  border: 1px solid red;
+  background-color: red;
+}
+
+
+.message-server-url, .message-data {
+  border: 1px solid white;
+}
+
+.request-body-and-headers, .message-data {
+  display: flex;
+  height: 100%;
+}
+
+.request-body-and-headers > div {
+  border: 1px solid pink;
+  background-color: red;
+}
+.message-details > div {
+  background-color: white;
+}
+
+.main-control-area {
+  width: max(100px, 28%);
+  border: 1px solid aqua;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.main-control-area > div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px
+}
+
+.requests-control, .messages-control {
+  border: 5px solid aqua;
+  border-radius: 30px;
+  width: 200px;
+}
+
+.main-controls {
+  border: 1px solid gray;
+}

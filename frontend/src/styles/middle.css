@@ -1,0 +1,31 @@
+
+.main-container.MiddleSection {
+  color: white;
+  height: max(300px, 45%);
+  background-color: rgb(36, 68, 57);
+  display: flex;
+}
+
+.title-container, .stats-container {
+  border: 1px solid white;
+  display: flex;
+}
+
+.title-container {
+  width: 60%;
+  /* flex-direction: column; */
+  /* justify-content: end; */
+  align-items: end;
+}
+
+.title-container h1 {
+  font-size: 95px;
+  margin-left: 80px;
+  margin-bottom: -10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.title-container h2 {
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 8px;
+}

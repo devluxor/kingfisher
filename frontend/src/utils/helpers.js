@@ -1,4 +1,4 @@
-import { testRequest } from "../services/testApi";
+import { testRequest } from "../services/serverAPI";
 
 const developmentMode = import.meta.env.DEV
 
@@ -85,4 +85,16 @@ export const isJson = (item) => {
   }
     
   return typeof value === "object" && value !== null;
+}
+
+export const isRequest = (item) => {
+  return item.method && item.headers
+}
+
+export const sortDescending = (elements) => {
+  return elements.sort((a, b) => {
+    const dateProperty = a.arrivedOn ? 'arrivedOn' : 'arrived_on'
+
+    return Date.parse(b[dateProperty]) - Date.parse(a[dateProperty])
+  })
 }

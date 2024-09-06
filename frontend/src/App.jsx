@@ -1,24 +1,41 @@
 import { useEffect, useState, useContext, useCallback } from "react"
-import { createNest, closeWSCustomClientInBackend, getNest } from "./services/testApi"
-import { test, copyNestId, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
+import { createNest, closeWSCustomClientInBackend, getNest, createWSCustomClientInBackend, getWSMessages } from "./services/serverAPI"
+import { test, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
-import RequestsList from './components/RequestsList.jsx'
 import { createWSClient } from "./services/wsServices.js"
-import WSCustomClient from './components/WSCustomClient.jsx'
 
+import UpperSection from "./components/upper/UpperSection.jsx"
+import MiddleSection from "./components/middle/MiddleSection.jsx"
+import LowerSection from "./components/lower/LowerSection.jsx"
 const developmentMode = import.meta.env.DEV
 
 function App() {
   developmentMode && console.log('APP RENDERED')
 
+  // State Management:
+  // General Nest:
   const [currentNest, setCurrentNest] = useState((c) => c)
-  const [requests, setRequests] = useState([])
-  const { activeWSConnection, setActiveWSConnection } = useContext(WSContext)
   const navigate = useNavigate()
   const location = useLocation()
+  const currentNestId = currentNest?.id
 
+  // Requests:
+  const [requests, setRequests] = useState([])
+  const [activeRequestId, setActiveRequestId] = useState(null)
+
+  // Custom WS Connection:
+  const { activeWSConnection, setActiveWSConnection } = useContext(WSContext) // unnecessary
+  const [connectionEstablished, setConnectionEstablished] = useState(connection => connection)
+  const [activeWS, setActiveWS] = useState(ws => ws)  
+  const [messages, setMessages] = useState([])
+  const [errorInConnection, setErrorInConnection] = useState(false)
+  const [wsServerURL, setWsServerURL] = useState('')
+  const [activeMessageId, setActiveMessageId] = useState(null)
+
+
+  // Nest Loading Process:
   const loadNestData = useCallback((nestData) => {
     const nest = processNest(nestData)
     saveNestInHistoryCache(nest.id)
@@ -45,6 +62,8 @@ function App() {
       const storedNestId = localStorage.kingfisherNest
       let needsToCheckExistence = true
       let isURLNestInDB;
+
+      // add order of branches, explanation as comments
 
       if (!validIDFormatInURL && !storedNestId) {
         developmentMode && console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
@@ -147,19 +166,112 @@ function App() {
     createWSClient(currentNest.id, null, setRequests)
   }, [currentNest])
 
+  // ws custom connection
+
+  useEffect(() => {
+    if (!activeWSConnection) {
+      setWsServerURL('')
+      setMessages([])
+      setActiveWS(false)
+      setConnectionEstablished(false)
+    }
+  }, [activeWSConnection]);
+
+  (async () => {
+    if (!errorInConnection) return;
+
+    try {
+      developmentMode && console.log('ERROR IN CONNECTION EXTERNAL WS SERVER - BACKEND WS CLIENT 👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢')
+      await closeWSCustomClientInBackend(currentNestId)
+      activeWS.close()
+      setWsServerURL('')
+      setMessages([])
+      setConnectionEstablished(false)
+      setActiveWS(false)
+      setErrorInConnection(false) 
+    } catch (e) {
+      console.error(e)
+    }
+  
+  })()
+
+  const createConnection = async () => {
+    try {
+      developmentMode && console.log('CREATING CLIENT IN THE FRONTEND')
+      const wsURL = developmentMode ? 
+        `ws://localhost:9090?nestId=${currentNestId}` : 
+        `wss://kingfisher.luxor.dev/ws-external?nestId=${currentNestId}`
+      const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection);
+      
+      setActiveWSConnection(ws)
+
+      window.addEventListener('beforeunload', async function() {
+        await closeWSCustomClientInBackend(currentNestId)
+        ws.close()
+        setConnectionEstablished(false)
+        setActiveWS(null)
+        window.removeEventListener('beforeunload', this)
+      })
+
+      setActiveWS(ws)
+      setConnectionEstablished(true)
+      const wsMessages = await getWSMessages(currentNestId, wsServerURL)
+      setMessages(wsMessages)
+
+      developmentMode && console.log('CREATING CUSTOM CLIENT SUBSCRIBED TO EXTERNAL WS SERVER IN THE BACKEND')
+      await createWSCustomClientInBackend(currentNestId, wsServerURL)
+
+      return ws
+    } catch (error) {
+      console.error(error)
+    } 
+  }
+
+  const closeConnection = async () => {
+    try {
+      developmentMode && console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
+      await closeWSCustomClientInBackend(currentNestId)
+      activeWS.close()
+      setMessages([])
+      setConnectionEstablished(false)
+    } catch (error) {
+      console.error(error)
+    } 
+  }
+
+  if (!currentNest) return <h1>Loading Nest</h1>
+
   return (
     <>
-      <h1>🐦Welcome to Kingfisher!🐦</h1>
-      <h3 > {currentNest ? `Current nest id: ${currentNest.id}` : 'loading nest'}</h3>
-      {currentNest && <button onClick={() => copyNestId((currentNest.id))}>Copy nest id</button>}
-      {currentNest && <button onClick={() => test(currentNest.id)}>Make test request</button>}
-      {currentNest && <button style={{background: 'red'}} onClick={resetCurrentNest}>Reset Current Nest</button>}
+      <UpperSection 
+        requests={requests} 
+        activeRequestId={activeRequestId} 
+        setActiveRequestId={setActiveRequestId}
+        messages={messages}
+        activeMessageId={activeMessageId} 
+        setActiveMessageId={setActiveMessageId}
+      />
+      
+      <MiddleSection currentNest={currentNest}/>
 
-      {currentNest ? <RequestsList requests={requests} setRequests={setRequests} />: 'loading nest'}
-
-      {currentNest ? <WSCustomClient currentNest={currentNest} />: 'loading nest'}
+      <LowerSection
+        currentNest={currentNest}
+        requests={requests} 
+        activeRequestId={activeRequestId}
+        testRequest={test}
+        resetCurrentNest={resetCurrentNest}
+        createConnection={createConnection}
+        closeConnection={closeConnection}
+        setMessages={setMessages}
+        wsServerURL={wsServerURL}
+        setWsServerURL={setWsServerURL}
+        connectionEstablished={connectionEstablished}
+        activeMessageId={activeMessageId}
+      />
     </>
   )
 }
+
+
 
 export default App

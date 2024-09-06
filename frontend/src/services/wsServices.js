@@ -1,4 +1,4 @@
-import { isJson } from "../utils/helpers"
+import { isJson, isRequest } from "../utils/helpers"
 
 const developmentMode = import.meta.env.DEV
 
@@ -32,6 +32,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
     const message = isJson(event.data) ? JSON.parse(event.data) : {data: event.data}
     developmentMode && console.log(message)
 
+
     if (message.error) {
       developmentMode && console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
       errorHandler(true)
@@ -39,7 +40,18 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
       return
     }
 
-    setter((previousState) => [...(previousState ? previousState : []), message])
+    const request = isRequest(message)
+    console.log(request)
+    const elements = document.querySelectorAll(`.${request? 'request' : 'message'}`);
+    elements.forEach((element) => {
+      element.classList.remove('new');
+      element.classList.remove(`slide-${request? 'right' : 'left'}`);
+      setTimeout(() => {
+        element.classList.add(`slide-${request? 'right' : 'left'}`);
+      }, 20)
+    });
+    console.log(message)
+    setter((previousState) => [message, ...(previousState ? previousState : [])])
   }
   
   const closeConnection = () => ws.close(1000, currentNestId)

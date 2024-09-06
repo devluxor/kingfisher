@@ -1,11 +1,7 @@
-import { isValidWSURL } from "../utils/helpers"
+import { isValidWSURL } from "../../utils/helpers"
 
-const developmentMode = import.meta.env.DEV
+const MainControls = ({currentNest, testRequest, setWsServerURL, connectionEstablished, createConnection, closeConnection, wsServerURL, resetCurrentNest}) => {
 
-
-const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWsServerURL, connectionEstablished}) => {
-  developmentMode && console.log('WSConnectionForm rendered')
-    
   const connectionOn = (e) => {
     e.preventDefault()
     if (!isValidWSURL(wsServerURL)) return
@@ -20,6 +16,14 @@ const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWs
   }
 
   return (
+    <div className='main-control-area'>
+    <div className='requests-control'>
+      <button>Copy nest id</button>
+      <button onClick={() => testRequest(currentNest.id)}>Generate test request</button>
+      <button onClick={resetCurrentNest}>New nest</button>
+    </div>
+    <div className='main-controls'>Controls</div>
+    <div className='messages-control'>
     <form>
       <label htmlFor="wsServerURL">Target WS Server URL</label><br/>
       <input 
@@ -34,7 +38,9 @@ const WSConnectionForm = ({createConnection, closeConnection, wsServerURL, setWs
       {!connectionEstablished && <button onClick={e => connectionOn(e)}>Connect to WS server</button>}
       {connectionEstablished && <button onClick={e => connectionOff(e)}>Disconnect from WS Server</button>}
     </form>
+    </div>
+  </div>
   )
 }
 
-export default WSConnectionForm
+export default MainControls

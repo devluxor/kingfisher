@@ -1,0 +1,141 @@
+
+.main-container.UpperSection {
+  height: max(100px, 20%);
+  background-color: black;
+  /* border: 1px solid salmon; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+
+.arrived-elements {
+  width: 100%;
+  background-color: rgb(90, 87, 87);
+  min-height: 30px;
+  display: flex;
+  gap: 10px;
+  padding-left: 10px;
+  /* justify-content: ; */
+  /* overflow-x: auto; */
+}
+
+.arrived-elements > .request {
+  color: black;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  margin-left: 10px;
+  /* transition: transform 0.3s ease; */
+}
+
+.request.new {
+  border: 2px solid gold;
+  animation-name: request-enter;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  background-color: aliceblue;
+}
+
+.request.active {
+  border: 2px solid greenyellow;
+}
+
+.request.slide-right {
+  animation-name: slide-right;
+  animation-duration: 0.6s;
+  animation-timing-function: ease-out;
+  animation-fill-mode:forwards;
+}
+
+@keyframes request-enter {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+  
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+.arrived-elements.messages {
+  flex-direction: row-reverse;
+}
+
+.arrived-elements > .message {
+  color: black;
+  background-color: white;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  margin-right: 10px ;
+  /* border: 1px solid black; */
+}
+
+.message.new {
+  animation-name: message-enter;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  background-color: aliceblue;
+  border: 2px solid gold;
+}
+
+.message.active {
+  border: 1px solid rgb(51, 255, 0);
+}
+
+.slide-left {
+  animation-name: slide-left;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode:forwards;
+}
+
+@keyframes message-enter {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+  
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-30px);
+  }
+}
+
+
+.request.red {
+  background-color: red;
+}
+.request.green {
+  
+  background-color: green;
+}
+.request.yellow {
+  background-color: yellow;
+  
+}
+.request.blue {
+  background-color: blue;
+}
+
+
