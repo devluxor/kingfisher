@@ -1,7 +1,3 @@
-import { testRequest } from "../services/serverAPI";
-
-const developmentMode = import.meta.env.DEV
-
 export const normalizeNest = (sqlNest) => {
   return {
     id: sqlNest[0].nest_id,
@@ -9,14 +5,6 @@ export const normalizeNest = (sqlNest) => {
     host: sqlNest[0].nest_host_name,
     createdOn: sqlNest[0].nest_created_on,
     requests: sqlNest[0].id ? sqlNest : [],
-  }
-}
-
-export const test = async (nestId) => {
-  try {
-    await testRequest(nestId)
-  } catch (error) {
-    console.error(error)
   }
 }
 

@@ -63,3 +63,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
 
   return ws
 }
+
+export const createRequestUpdaterWSConnection = async (currentNestId, setRequests) => {
+  createWSClient(currentNestId, null, setRequests)
+}
