@@ -1,14 +1,15 @@
 import { useEffect, useState, useContext, useCallback } from "react"
-import { createNest, closeWSCustomClientInBackend, getNest, createWSCustomClientInBackend, getWSMessages } from "./services/serverAPI"
-import { test, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, normalizeNest } from './utils/helpers'
-import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
-import axios from "axios"
+import { createNest, testRequest, closeWSCustomClientInBackend, getNest, createWSCustomClientInBackend, getWSMessages } from "./services/serverAPI"
+import { setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, normalizeNest } from './utils/helpers'
 import { useLocation, useNavigate } from "react-router-dom"
-import { createWSClient } from "./services/wsServices.js"
+import { createRequestUpdaterWSConnection, createWSClient } from "./services/wsServices.js"
 
+import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import UpperSection from "./components/upper/UpperSection.jsx"
 import MiddleSection from "./components/middle/MiddleSection.jsx"
 import LowerSection from "./components/lower/LowerSection.jsx"
+
+import axios from "axios"
 const developmentMode = import.meta.env.DEV
 
 function App() {
@@ -37,7 +38,8 @@ function App() {
 
   // Nest Loading Process:
 
-
+  // this callback is used within the main useEffect hook below, but it's only
+  // defined once thanks to the useCallback hook.
   const loadNestData = useCallback((nestData) => {
     const nest = normalizeNest(nestData)
     saveNestInHistoryCache(nest.id)
@@ -47,10 +49,21 @@ function App() {
     navigate(`/${nest.id}`, {replace: true})
   }, [navigate])
 
-  if (currentNest?.id) {
+  if (currentNest) {
     setupHistoryCache(currentNest.id)
   }
   
+  // The following useEffect hook controls what happens when the user navigates to the website,
+  // considering different cases and outcomes:
+  // 1.- Nest Id in URL invalid or absent, no nest in state, and no nest id in cache => creates new nest
+  // 2.- Nest Id in URL is equal to the nest already in state => does nothing
+  // 3.- Nest Id in URL does not exist in DB, BUT WITH THE CORRECT FORMAT =>  creating new nest
+  // 4.- Nest Id in URL valid, and corresponding nest exists in db => API call to load that nest from DB
+  // 5.- Nest Id in URL invalid or absent, no nest in state, BUT valid nest Id in cache => API call to load nest
+  //
+  // It has been optimized to a certain degree
+  // to avoid unnecessary API calls to the backend server.
+
   useEffect(() => {
     developmentMode && console.log('🤖 use effect to get new nest in action')
     // removes trailing forward slash:
@@ -65,12 +78,12 @@ function App() {
       let needsToCheckExistence = true
       let isURLNestInDB;
 
-      // add order of branches, explanation as comments
-
       if (!validIDFormatInURL && !storedNestId) {
+        // Outcome #1
         developmentMode && console.log('nest id in url invalid OR EMPTY, no currentNest, creating new nest...')
         needsToCheckExistence = false
       } else if (validIDFormatInURL && nestIdInURL === currentNest?.id) {
+        // Outcome #2
         developmentMode && console.log('id in url === current nest id, doing nothing, as the nest is already loaded')
         return
       }
@@ -82,8 +95,10 @@ function App() {
       }
 
       if (needsToCheckExistence && validIDFormatInURL && !isURLNestInDB) {
+        // Outcome #3
         developmentMode && console.log('🍕 invalid nest id in url, BUT WITH THE CORRECT FORMAT, creating new nest...')
       } else if (needsToCheckExistence && validIDFormatInURL && isURLNestInDB) {
+        // Outcome #4
         developmentMode && console.log('url nest id valid, and nest exists in db, changing to nest from url...')
 
         try {
@@ -98,6 +113,7 @@ function App() {
       const storedNest = await getNest(storedNestId)
       const storedNestIsInDB = storedNest.length > 0
       if (needsToCheckExistence && storedNestIsInDB) {
+        // Outcome #5
         developmentMode && console.log('url id absent, stored nest is in DB, changing to nest from url...')
     
         try {
@@ -138,7 +154,7 @@ function App() {
     try {
       if (activeWSConnection) {
         console.log(activeWSConnection)
-        await closeWSCustomClientInBackend(currentNest.id)
+        await closeWSCustomClientInBackend(currentNestId)
         activeWSConnection.close()
         setActiveWSConnection(null)
       }
@@ -161,15 +177,18 @@ function App() {
     }
   }
 
-  // ws client to get requests without HTTP req/res cycles
+  // Updates arrived requests live, without the need of polling
   useEffect(() => {
-    if (!currentNest) return
+    if (!currentNestId) return
 
-    createWSClient(currentNest.id, null, setRequests)
-  }, [currentNest])
+    createRequestUpdaterWSConnection(currentNestId, setRequests)
+  }, [currentNestId])
 
-  // ws custom connection
+  // end of request processing.
 
+  // Custom WS connection management:
+
+  // Clears WS connection state if none is active
   useEffect(() => {
     if (!activeWSConnection) {
       setWsServerURL('')
@@ -179,6 +198,7 @@ function App() {
     }
   }, [activeWSConnection]);
 
+  // Clears WS connection state and closes it if there was an error
   (async () => {
     if (!errorInConnection) return;
 
@@ -197,7 +217,7 @@ function App() {
   
   })()
 
-  const createConnection = async () => {
+  const createCustomWSConnection = async () => {
     try {
       developmentMode && console.log('CREATING CLIENT IN THE FRONTEND')
       const wsURL = developmentMode ? 
@@ -229,7 +249,7 @@ function App() {
     } 
   }
 
-  const closeConnection = async () => {
+  const closeCustomWSConnection = async () => {
     try {
       developmentMode && console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
@@ -241,7 +261,7 @@ function App() {
     } 
   }
 
-  if (!currentNest) return <h1>Loading Nest</h1>
+  if (!currentNest) return 
 
   return (
     <>
@@ -249,6 +269,7 @@ function App() {
         requests={requests} 
         activeRequestId={activeRequestId} 
         setActiveRequestId={setActiveRequestId}
+
         messages={messages}
         activeMessageId={activeMessageId} 
         setActiveMessageId={setActiveMessageId}
@@ -258,12 +279,14 @@ function App() {
 
       <LowerSection
         currentNest={currentNest}
+
         requests={requests} 
         activeRequestId={activeRequestId}
-        testRequest={test}
+        testRequest={testRequest}
         resetCurrentNest={resetCurrentNest}
-        createConnection={createConnection}
-        closeConnection={closeConnection}
+
+        createConnection={createCustomWSConnection}
+        closeConnection={closeCustomWSConnection}
         setMessages={setMessages}
         wsServerURL={wsServerURL}
         setWsServerURL={setWsServerURL}
