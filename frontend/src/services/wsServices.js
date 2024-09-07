@@ -40,17 +40,16 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
       return
     }
 
-    const request = isRequest(message)
-    console.log(request)
-    const elements = document.querySelectorAll(`.${request? 'request' : 'message'}`);
+    const isRequestMessage = isRequest(message)
+    const elements = document.querySelectorAll(`.${isRequestMessage? 'request' : 'message'}`);
     elements.forEach((element) => {
       element.classList.remove('new');
-      element.classList.remove(`slide-${request? 'right' : 'left'}`);
+      element.classList.remove(`slide-${isRequestMessage? 'right' : 'left'}`);
       setTimeout(() => {
-        element.classList.add(`slide-${request? 'right' : 'left'}`);
+        element.classList.add(`slide-${isRequestMessage? 'right' : 'left'}`);
       }, 20)
     });
-    console.log(message)
+
     setter((previousState) => [message, ...(previousState ? previousState : [])])
   }
   
