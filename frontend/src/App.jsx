@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useCallback } from "react"
 import { createNest, closeWSCustomClientInBackend, getNest, createWSCustomClientInBackend, getWSMessages } from "./services/serverAPI"
-import { test, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, processNest } from './utils/helpers'
+import { test, setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, normalizeNest } from './utils/helpers'
 import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -36,8 +36,10 @@ function App() {
 
 
   // Nest Loading Process:
+
+
   const loadNestData = useCallback((nestData) => {
-    const nest = processNest(nestData)
+    const nest = normalizeNest(nestData)
     saveNestInHistoryCache(nest.id)
     saveNestInLocalStorage(nest.id)
     setCurrentNest(nest)
@@ -51,7 +53,7 @@ function App() {
   
   useEffect(() => {
     developmentMode && console.log('🤖 use effect to get new nest in action')
-    // removes final forward slash:
+    // removes trailing forward slash:
     const nestIdInURL = location.pathname.slice(1);
 
     const cancelToken = axios.CancelToken;

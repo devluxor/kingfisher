@@ -2,7 +2,7 @@ import { testRequest } from "../services/serverAPI";
 
 const developmentMode = import.meta.env.DEV
 
-export const processNest = (sqlNest) => {
+export const normalizeNest = (sqlNest) => {
   return {
     id: sqlNest[0].nest_id,
     ip: sqlNest[0].nest_ip,
