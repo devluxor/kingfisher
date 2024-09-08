@@ -33,7 +33,7 @@ export const processRequest = (request) => {
   const body = request.body
   const arrivedOn = new Date()
   const id = generateId()
-
+  console.log(request)
   const processedRequest = { 
     id, 
     nestId, 
@@ -44,6 +44,7 @@ export const processRequest = (request) => {
     arrivedOn, 
   }
 
+  console.log(processedRequest)
   return processedRequest
 }
 

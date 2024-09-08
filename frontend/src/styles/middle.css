@@ -1,7 +1,7 @@
 
-.main-container.MiddleSection {
+.main-container.middle {
   color: white;
-  height: max(300px, 45%);
+  height: max(200px, 40%);
   background-color: rgb(36, 68, 57);
   display: flex;
 }
@@ -16,16 +16,15 @@
   /* flex-direction: column; */
   /* justify-content: end; */
   align-items: end;
+  padding-bottom: 5px;
 }
 
 .title-container h1 {
   font-size: 95px;
   margin-left: 80px;
-  margin-bottom: -10px;
-  font-family: 'Courier New', Courier, monospace;
 }
 
 .title-container h2 {
-  font-family: 'Courier New', Courier, monospace;
   margin-bottom: 8px;
 }
+

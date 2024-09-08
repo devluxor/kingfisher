@@ -3,7 +3,7 @@ const MiddleSection = ({currentNest}) => {
   console.log('MID RENDERED')
 
   return (
-    <section className='main-container MiddleSection'>
+    <section className='main-container middle'>
 
       <div className='title-container'>
         <h1>Kingfisher</h1>

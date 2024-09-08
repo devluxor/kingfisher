@@ -1,5 +1,5 @@
 
-.main-container.UpperSection {
+.main-container.upper {
   height: max(100px, 20%);
   background-color: black;
   /* border: 1px solid salmon; */
@@ -12,7 +12,7 @@
 
 .arrived-elements {
   width: 100%;
-  background-color: rgb(90, 87, 87);
+  /* background-color: rgb(90, 87, 87); */
   min-height: 30px;
   display: flex;
   gap: 10px;
@@ -122,20 +122,18 @@
   }
 }
 
-
 .request.red {
   background-color: red;
 }
+
 .request.green {
-  
   background-color: green;
 }
+
 .request.yellow {
   background-color: yellow;
-  
 }
+
 .request.blue {
   background-color: blue;
 }
-
-

@@ -63,11 +63,11 @@ export const isValidWSURL = (url) => {
   return url.match(wsRegexp)
 }
 
-export const isJson = (item) => {
-  let value = typeof item !== "string" ? JSON.stringify(item) : item;
+export const isJSON = (item) => {
+  let value
 
   try {
-    value = JSON.parse(value);
+    value = JSON.parse(item);
   } catch (e) {
     return false;
   }
@@ -86,3 +86,11 @@ export const sortDescending = (elements) => {
     return Date.parse(b[dateProperty]) - Date.parse(a[dateProperty])
   })
 }
+
+let a = {1: 1}
+let b = JSON.stringify(a)
+let c = undefined
+
+console.log(isJSON(a))
+console.log(isJSON(b))
+console.log(isJSON(c))

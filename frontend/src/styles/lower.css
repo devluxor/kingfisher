@@ -1,27 +1,32 @@
 
-.main-container.LowerSection {
-  height: max(100px, 35%);
+.main-container.lower {
+  height: max(100px, 40%);
   background-color: rgb(61, 42, 42);
   /* border: 1px solid salmon; */
   display: flex;
   justify-content: space-between;
   /* justify-content: center; */
+  /* height: 100%; */
 }
 
 .request-details, .message-details {
   border: 1px solid greenyellow;
-  width: max(600px, 36%);
+  width: max(300px, 43%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 10px 0;
+  padding: 5px;
   /* display: none; */
 }
 
-.request-method, .message-server-url, .request-body-and-headers, .message-data {
-  width: max(500px, 95%);
-  height: 80px;
+.message-details {
+  width: max(100px, 26%);
+}
+
+.request-method, .message-server-url, .request-main-details, .message-data {
+  width: max(300px, 100%);
+  height: 22%;
   border-radius: 30px;
   padding: 10px;
   color: black;
@@ -29,24 +34,24 @@
 
 .request-method {
   /* font-weight: 900; */
-  font-size: 60px;
+  /* font-size: 60px; */
   font-family: monospace;
   display: flex;
+  align-items: center;
 }
 
-.request-method > p {
-  font-size: 20px;
-  margin-top: 32px;
-  margin-left: 20px;
+.request-method > h1 {
+  font-size: 30px;
+  /* margin-top: 32px;
+  margin-left: 20px; */
 }
 
 .message-server-url {
-  font-size: 40px;
+  font-size: 15px;
   font-family: monospace;
 }
 
-
-.request-method, .request-body-and-headers  {
+.request-method, .request-main-details  {
   border: 1px solid red;
   background-color: red;
 }
@@ -56,39 +61,104 @@
   border: 1px solid white;
 }
 
-.request-body-and-headers, .message-data {
+.request-main-details, .message-data {
   display: flex;
   height: 100%;
+  gap: 10px;
 }
 
-.request-body-and-headers > div {
-  border: 1px solid pink;
-  background-color: red;
+.request-main-details {
+  flex-direction: column;
+  gap: 0px;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
+
+.request-main-details > div.tabs > div:hover {
+  background-color: black;
+  cursor: pointer;
+}
+.request-main-details > div.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tabs > div.active {
+  background-color: black;
+}
+
+.request-main-details > div.content {
+  display: flex;
+  background-color: black;
+  height: 100%;
+  color: red;
+  /* overflow: scroll; */
+}
+
 .message-details > div {
   background-color: white;
 }
 
 .main-control-area {
-  width: max(100px, 28%);
+  width: max(100px, 30%);
   border: 1px solid aqua;
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  gap: 10px;
 }
 
 .main-control-area > div {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   padding: 10px
 }
 
 .requests-control, .messages-control {
   border: 5px solid aqua;
   border-radius: 30px;
-  width: 200px;
+  width: max(33%, 150px);
+  width: 100%;
+  transition: all 0.5 ease;
+  /* visibility: collapse; */
+}
+
+.expandable {
+  scrollbar-width: none;
+  width: 0;
+  visibility: collapse;
+  opacity: 0;
+  overflow: scroll;
+  transition: width 1s, opacity 1s, overflow 1s;
+  background-color: lightblue;
+  /* height: 50px; */
+  
+}
+
+.expandable.visible {
+  width: 100%;
+  visibility: visible;
+  overflow: scroll;
+  opacity: 1;
+}
+
+.expandable.invisible {
+  width: 0;
+  transition: width 1s, opacity 1s, overflow 1s;
+  /* visibility: collapse; */
+  opacity: 0;
+  overflow: scroll;
+}
+
+
+
+.messages-control input,
+.messages-control button {
+  width: 100%;
 }
 
 .main-controls {
   border: 1px solid gray;
+  width: 90px;
 }

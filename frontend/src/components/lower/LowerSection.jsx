@@ -19,9 +19,7 @@ const LowerSection = ({
   const activeRequest = requests.find(r => r.id === activeRequestId)
 
   return (
-    <section className='main-container LowerSection'>
-
-
+    <section className='main-container lower'>
       <RequestDetails activeRequest={activeRequest}/>
 
       <MainControls 

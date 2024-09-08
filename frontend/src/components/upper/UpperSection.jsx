@@ -16,7 +16,7 @@ const UpperSection = ({
   const newRequestId = requests[0]?.id
   const newMessageId = messages[0]?.id
   return (
-    <section className='main-container UpperSection'>
+    <section className='main-container upper'>
       <div className='arrived-elements requests'>
         {requests.map(r => {
           return <RequestListElement 
@@ -44,15 +44,18 @@ const UpperSection = ({
 }
 
 const RequestListElement = ({r, activeRequestId, setActiveRequestId, newRequestId}) => {
-  return <div 
-    onClick={() => setActiveRequestId(r.id)} 
-    key={r.id} 
-    className={`
-      request red 
-      ${r.id === activeRequestId ? 'active' : ''} 
-      ${r.id === newRequestId? 'new' : 'slide-right' } 
-    `}
-  >R{r.id[0]}</div>
+  console.log(activeRequestId)
+  return (
+    <div 
+      onClick={() => setActiveRequestId(r.id)} 
+      key={r.id} 
+      className={`
+        request red 
+        ${r.id === activeRequestId ? 'active' : ''} 
+        ${r.id === newRequestId? 'new' : 'slide-right' } 
+      `}
+    >R{r.id[0]}</div>
+  )
 }
 
 const MessageListElement = ({m, activeMessageId, setActiveMessageId, newMessageId}) => {
