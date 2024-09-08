@@ -21,7 +21,13 @@ export const generateId = () => {
 }
 
 export const isValidWSURL = (url) => {
+  const MAX_PORT = 65535
   const wsRegexp = /^(ws|wss|http|https):\/\/(?:[a-zA-Z0-9-.]+)+[a-zA-Z]{2,6}(?::\d{1,5})?(?:\/[^\s]*)?$/g
+  const portNumber = url.match(/:(\d+)/)
+  if (portNumber) {
+    return url.match(wsRegexp) && Number(portNumber[1]) <= MAX_PORT 
+  }
+  
   return url.match(wsRegexp)
 }
 

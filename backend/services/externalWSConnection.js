@@ -22,6 +22,8 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   
   if (!isValidWSURL(wsServerURL)) {
     logger.error('WebSocket error: INVALID WS SERVER URL')
+    const clients = (() => frontendWSClients)();
+    setTimeout(() => clients[nestId]?.send(JSON.stringify({error: 'invalid port number'})), 2000)
     return
   };
   

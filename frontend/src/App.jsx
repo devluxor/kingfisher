@@ -4,7 +4,7 @@ import { setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isVa
 import { useLocation, useNavigate } from "react-router-dom"
 import { createRequestUpdaterWSConnection, createWSClient } from "./services/wsServices.js"
 
-import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
+// import { WSContext } from "./utils/contexts/ExternalWSConnection.jsx"
 import UpperSection from "./components/upper/UpperSection.jsx"
 import MiddleSection from "./components/middle/MiddleSection.jsx"
 import LowerSection from "./components/lower/LowerSection.jsx"
@@ -27,7 +27,8 @@ function App() {
   const [activeRequestId, setActiveRequestId] = useState(null)
 
   // Custom WS Connection:
-  const { activeWSConnection, setActiveWSConnection } = useContext(WSContext) // unnecessary
+  // const { activeWSConnection, setActiveWSConnection } = useContext(WSContext) // unnecessary
+  const [ activeWSConnection, setActiveWSConnection ] = useState(c => c) 
   const [connectionEstablished, setConnectionEstablished] = useState(connection => connection)
   const [activeWS, setActiveWS] = useState(ws => ws)  
   const [messages, setMessages] = useState([])
