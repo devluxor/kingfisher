@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useCallback } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { createNest, testRequest, closeWSCustomClientInBackend, getNest, createWSCustomClientInBackend, getWSMessages } from "./services/serverAPI"
 import { setupHistoryCache, saveNestInHistoryCache, saveNestInLocalStorage, isValidNestId, normalizeNest } from './utils/helpers'
 import { useLocation, useNavigate } from "react-router-dom"
@@ -27,7 +27,6 @@ function App() {
   const [activeRequestId, setActiveRequestId] = useState(null)
 
   // Custom WS Connection:
-  // const { activeWSConnection, setActiveWSConnection } = useContext(WSContext) // unnecessary
   const [ activeWSConnection, setActiveWSConnection ] = useState(c => c) 
   const [connectionEstablished, setConnectionEstablished] = useState(connection => connection)
   const [activeWS, setActiveWS] = useState(ws => ws)  
