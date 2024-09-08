@@ -5,7 +5,6 @@ const RequestDetails = ({activeRequest}) => {
   const [activeTab, setActiveTab] = useState(c => c || 'Details')
 
   const activateTab = (e) => {
-    console.log(e)
     const tabs = document.querySelectorAll('.tabs > div')
     tabs.forEach(t => t.classList.remove('active'))
 

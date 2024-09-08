@@ -86,11 +86,3 @@ export const sortDescending = (elements) => {
     return Date.parse(b[dateProperty]) - Date.parse(a[dateProperty])
   })
 }
-
-let a = {1: 1}
-let b = JSON.stringify(a)
-let c = undefined
-
-console.log(isJSON(a))
-console.log(isJSON(b))
-console.log(isJSON(c))

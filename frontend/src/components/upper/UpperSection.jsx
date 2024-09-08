@@ -44,7 +44,6 @@ const UpperSection = ({
 }
 
 const RequestListElement = ({r, activeRequestId, setActiveRequestId, newRequestId}) => {
-  console.log(activeRequestId)
   return (
     <div 
       onClick={() => setActiveRequestId(r.id)} 
