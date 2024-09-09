@@ -41,20 +41,21 @@ export const storeNest = async (nestId, ip, hostName) => {
   }
 }
 
-export const storeRequest = async ({id, nestId, method, path, headers, body}) => {
+export const storeRequest = async ({id, nestId, method, path, query, headers, body}) => {
+  const queryJSON = JSON.stringify(query)
   const headersJSON = JSON.stringify(headers)
   const bodyJSON = JSON.stringify(body)
   const sqlQuery = `
       INSERT INTO 
-        requests (id, nest_id, method, path, headers, body, arrived_on) 
+        requests (id, nest_id, method, path, query, headers, body, arrived_on) 
       VALUES 
-        ($1, $2, $3, $4, $5, $6, NOW())
+        ($1, $2, $3, $4, $5, $6, $7, NOW())
       `
 
   try {
     const result = await db.query(
       sqlQuery,
-      [id, nestId, method, path, headersJSON, bodyJSON]
+      [id, nestId, method, path, queryJSON, headersJSON, bodyJSON]
     );
     return result.rows[0];
   } catch (error) {

@@ -34,16 +34,17 @@ export const isValidWSURL = (url) => {
 export const processRequest = (request) => {
   const nestId = request.params.nestId
   const method = request.method
+  const query = request.query
   const path = request.params[0]
   const headers = request.headers
   const body = request.body
   const arrivedOn = new Date()
   const id = generateId()
-  console.log(request)
   const processedRequest = { 
     id, 
     nestId, 
-    path, 
+    path,
+    query, 
     headers, 
     method, 
     body,
