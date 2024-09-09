@@ -92,6 +92,7 @@ export const getNest = async (nestId) => {
         nests.created_on AS nest_created_on,
         requests.id,
         requests.method,
+        requests.query,
         requests.path,
         requests.headers,
         requests.body,
