@@ -28,7 +28,6 @@ function App() {
   // Custom WS Connection:
   const [ activeWSConnection, setActiveWSConnection ] = useState(c => c) 
   const [connectionEstablished, setConnectionEstablished] = useState(connection => connection)
-  const [activeWS, setActiveWS] = useState(ws => ws)  
   const [messages, setMessages] = useState([])
   const [errorInConnection, setErrorInConnection] = useState(false)
   const [wsServerURL, setWsServerURL] = useState('')
@@ -175,7 +174,7 @@ function App() {
       console.error(error)
     }
   }
-  console.log(currentNest)
+
   // Updates arrived requests live, without the need of polling
   useEffect(() => {
     if (!currentNestId) return
@@ -192,8 +191,8 @@ function App() {
     if (!activeWSConnection) {
       setWsServerURL('')
       setMessages([])
-      setActiveWS(false)
       setConnectionEstablished(false)
+      setActiveWSConnection(null)
     }
   }, [activeWSConnection]);
 
@@ -204,11 +203,11 @@ function App() {
     try {
       developmentMode && console.log('ERROR IN CONNECTION EXTERNAL WS SERVER - BACKEND WS CLIENT 👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢👢')
       await closeWSCustomClientInBackend(currentNestId)
-      activeWS.close()
+      activeWSConnection.close()
       setWsServerURL('')
       setMessages([])
       setConnectionEstablished(false)
-      setActiveWS(false)
+      setActiveWSConnection(null)
       setErrorInConnection(false) 
     } catch (e) {
       console.error(e)
@@ -229,12 +228,13 @@ function App() {
       window.addEventListener('beforeunload', async function() {
         await closeWSCustomClientInBackend(currentNestId)
         ws.close()
+        activeWSConnection?.close()
         setConnectionEstablished(false)
-        setActiveWS(null)
+        setActiveWSConnection(null)
         window.removeEventListener('beforeunload', this)
       })
 
-      setActiveWS(ws)
+      setActiveWSConnection(ws)
       setConnectionEstablished(true)
       const wsMessages = await getWSMessages(currentNestId, wsServerURL)
       setMessages(wsMessages)
@@ -252,7 +252,7 @@ function App() {
     try {
       developmentMode && console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
-      activeWS.close()
+      activeWSConnection.close()
       setMessages([])
       setConnectionEstablished(false)
     } catch (error) {
@@ -292,6 +292,7 @@ function App() {
         setWsServerURL={setWsServerURL}
         connectionEstablished={connectionEstablished}
         activeMessageId={activeMessageId}
+        activeWSConnection={activeWSConnection}
       />
     </>
   )

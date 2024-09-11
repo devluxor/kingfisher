@@ -26,17 +26,20 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     setTimeout(() => clients[nestId]?.send(JSON.stringify({error: 'invalid port number'})), 2000)
     return
   };
-  
+
   const ws = new WebSocket(wsServerURL)
   
   ws.addEventListener("open", () => {
     logger.info(`🏠 Custom WebSocket Client connected in backend to external server: `, wsServerURL)
   })
-  
+
   ws.addEventListener("error", (event) => {
     const clients = (() => frontendWSClients)();
     logger.error("WebSocket error: ", event.error);
-    setTimeout(() => clients[nestId]?.send(JSON.stringify({error: event.error})), 2000)
+    setTimeout(() => {
+      clients[nestId].send(JSON.stringify({error: event.error}))
+      logger.info('error message sent to: ', clients[nestId])
+    }, 2000)
     ws.close()
   });
 

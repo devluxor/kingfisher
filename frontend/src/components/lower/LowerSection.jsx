@@ -15,6 +15,7 @@ const LowerSection = ({
   setWsServerURL, 
   connectionEstablished,
   activeMessageId,
+  activeWSConnection
 }) => {
 
   const activeRequest = requests.find(r => r.id === activeRequestId)
@@ -40,6 +41,7 @@ const LowerSection = ({
         activeMessageId={activeMessageId} 
         connectionEstablished={connectionEstablished} 
         wsServerURL={wsServerURL}
+        activeWSConnection={activeWSConnection}
       />
 
     </section>

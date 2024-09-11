@@ -20,7 +20,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
     developmentMode && console.log(`📯WS${isCustomWSServer? ' Custom' : ''} Client Created!`)
     developmentMode && console.log(`📯Connection to WS${isCustomWSServer? ' Custom' : ''} Server Enabled!`)
 
-    developmentMode && ws.send(JSON.stringify({
+    ws.send(JSON.stringify({
       status: `WS Connection established from${isCustomWSServer? ' Custom' : ''} Client`,
       connected: true,
       nestId: currentNestId
