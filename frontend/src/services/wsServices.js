@@ -28,10 +28,9 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   }
 
   const onMessageReceived = (event) => {
-    developmentMode && console.log(`📩 Message received from WS${isCustomWSServer? ' Custom' : ''} Server!`)
+    developmentMode && console.log(`📩 Message received from the Backend!`)
     const message = isJSON(event.data) ? JSON.parse(event.data) : {data: event.data}
     developmentMode && console.log(message)
-
 
     if (message.error) {
       developmentMode && console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')

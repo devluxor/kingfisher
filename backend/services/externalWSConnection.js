@@ -18,8 +18,6 @@ wsLocalServer.on('connection', (ws, request) => {
 // 1: this client will receive messages from the external WS server
 // located using the URL introduced in the frontend input
 export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
-  logger.info(wsServerURL)
-  
   if (!isValidWSURL(wsServerURL)) {
     logger.error('WebSocket error: INVALID WS SERVER URL')
     const clients = (() => frontendWSClients)();
@@ -27,27 +25,29 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     return
   };
 
-  const ws = new WebSocket(wsServerURL)
+  let ws
+  try {
+    ws = new WebSocket(wsServerURL)
+  } catch (e) {
+    console.error(e)
+  }
   
   ws.addEventListener("open", () => {
     logger.info(`🏠 Custom WebSocket Client connected in backend to external server: `, wsServerURL)
   })
 
   ws.addEventListener("error", (event) => {
-    const clients = (() => frontendWSClients)();
     logger.error("WebSocket error: ", event.error);
-    setTimeout(() => {
-      clients[nestId].send(JSON.stringify({error: event.error}))
-      logger.info('error message sent to: ', clients[nestId])
-    }, 2000)
+    const clients = (() => frontendWSClients)();
+    clients[nestId]?.send(JSON.stringify({error: event.error}))
     ws.close()
   });
 
   ws.addEventListener("message", async (event) => {
-    const clients = (() => frontendWSClients)();
     const processedMessage = processWSMessage(event.data, nestId, wsServerURL)
     logger.info(`🚀 Message from external WebSocket server ${wsServerURL} received by backend client`, event.data)
     await storeWSMessage(processedMessage)
+    const clients = (() => frontendWSClients)();
     clients[nestId]?.send(JSON.stringify(processedMessage))
   })
 
