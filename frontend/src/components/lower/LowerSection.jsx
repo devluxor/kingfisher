@@ -8,6 +8,7 @@ const LowerSection = ({
   activeRequestId, 
   testRequest, 
   resetCurrentNest,
+  messages,
   createConnection, 
   closeConnection, 
   wsServerURL, 
@@ -17,6 +18,7 @@ const LowerSection = ({
 }) => {
 
   const activeRequest = requests.find(r => r.id === activeRequestId)
+  const activeMessage = messages.find(r => r.id === activeMessageId)
 
   return (
     <section className='main-container lower'>
@@ -34,6 +36,7 @@ const LowerSection = ({
       />
 
       <CustomWSConnectionDetails
+        activeMessage={activeMessage}
         activeMessageId={activeMessageId} 
         connectionEstablished={connectionEstablished} 
         wsServerURL={wsServerURL}

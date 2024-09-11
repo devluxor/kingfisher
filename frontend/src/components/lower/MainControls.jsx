@@ -17,19 +17,16 @@ const MainControls = ({currentNest, testRequest, setWsServerURL, connectionEstab
 
     setWsServerURL('')
     closeConnection()
-    toggleWSConnectionPanel()
   }
 
   const toggleWSConnectionPanel = () => {
     const wsPanel = document.querySelector('.expandable')
     if (wsToggleOn) {
       wsPanel.classList.add('invisible')
-      setTimeout(() => wsPanel.classList.remove('visible'), 100)
       setWsToggleOn(s => !s)
     } else {
       wsPanel.classList.add('visible')
-      setTimeout(() => wsPanel.classList.remove('invisible'), 100)
-
+      wsPanel.classList.remove('invisible')
       setWsToggleOn(s => !s)
     }
     console.log(wsToggleOn)

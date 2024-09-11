@@ -1,8 +1,10 @@
 import { useState } from "react"
-import { isJSON } from "../../utils/helpers"
+import { parseRequestData } from "../../utils/helpers"
 
 const RequestDetails = ({activeRequest}) => {
   const [activeTab, setActiveTab] = useState(c => c || 'Details')
+
+  if (!activeRequest) return <EmptyRequestDetails/>
 
   const activateTab = (e) => {
     const tabs = document.querySelectorAll('.tabs > div')
@@ -12,30 +14,30 @@ const RequestDetails = ({activeRequest}) => {
     setActiveTab(e.target.textContent)
   }
   
-  const headers = activeRequest && isJSON(activeRequest.headers) ? 
-    JSON.parse(activeRequest.headers) :
-    activeRequest?.headers
-
-  const body = activeRequest && isJSON(activeRequest.body) ? 
-    JSON.parse(activeRequest.body) :
-    activeRequest?.body
+  const headers = parseRequestData(activeRequest, 'headers')
+  const body = parseRequestData(activeRequest, 'query')
+  const query = parseRequestData(activeRequest, 'body')
 
   const displayContent = () => {
     if (activeTab === 'Details') {
       return <RequestGeneral activeRequest={activeRequest}/>
-    } else if (activeTab === 'Headers') {
-      return <RequestHeaders headers={headers}/>
-    } else {
-      return <RequestBody body={body}/>
+    } 
+    
+    if (activeTab === 'Headers') {
+      return <RequestDataTable data={headers}/>
+    } else if (activeTab === 'Body') {
+      return <RequestDataTable data={body}/>
+    } else if (activeTab === 'Query') {
+      return <RequestDataTable data={query}/>
     }
   }
 
   return (
-    <div className='request-details' style={{visibility: activeRequest ? 'visible' : 'hidden'}}>
+    <div className='request-details'>
       <div className='request-method'>
-        <h1>{activeRequest?.method}</h1>
-        <p>{activeRequest?.path || '/'}</p>
-        <p>{activeRequest?.id}</p>
+        <h1>{activeRequest.method}</h1>
+        <p>{activeRequest.path || '/'}</p>
+        <p>{activeRequest.id}</p>
       </div>
 
       <div className='request-main-details'>
@@ -48,16 +50,31 @@ const RequestDetails = ({activeRequest}) => {
             className='request-headers'
             onClick={(e) => activateTab(e)}
           >Headers</div>
-          <div 
+          {activeRequest.query && <div 
+              className='request-query'
+              onClick={(e) => activateTab(e)}
+          >Query</div>}
+          {activeRequest.method !== 'GET' && <div 
             className='request-body'
             onClick={(e) => activateTab(e)}
-          >Body</div>
+          >Body</div>}
         </div>
 
         <div className="content">
           {displayContent()}
         </div>
       </div>
+    </div>
+  )
+}
+
+const EmptyRequestDetails = () => {
+  return (
+    <div className='request-details' style={{visibility: 'hidden'}}>
+      <div className='request-method'></div>
+
+      <div className='request-main-details'></div>
+      <div className="content"></div>
     </div>
   )
 }
@@ -79,42 +96,20 @@ const RequestGeneral = ({activeRequest}) => {
   )
 }
 
-const RequestHeaders = ({headers}) => {
-  if (!headers) return
+const RequestDataTable = ({data}) => {
+  if (!data) return
 
-  return (
-    <>
-      <table>
-          <tbody>
-              {Object.keys(headers).map(header => {
-
-                  return (
-                      <tr key={header}>
-                          <th>{header}</th>
-                          <td>{headers[header]}</td>
-                      </tr>
-                  )
-              })}
-          </tbody>
-      </table>
-    </>
-  )
-}
-
-const RequestBody = ({body}) => {
-  if (!body) return
-
-  if (typeof body === 'string') {
-    return <code>{body}</code>
+  if (typeof data === 'string') {
+    return <code>{data}</code>
   } else {
     return (
       <table>
         <tbody>
-            {Object.keys(body).map(key => {
+            {Object.keys(data).map(key => {
                 return (
                     <tr key={key}>
                         <th>{key}</th>
-                        <td>{body[key]}</td>
+                        <td>{data[key]}</td>
                     </tr>
                 )
             })}

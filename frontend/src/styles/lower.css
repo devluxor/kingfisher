@@ -130,7 +130,8 @@
   visibility: collapse;
   opacity: 0;
   overflow: scroll;
-  transition: width 1s, opacity 1s, overflow 1s;
+  transition: opacity 1s, overflow 1s;
+  /* transition: opacity 1s 2s; */
   background-color: lightblue;
   /* height: 50px; */
   
@@ -144,8 +145,8 @@
 }
 
 .expandable.invisible {
-  width: 0;
-  transition: width 1s, opacity 1s, overflow 1s;
+  /* width: 0; */
+  transition: opacity 1s, overflow 1s;
   /* visibility: collapse; */
   opacity: 0;
   overflow: scroll;
