@@ -24,24 +24,27 @@ const MainControls = ({currentNest, testRequest, setWsServerURL, connectionEstab
     if (wsToggleOn) {
       wsPanel.classList.add('invisible')
       setWsToggleOn(s => !s)
+      setWsServerURL('')
+      closeConnection()
     } else {
       wsPanel.classList.add('visible')
       wsPanel.classList.remove('invisible')
       setWsToggleOn(s => !s)
     }
-    console.log(wsToggleOn)
   }
 
   return (
     <div className='main-control-area'>
       {/* <div className='requests-control'>
       </div> */}
+
       <div className='main-controls'>
         <button>Copy nest id</button>
         <button onClick={() => testRequest(currentNest.id)}>Generate test request</button>
         <button onClick={resetCurrentNest}>New nest</button>
-        <button onClick={toggleWSConnectionPanel}>toggle WS</button>
+        <WSSwitch wsToggleOn={wsToggleOn} toggleWSConnectionPanel={toggleWSConnectionPanel}/>
       </div>
+
       <div className='messages-control expandable'>
         <form>
           <label htmlFor="wsServerURL">Target WS Server URL</label><br/>
@@ -56,11 +59,27 @@ const MainControls = ({currentNest, testRequest, setWsServerURL, connectionEstab
           ></input><br/>
          {!connectionEstablished && <button onClick={e => connectionOn(e)}>Connect to WS server</button>}
          {connectionEstablished && <button onClick={e => connectionOff(e)}>Disconnect from WS Server</button>}
-         {connectionEstablished && <button>Copy WS Server URL </button>}
+         {/* {connectionEstablished && <button>Copy WS Server URL </button>} */}
         </form>
       </div>
+
     </div>
   )
 }
+
+const WSSwitch = ({wsToggleOn, toggleWSConnectionPanel}) => {
+
+  return (
+    <div className="ws-toggle-container" onClick={toggleWSConnectionPanel}>
+      <div 
+        className={`ws-toggle-switch ${wsToggleOn ? 'on' : 'off'}`} 
+      >
+        <div 
+          className={`ws-toggle-handle ${wsToggleOn ? 'on' : 'off'}`} 
+        />
+      </div>
+    </div>
+  );
+};
 
 export default MainControls

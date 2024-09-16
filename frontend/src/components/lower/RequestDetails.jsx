@@ -15,8 +15,8 @@ const RequestDetails = ({activeRequest}) => {
   }
   
   const headers = parseRequestData(activeRequest, 'headers')
-  const body = parseRequestData(activeRequest, 'query')
-  const query = parseRequestData(activeRequest, 'body')
+  const body = parseRequestData(activeRequest, 'body')
+  const query = parseRequestData(activeRequest, 'query')
 
   const displayContent = () => {
     if (activeTab === 'Details') {
@@ -24,11 +24,11 @@ const RequestDetails = ({activeRequest}) => {
     } 
     
     if (activeTab === 'Headers') {
-      return <RequestDataTable data={headers}/>
+      return <RequestDataTable data={headers} element={'headers'}/>
     } else if (activeTab === 'Body') {
-      return <RequestDataTable data={body}/>
+      return <RequestDataTable data={body} element={'body'}/>
     } else if (activeTab === 'Query') {
-      return <RequestDataTable data={query}/>
+      return <RequestDataTable data={query} element={'query'}/>
     }
   }
 
@@ -37,7 +37,6 @@ const RequestDetails = ({activeRequest}) => {
       <div className='request-method'>
         <h1>{activeRequest.method}</h1>
         <p>{activeRequest.path || '/'}</p>
-        <p>{activeRequest.id}</p>
       </div>
 
       <div className='request-main-details'>
@@ -96,20 +95,20 @@ const RequestGeneral = ({activeRequest}) => {
   )
 }
 
-const RequestDataTable = ({data}) => {
+const RequestDataTable = ({data, element}) => {
   if (!data) return
 
   if (typeof data === 'string') {
     return <code>{data}</code>
   } else {
     return (
-      <table>
+      <table className={`request-data-table ${element}`}>
         <tbody>
             {Object.keys(data).map(key => {
                 return (
                     <tr key={key}>
-                        <th>{key}</th>
-                        <td>{data[key]}</td>
+                        <th className="request-data-table-key">{key}</th>
+                        <td className="request-data-table-value">{data[key]}</td>
                     </tr>
                 )
             })}

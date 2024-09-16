@@ -1,16 +1,18 @@
 
 .main-container.lower {
   height: max(100px, 40%);
-  background-color: rgb(61, 42, 42);
+  /* background-color: rgb(61, 42, 42); */
+  background-color: black;
   /* border: 1px solid salmon; */
   display: flex;
   justify-content: space-between;
   /* justify-content: center; */
   /* height: 100%; */
+  font-weight: 300;
 }
 
 .request-details, .message-details {
-  border: 1px solid greenyellow;
+  /* border: 1px solid greenyellow; */
   width: max(300px, 43%);
   display: flex;
   flex-direction: column;
@@ -32,10 +34,14 @@
   color: black;
 }
 
+.request-main-details {
+  padding: 0px;
+}
+
 .request-method {
   /* font-weight: 900; */
   /* font-size: 60px; */
-  font-family: monospace;
+  /* font-family: monospace; */
   display: flex;
   align-items: center;
 }
@@ -44,21 +50,16 @@
   font-size: 30px;
   /* margin-top: 32px;
   margin-left: 20px; */
+  color: black;
 }
 
 .message-server-url {
   font-size: 15px;
-  font-family: monospace;
+  /* font-family: monospace; */
 }
 
-.request-method, .request-main-details  {
-  border: 1px solid red;
+.request-method {
   background-color: red;
-}
-
-
-.message-server-url, .message-data {
-  border: 1px solid white;
 }
 
 .request-main-details, .message-data {
@@ -68,40 +69,98 @@
 }
 
 .request-main-details {
+  border: 6px solid red;
   flex-direction: column;
   gap: 0px;
   overflow-y: scroll;
   scrollbar-width: none;
+  background-color: black;
 }
 
 .request-main-details > div.tabs > div:hover {
-  background-color: black;
+  /* background-color: black; */
   cursor: pointer;
 }
+
 .request-main-details > div.tabs {
   display: flex;
   gap: 10px;
+  background-color: red;
+  padding: 5px 10px;
+  font-weight: 600;
+}
+
+.tabs > div:hover {
+  background-color: red;
+  color: white;
 }
 
 .tabs > div.active {
-  background-color: black;
+  background-color: red;
+  /* color: black */
 }
 
 .request-main-details > div.content {
   display: flex;
-  background-color: black;
   height: 100%;
   color: red;
-  /* overflow: scroll; */
+  overflow: scroll;
+    /* overflow-y: scroll; */
+  scrollbar-width: none;
+  justify-content:flex-start
 }
 
-.message-details > div {
-  background-color: white;
+.request-data-table {
+  flex: 0 0 100%;
+  /* margin: 10px; */
+
 }
+
+.request-data-table th {
+  border-bottom: 2px solid red;
+  min-width: 180px;
+  text-align: left;
+}
+
+.request-data-table td {
+  color: rgb(255, 113, 113);
+  border-left: 2px solid red;
+  border-bottom: 2px solid red;
+  width: 100%;
+}
+
+.request-data-table th,
+.request-data-table td {
+  padding: 5px 5px 5px 15px;
+}
+
+
+
+
+
+
+
+.message-details > .message-data {
+  /* background-color: black; */
+  color: white;
+  border: 5px solid #064b85;
+}
+
+.message-details > .message-server-url {
+  /* background-color: black; */
+  background-color: var(--main-app-color);
+  background-color: #064b85;
+  color: white;
+  /* border: 5px solid var(--main-app-color); */
+}
+
+
+
 
 .main-control-area {
   width: max(100px, 30%);
-  border: 1px solid aqua;
+  /* border-left: 1px solid var(--main-app-color);
+  border-right: 1px solid var(--main-app-color); */
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
@@ -116,7 +175,7 @@
 }
 
 .requests-control, .messages-control {
-  border: 5px solid aqua;
+  border: 5px solid #064b85;
   border-radius: 30px;
   width: max(33%, 150px);
   width: 100%;
@@ -130,9 +189,8 @@
   visibility: collapse;
   opacity: 0;
   overflow: scroll;
-  transition: opacity 1s, overflow 1s;
+  transition: opacity 0.5s, overflow 1s;
   /* transition: opacity 1s 2s; */
-  background-color: lightblue;
   /* height: 50px; */
   
 }
@@ -146,7 +204,7 @@
 
 .expandable.invisible {
   /* width: 0; */
-  transition: opacity 1s, overflow 1s;
+  transition: opacity 0.5s, overflow 1s;
   /* visibility: collapse; */
   opacity: 0;
   overflow: scroll;
@@ -160,6 +218,10 @@
 }
 
 .main-controls {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   width: 90px;
+}
+
+button, input {
+  background-color: gray;
 }

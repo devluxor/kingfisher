@@ -1,18 +1,17 @@
-
 .main-container.upper {
+  background-color: var(--main-app-color);
+  background: var(--gradient);
   height: max(100px, 20%);
-  background-color: black;
-  /* border: 1px solid salmon; */
   display: flex;
   flex-direction: column;
   gap: 10px;
   justify-content: center;
 }
 
-
 .arrived-elements {
   width: 100%;
-  /* background-color: rgb(90, 87, 87); */
+  background: var(--gradient);
+  /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
   min-height: 30px;
   display: flex;
   gap: 10px;

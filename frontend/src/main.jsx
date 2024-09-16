@@ -10,6 +10,7 @@ import './styles/app.css'
 import './styles/upper.css'
 import './styles/middle.css'
 import './styles/lower.css'
+import './styles/ws-switch.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   import.meta.env.DEV ?   
