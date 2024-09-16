@@ -113,7 +113,7 @@ const RequestListElement = ({r, activeRequestId, activateRequest, newRequestId})
         ${r.id === activeRequestId ? 'active' : ''} 
         ${r.id === newRequestId? 'new' : 'slide-right' } 
       `}
-    >R{r.id[0]}</div>
+    ></div>
   )
 }
 
@@ -126,7 +126,7 @@ const MessageListElement = ({m, activeMessageId, setActiveMessageId, newMessageI
         ${m.id === activeMessageId ? 'active' : ''}        
         ${m.id === newMessageId ? 'new' : 'slide-left'}        
       `}
-      >M{m.id[0]}</div>
+      ></div>
   )
 }
 

@@ -11,15 +11,16 @@
   font-weight: 300;
 }
 
+
+.request-details, .main-control-area, .message-details {
+  padding: 10px 0;
+}
 .request-details, .message-details {
-  /* border: 1px solid greenyellow; */
   width: max(300px, 43%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 5px;
-  /* display: none; */
 }
 
 .message-details {
@@ -39,23 +40,23 @@
 }
 
 .request-method {
-  /* font-weight: 900; */
-  /* font-size: 60px; */
-  /* font-family: monospace; */
   display: flex;
-  align-items: center;
+  align-items: end;
+  gap: 10px;
 }
 
 .request-method > h1 {
-  font-size: 30px;
+  font-size: 2.3rem;
   /* margin-top: 32px;
   margin-left: 20px; */
+  font-weight: 600;
   color: black;
 }
 
-.message-server-url {
-  font-size: 15px;
-  /* font-family: monospace; */
+.request-method > p {
+  font-size: 1.3rem;
+  margin-bottom: 3px;
+  font-weight: 500;
 }
 
 .request-method {
@@ -76,6 +77,8 @@
   scrollbar-width: none;
   background-color: black;
 }
+
+
 
 .request-main-details > div.tabs > div:hover {
   /* background-color: black; */
@@ -102,10 +105,9 @@
 
 .request-main-details > div.content {
   display: flex;
-  height: 100%;
+  /* height: 100%; */
   color: red;
   overflow: scroll;
-    /* overflow-y: scroll; */
   scrollbar-width: none;
   justify-content:flex-start
 }
@@ -113,20 +115,22 @@
 .request-data-table {
   flex: 0 0 100%;
   /* margin: 10px; */
-
+  /* border-collapse: collapse; */
 }
 
 .request-data-table th {
   border-bottom: 2px solid red;
   min-width: 180px;
   text-align: left;
+  /* max-height: 20px; */
 }
 
 .request-data-table td {
   color: rgb(255, 113, 113);
-  border-left: 2px solid red;
+  /* border-left: 2px solid red; */
   border-bottom: 2px solid red;
   width: 100%;
+  max-height: 20px;
 }
 
 .request-data-table th,
@@ -134,28 +138,11 @@
   padding: 5px 5px 5px 15px;
 }
 
-
-
-
-
-
-
-.message-details > .message-data {
-  /* background-color: black; */
-  color: white;
-  border: 5px solid #064b85;
+.main-controls {
+  /* border: 1px solid gray; */
+  width: 90px;
+  align-items: center;
 }
-
-.message-details > .message-server-url {
-  /* background-color: black; */
-  background-color: var(--main-app-color);
-  background-color: #064b85;
-  color: white;
-  /* border: 5px solid var(--main-app-color); */
-}
-
-
-
 
 .main-control-area {
   width: max(100px, 30%);
@@ -163,7 +150,7 @@
   border-right: 1px solid var(--main-app-color); */
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   gap: 10px;
 }
 
@@ -174,13 +161,43 @@
   padding: 10px
 }
 
-.requests-control, .messages-control {
+.messages-control {
   border: 5px solid #064b85;
   border-radius: 30px;
   width: max(33%, 150px);
-  width: 100%;
   transition: all 0.5 ease;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 20px;
   /* visibility: collapse; */
+}
+
+.messages-control form {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.messages-control form input {
+  border-radius: 10px;
+  width: 100%;
+  border: 2px solid var(--main-app-color);
+  background-color: black;
+  height: 30px;
+  color: white;
+  outline: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  padding-left: 10px;
+}
+
+form input:active,
+form input:focus,
+textarea {
+  background-color: black;
+  border: 3px solid white;
 }
 
 .expandable {
@@ -192,7 +209,6 @@
   transition: opacity 0.5s, overflow 1s;
   /* transition: opacity 1s 2s; */
   /* height: 50px; */
-  
 }
 
 .expandable.visible {
@@ -210,18 +226,54 @@
   overflow: scroll;
 }
 
-
-
-.messages-control input,
-.messages-control button {
-  width: 100%;
+.message-details > .message-data {
+  /* background-color: black; */
+  color: black;
+  border: 5px solid #064b85;
+  padding: 0;
+  height: 78%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.main-controls {
-  /* border: 1px solid gray; */
-  width: 90px;
+.message-data > div {
+  padding: 10px;
 }
 
-button, input {
-  background-color: gray;
+.message-details > .message-server-url {
+  display: flex;
+  align-items: center;
+  /* background-color: black; */
+  background-color: var(--main-app-color);
+  /* background-color: #064b85; */
+  color:black;
+  /* border: 5px solid var(--main-app-color); */
+  font-weight: 700;
+  font-size: 1.4rem;
+  height: 54px;
+  
 }
+
+.message-data .arrived-on {
+  font-weight: 600;
+  background-color: var(--main-app-color);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.message-data .data {
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+pre {
+  /* background-color: #333; */
+  color: #fff;
+  padding: 15px;
+  /* border-radius: 5px; */
+  /* white-space: pre-wrap; Ensures it wraps if too long */
+  /* word-wrap: break-word; */
+  /* width: 100%; */
+}
+

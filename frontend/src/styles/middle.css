@@ -2,9 +2,9 @@
 .main-container.middle {
   color: var(--general-font-color);
   height: max(200px, 40%);
-  background-color: #064b85;
-  background: var(--gradient);
-  /* background-color: var(--main-app-color); */
+  /* background-color: #064b85; */
+  /* background: var(--gradient); */
+  background-color: var(--main-app-color);
   display: flex;
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
@@ -21,15 +21,21 @@
   /* flex-direction: column; */
   /* justify-content: end; */
   align-items: end;
-  padding-bottom: 5px;
+  /* padding-bottom: 15px; */
+  margin-bottom: -17px;
+  z-index: 10;
 }
 
 .title-container h1 {
-  font-size: 125px;
+  font-size: 8rem;
   margin-left: 80px;
 }
 
 .title-container h2 {
-  margin-bottom: 8px;
+  margin-bottom: 12.5px;
+  font-size: 2rem;
+  font-style: italic;
+  margin-left: -20px;
+  color: rgb(88, 95, 126);
 }
 

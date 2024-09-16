@@ -1,6 +1,7 @@
 .main-container.upper {
   background-color: var(--main-app-color);
-  background: var(--gradient);
+  /* background-color: black; */
+  /* background: var(--gradient); */
   height: max(100px, 20%);
   display: flex;
   flex-direction: column;
@@ -10,7 +11,8 @@
 
 .arrived-elements {
   width: 100%;
-  background: var(--gradient);
+  /* background-color: black; */
+  /* background: var(--gradient); */
   /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
   min-height: 30px;
   display: flex;
