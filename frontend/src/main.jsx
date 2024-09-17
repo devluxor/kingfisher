@@ -11,7 +11,7 @@ import './styles/upper.css'
 import './styles/middle.css'
 import './styles/lower.css'
 import './styles/ws-switch.css'
-import './styles/icons.css'
+import './styles/icons-buttons.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   import.meta.env.DEV ?   

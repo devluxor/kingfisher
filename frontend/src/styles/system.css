@@ -118,9 +118,12 @@
 
   --light-green-border: hsl(180, 93%, 23%);
 
-  --main-app-color:#064b85;
+  --main-app-color:#0b4677;
   --second-color-gradient:#0c68af;
+
   --complementary: #ff842d;
+
+  --back-nest-color:#093a63;
 
   --border-color: #1a8494;
 
@@ -202,6 +205,8 @@
 
   --main-components-border: 1px solid var(--border-color);
   --general-border-radius: 3px;
+
+  --big-border-width: 14px;
 
 
   --gradient: linear-gradient(to right, var(--main-app-color), var(--second-color-gradient));

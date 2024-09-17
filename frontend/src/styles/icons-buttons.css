@@ -1,0 +1,44 @@
+button {
+  background-color: black;
+  color: var(--main-app-color);
+  border-radius: 10px;
+  border: none;
+}
+
+button:hover {
+  cursor: pointer;
+  color: wheat;
+}
+
+.ws-icon {
+  fill: wheat;
+}
+
+.copy-nest-icon {
+  fill: var(--icon-color);
+  height: 1.6rem;
+  height: 4vh;
+  /* height: 100px; */
+}
+
+.copy-nest-icon:hover {
+  fill: white;
+}
+
+.send-test-request-icon, .new-nest-icon {
+  /* stroke: gray;
+  fill-rule:'evenodd';
+  stroke-linecap:'round';
+  stroke-linejoin:'round';
+  stroke-width:4;
+  width: 60%; */
+  /* stroke: white; */
+  color: var(--icon-color);
+  /* fill: white; */
+  height: 4vh;
+}
+
+.send-test-request-icon:hover,
+.new-nest-icon:hover {
+  color: white;
+}

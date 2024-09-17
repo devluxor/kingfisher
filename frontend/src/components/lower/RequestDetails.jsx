@@ -17,6 +17,7 @@ const RequestDetails = ({activeRequest}) => {
   const headers = parseRequestData(activeRequest, 'headers')
   const body = parseRequestData(activeRequest, 'body')
   const query = parseRequestData(activeRequest, 'query')
+  const arrivedOn = activeRequest.arrivedOn || activeRequest.arrived_on
 
   const displayContent = () => {
     if (activeTab === 'Details') {
@@ -42,21 +43,18 @@ const RequestDetails = ({activeRequest}) => {
       <div className='request-main-details'>
         <div className="tabs">
           <div 
-            className='request-other'
-            onClick={(e) => activateTab(e)}
-          >Details</div>
-          <div 
-            className='request-headers'
+            className='tab request-headers'
             onClick={(e) => activateTab(e)}
           >Headers</div>
           {activeRequest.query && <div 
-              className='request-query'
+              className='tab request-query'
               onClick={(e) => activateTab(e)}
           >Query</div>}
           {activeRequest.method !== 'GET' && <div 
-            className='request-body'
+            className='tab request-body'
             onClick={(e) => activateTab(e)}
           >Body</div>}
+          <div className="arrived-on">{arrivedOn}</div>
         </div>
 
         <div className="content">

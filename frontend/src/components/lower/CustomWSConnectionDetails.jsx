@@ -1,3 +1,7 @@
+import JSONPretty from 'react-json-pretty';
+import JSONPrettyMon from 'react-json-pretty/dist/monikai';
+
+
 const CustomWSConnectionDetails = ({activeMessage, activeMessageId, connectionEstablished, wsServerURL}) => {
   
   return (
@@ -109,10 +113,11 @@ const MessageDetails = ({activeMessage}) => {
   return (
       <>
         <div className="arrived-on">
-          <p>Arrived on: {activeMessage?.arrived_on || activeMessage?.arrivedOn}</p>
+          <p>{activeMessage?.arrived_on || activeMessage?.arrivedOn}</p>
         </div>
         <div className="data">
           <pre className="data">{JSON.stringify(test, null, 4)}</pre>
+          {/* <JSONPretty id="json-pretty" theme={JSONPrettyMon} data={activeMessage.data}></JSONPretty> */}
         </div>
       </>
   )

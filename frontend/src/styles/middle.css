@@ -23,19 +23,22 @@
   align-items: end;
   /* padding-bottom: 15px; */
   margin-bottom: -17px;
+  margin-bottom: 45px;
   z-index: 10;
 }
 
 .title-container h1 {
-  font-size: 8rem;
-  margin-left: 80px;
+  font-size: 30vh;
+  margin-left: 55px;
 }
 
 .title-container h2 {
-  margin-bottom: 12.5px;
-  font-size: 2rem;
+  /* margin-bottom: 12.5px; */
+  font-size: 30vh;
   font-style: italic;
-  margin-left: -20px;
-  color: rgb(88, 95, 126);
+  margin-left: -880px;
+  margin-left: -1410px;
+  color: var(--back-nest-color);
+  z-index: -20;
 }
 
