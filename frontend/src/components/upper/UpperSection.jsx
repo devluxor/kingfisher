@@ -16,61 +16,8 @@ const UpperSection = ({
   const newRequestId = requests[0]?.id
   const newMessageId = messages[0]?.id
 
-  const handleLeftArrow = () => {
-    if (requests.length === 1) return
-
-    const activeHTMLRequests = document.querySelectorAll('.request')
-    let index 
-    activeHTMLRequests.forEach((r, i) => {
-      if (r.classList.contains('active')) {
-        index = i
-        return
-      }
-    })
-
-    if (index === 0) return
-
-    const newActiveRequestHTMLElement = activeHTMLRequests[index - 1]
-
-    const activeRequest = requests.find(r => r.id.slice(0, 6) === newActiveRequestHTMLElement.id)
-    setActiveRequestId(activeRequest.id)
-  }
-
-  const handleRightArrow = () => {
-    if (requests.length === 1) return
-
-    const activeHTMLRequests = document.querySelectorAll('.request')
-    let index 
-    activeHTMLRequests.forEach((r, i) => {
-      if (r.classList.contains('active')) {
-        index = i
-      }
-    })
-
-    if (index === activeHTMLRequests.length - 1) return
-    
-    const newActiveRequestHTMLElement = activeHTMLRequests[index + 1]
-
-    const activeRequest = requests.find(r => r.id.slice(0, 6) === newActiveRequestHTMLElement.id)
-
-    activeHTMLRequests.forEach((r, i) => {
-      r.classList.remove('active')
-    })
-    setActiveRequestId(activeRequest.id)
-  }
-
-  const keyHandler = (event) => {
-    if (event.key === "ArrowLeft") {
-      handleLeftArrow();
-    } else if (event.key === "ArrowRight") {
-      handleRightArrow();
-    }
-  }
 
   const activateRequest = (id) => {
-    // document.removeEventListener('keydown', keyHandler)
-    document.addEventListener('keydown', keyHandler)
-
     setActiveRequestId(id)
   }
 

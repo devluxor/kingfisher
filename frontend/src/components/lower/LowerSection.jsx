@@ -15,7 +15,9 @@ const LowerSection = ({
   setWsServerURL, 
   connectionEstablished,
   activeMessageId,
-  activeWSConnection
+  activeWSConnection,
+  flashMessage,
+  setFlashMessage
 }) => {
 
   const activeRequest = requests.find(r => r.id === activeRequestId)
@@ -34,6 +36,8 @@ const LowerSection = ({
         closeConnection={closeConnection} 
         wsServerURL={wsServerURL} 
         resetCurrentNest={resetCurrentNest}
+        flashMessage={flashMessage}
+        setFlashMessage={setFlashMessage}
       />
 
       <CustomWSConnectionDetails

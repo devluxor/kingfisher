@@ -26,12 +26,14 @@ function App() {
   const [activeRequestId, setActiveRequestId] = useState(null)
 
   // Custom WS Connection:
-  const [ activeWSConnection, setActiveWSConnection ] = useState(c => c) 
+  const [ activeWSConnection, setActiveWSConnection ] = useState(s => s) 
   const [connectionEstablished, setConnectionEstablished] = useState(connection => connection)
   const [messages, setMessages] = useState([])
   const [errorInConnection, setErrorInConnection] = useState(false)
   const [wsServerURL, setWsServerURL] = useState('')
   const [activeMessageId, setActiveMessageId] = useState(null)
+
+  const [flashMessage, setFlashMessage] = useState(s => s)
 
 
   // Nest Loading Process:
@@ -179,7 +181,7 @@ function App() {
   useEffect(() => {
     if (!currentNestId) return
 
-    createRequestUpdaterWSConnection(currentNestId, setRequests)
+    createRequestUpdaterWSConnection(currentNestId, setRequests, setFlashMessage)
   }, [currentNestId])
 
   // end of request processing.
@@ -221,7 +223,7 @@ function App() {
       const wsURL = developmentMode ? 
         `ws://localhost:9090?nestId=${currentNestId}` : 
         `wss://kingfisher.luxor.dev/ws-external?nestId=${currentNestId}`
-      const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection);
+      const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection, setFlashMessage);
       
       setActiveWSConnection(ws)
 
@@ -272,6 +274,8 @@ function App() {
         messages={messages}
         activeMessageId={activeMessageId} 
         setActiveMessageId={setActiveMessageId}
+
+        setFlashMessage={setFlashMessage}
       />
       
       <MiddleSection currentNest={currentNest}/>
@@ -293,6 +297,9 @@ function App() {
         connectionEstablished={connectionEstablished}
         activeMessageId={activeMessageId}
         activeWSConnection={activeWSConnection}
+
+        flashMessage={flashMessage}
+        setFlashMessage={setFlashMessage}
       />
     </>
   )

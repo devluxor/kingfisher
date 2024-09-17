@@ -9,6 +9,7 @@
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
   /* border-radius: 40px; */
+  overflow: hidden;
 }
 
 .title-container, .stats-container {

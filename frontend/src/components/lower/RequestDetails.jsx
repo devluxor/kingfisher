@@ -2,7 +2,7 @@ import { useState } from "react"
 import { parseRequestData } from "../../utils/helpers"
 
 const RequestDetails = ({activeRequest}) => {
-  const [activeTab, setActiveTab] = useState(c => c || 'Details')
+  const [activeTab, setActiveTab] = useState(c => c || 'Headers')
 
   if (!activeRequest) return <EmptyRequestDetails/>
 
@@ -18,12 +18,8 @@ const RequestDetails = ({activeRequest}) => {
   const body = parseRequestData(activeRequest, 'body')
   const query = parseRequestData(activeRequest, 'query')
   const arrivedOn = activeRequest.arrivedOn || activeRequest.arrived_on
-  console.log(query)
+
   const displayContent = () => {
-    if (activeTab === 'Details') {
-      return <RequestGeneral activeRequest={activeRequest}/>
-    } 
-    
     if (activeTab === 'Headers') {
       return <RequestDataTable data={headers} element={'headers'}/>
     } else if (activeTab === 'Body') {
@@ -34,7 +30,7 @@ const RequestDetails = ({activeRequest}) => {
   }
 
   return (
-    <div className='request-details'>
+    <div className='request-details visible'>
       <div className='request-method'>
         <h1>{activeRequest.method}</h1>
         <p>{activeRequest.path || '/'}</p>
@@ -73,23 +69,6 @@ const EmptyRequestDetails = () => {
       <div className='request-main-details'></div>
       <div className="content"></div>
     </div>
-  )
-}
-
-const RequestGeneral = ({activeRequest}) => {
-  if (!activeRequest) return
-
-  return (
-    <>
-      <table>
-        <tbody>
-          <tr>
-            <th>Arrived On</th>
-            <td>{activeRequest.arrivedOn || activeRequest.arrived_on}</td>
-          </tr>
-        </tbody>
-      </table>
-    </>
   )
 }
 

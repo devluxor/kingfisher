@@ -3,6 +3,7 @@
   height: max(100px, 40%);
   /* background-color: rgb(61, 42, 42); */
   background-color: black;
+  background-color: black;
   /* border: var(--big-border-width) solid salmon; */
   display: flex;
   justify-content: space-between;
@@ -22,6 +23,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  transition: all 0.5s ease;
 }
 
 .message-details {
@@ -30,7 +32,7 @@
 
 .request-method, .message-server-url, .request-main-details, .message-data {
   width: max(300px, 100%);
-  height: 22%;
+  /* height: 22%; */
   border-radius: 30px;
   padding: 10px;
   color: black;
@@ -45,6 +47,7 @@
   display: flex;
   align-items: end;
   gap: 10px;
+  min-height: 65px;
 }
 
 .request-method > h1 {
@@ -79,6 +82,7 @@
   overflow-y: scroll;
   scrollbar-width: none;
   background-color: black;
+  font-weight: 600;
 }
 
 .request-main-details > .tabs {
@@ -93,7 +97,7 @@
   z-index: 100;
   width: 100%;
   border-radius: 0px;
-  border-bottom: 2px solid red;
+  /* border-bottom: 2px solid red; */
 }
 
 .request-main-details .tab {
@@ -131,17 +135,21 @@
   font-size: 0.9rem;
 }
 
+.request-data-table tr { 
+  /* border-bottom: 2px solid rgb(70, 0, 0); */
+
+}
+
 .request-data-table th {
-  border-bottom: 2px solid red;
   min-width: 180px;
   text-align: left;
   /* max-height: 20px; */
 }
 
 .request-data-table td {
-  color: rgb(255, 113, 113);
+  color: rgb(139, 114, 114);
   /* border-left: 2px solid red; */
-  border-bottom: 2px solid red;
+  /* border-bottom: 2px solid red; */
   width: 100%;
   max-height: 20px;
 }
@@ -166,7 +174,7 @@
   display: flex;
   justify-content: space-between;
   /* padding: 10px 0; */
-  /* gap: 10px; */
+  gap: 10px;
 }
 
 .main-control-area > div {
@@ -223,6 +231,15 @@ textarea {
   border: 3px solid white;
 }
 
+.ws-button {
+  font-size: medium;
+  font-weight: 600;
+  background-color: var(--main-app-color);
+  color: black;
+  padding: 5px 20px;
+  min-width: 130px;
+}
+
 .expandable {
   scrollbar-width: none;
   width: 0;
@@ -257,29 +274,39 @@ textarea {
   background-color: var(--main-app-color);
   background-color: green;
   background-color: white;
-  height: 54px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.5s ease;
-  opacity: 1;
+  opacity: 0;
   font-weight: 800;
   font-size: 2rem;
 }
 
-.flash-message .visible {
+.flash-message.visible {
   opacity: 1;
+}
+
+.message-details {
+  /* border: 1px solid greenyellow; */
+  display: flex;
+  flex-direction: column;
+  /* overflow-y: scroll; */
+  /* overflow: hidden; */
+  /* padding-bottom: 0px; */
 }
 
 .message-details > .message-data {
   /* background-color: black; */
   color: black;
   border: var(--big-border-width) solid var(--main-app-color);
-  padding: 0;
-  height: 78%;
+  padding: 0px;
+  /* height: 81.5%; */
   display: flex;
   flex-direction: column;
   gap: 0;
+  overflow: hidden;
 }
 
 .message-data > div {
@@ -296,10 +323,12 @@ textarea {
   /* border: var(--big-border-width) solid var(--main-app-color); */
   font-weight: 700;
   font-size: 1.4rem;
-  height: 54px;
+  min-height: 65px;
+  /* margin-top: auto; */
 }
 
 .message-data .arrived-on {
+  text-align: end;
   font-weight: 600;
   background-color: var(--main-app-color);
   border-top-left-radius: 15px;
@@ -307,6 +336,7 @@ textarea {
 }
 
 .message-data .data {
+  height: auto;
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -321,3 +351,6 @@ pre {
   /* width: 100%; */
 }
 
+.visible {
+  opacity: 1;
+}

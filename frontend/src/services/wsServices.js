@@ -3,7 +3,7 @@ import { isJSON, isRequest } from "../utils/helpers"
 const developmentMode = import.meta.env.DEV
 
 // add error handler as fourth parameter ??
-export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler) => {
+export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler, setFlashMessage) => {
   const isCustomWSServer = !!wsServerURL
 
   if (!wsServerURL) {
@@ -33,6 +33,8 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
 
     if (message.error) {
       developmentMode && console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
+      setFlashMessage({ message: 'WS Connection: ERROR'})
+      setTimeout(() => setFlashMessage(null), 2000)
       errorHandler(true)
       ws.close()
       return
@@ -48,6 +50,8 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
       }, 20)
     });
 
+    setFlashMessage(isRequestMessage ? { message: 'Request Received'} : { message: 'Message Received'})
+    setTimeout(() => setFlashMessage(null), 2000)
     setter((previousState) => [message, ...(previousState ? previousState : [])])
   }
   
@@ -61,6 +65,6 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler)
   return ws
 }
 
-export const createRequestUpdaterWSConnection = async (currentNestId, setRequests) => {
-  createWSClient(currentNestId, null, setRequests)
+export const createRequestUpdaterWSConnection = async (currentNestId, setRequests, setFlashMessage) => {
+  createWSClient(currentNestId, null, setRequests, null, setFlashMessage)
 }

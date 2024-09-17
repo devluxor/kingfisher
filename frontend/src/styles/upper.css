@@ -35,7 +35,7 @@
 }
 
 .request.new {
-  border: 12px solid gold;
+  /* border: 12px solid gold; */
   animation-name: request-enter;
   animation-duration: 0.8s;
   animation-timing-function: ease-out;
@@ -44,7 +44,7 @@
 }
 
 .request.active {
-  border: 12px solid greenyellow;
+  border: 12px solid rgb(255, 255, 255);
 }
 
 .request.slide-right {
@@ -95,12 +95,13 @@
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
   background-color: aliceblue;
-  border: 12px solid gold;
+  /* border: 12px solid gold; */
   margin-right: 10px;
 }
 
 .message.active {
-  border: 12px solid rgb(51, 255, 0);
+  border: 12px solid rgb(255, 255, 255);
+  background-color: black;
 }
 
 .slide-left {

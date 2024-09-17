@@ -6,11 +6,11 @@ const CustomWSConnectionDetails = ({activeMessage, activeMessageId, connectionEs
   
   return (
     <div className='message-details' style={{visibility: connectionEstablished ? 'visible' : 'hidden'}}>
-      <div className='message-data'>
-        <MessageDetails activeMessage={activeMessage}/>
-      </div>
       <div className='message-server-url'>
         <h1>{connectionEstablished && wsServerURL}</h1>
+      </div>
+      <div className='message-data'>
+        <MessageDetails activeMessage={activeMessage}/>
       </div>
     </div>
   )
