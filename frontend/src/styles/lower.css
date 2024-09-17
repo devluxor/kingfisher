@@ -166,13 +166,18 @@
   display: flex;
   justify-content: space-between;
   /* padding: 10px 0; */
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .main-control-area > div {
   display: flex;
   flex-direction: column;
-  padding: 10px
+}
+
+.messages-control-and-flash-panel {
+  flex: 1;
+  padding: 0px;
+  gap: 10px;
 }
 
 .messages-control {
@@ -184,14 +189,18 @@
   /* justify-content: center; */
   gap: 20px;
   /* visibility: collapse; */
+  /* height: min-content; */
+  flex: 1;
+  padding: 0 10px;
 }
 
 .messages-control form {
   margin-top: 10%;
   display: flex;
   flex-direction: column;
+  /* gap: 20px; */
   align-items: center;
-  width: 80%;
+  /* width: 80%; */
 }
 
 .messages-control form input {
@@ -240,6 +249,28 @@ textarea {
   overflow: scroll;
 }
 
+.flash-message {
+  font-weight: 500;
+  color: black;
+  /* border: var(--big-border-width) solid var(--main-app-color); */
+  border-radius: 30px;
+  background-color: var(--main-app-color);
+  background-color: green;
+  background-color: white;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  opacity: 1;
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+.flash-message .visible {
+  opacity: 1;
+}
+
 .message-details > .message-data {
   /* background-color: black; */
   color: black;
@@ -266,7 +297,6 @@ textarea {
   font-weight: 700;
   font-size: 1.4rem;
   height: 54px;
-  
 }
 
 .message-data .arrived-on {
@@ -286,7 +316,7 @@ pre {
   color: #fff;
   /* padding: 15px; */
   /* border-radius: 5px; */
-  /* white-space: pre-wrap; Ensures it wraps if too long */
+  white-space: pre-wrap;
   /* word-wrap: break-word; */
   /* width: 100%; */
 }
