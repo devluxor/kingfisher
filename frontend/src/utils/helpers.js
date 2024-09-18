@@ -1,4 +1,5 @@
 import dateFormat from "dateformat";
+import { generate } from "random-words";
 
 export const normalizeNest = (sqlNest) => {
   return {
@@ -99,4 +100,15 @@ export const parseRequestData = (activeRequest, data) => {
 
 export const formatDate = (dateString) => {
   return dateFormat(new Date(dateString).toLocaleString())
+}
+
+export const randomHTTPMethod = () => {
+  const methods = ['GET', 'POST', 'PUT', 'HEAD', 'PATCH']
+
+  return methods[Math.floor(Math.random() * methods.length)];
+}
+
+export const randomURLPatch = () => {
+  const randomWords = generate(2)
+  return `${randomWords[0]}/${randomWords[1]}`
 }

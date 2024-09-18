@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { randomHTTPMethod, randomURLPatch } from '../utils/helpers';
 
 const developmentMode = import.meta.env.DEV
 
@@ -54,9 +55,17 @@ export const testRequest = async (nestId) => {
   const baseURL = developmentMode ? 
                     `http://localhost:3000`: 
                     `https://kingfisher.luxor.dev`
+  
+  const HTTPMethod = randomHTTPMethod()
+  let axiosService
+  if (HTTPMethod === 'POST') axiosService = axios.post
+  else if (HTTPMethod === 'PUT') axiosService = axios.put
+  else if (HTTPMethod === 'HEAD') axiosService = axios.head
+  else if (HTTPMethod === 'PATCH') axiosService = axios.patch
+  else axiosService = axios.get
 
   try {
-    const result = await axios.get(`${baseURL}/!/${nestId}`)
+    const result = await axiosService(`${baseURL}/!/${nestId}/${randomURLPatch()}`)
     return result.data
   } catch(error) {
     console.error(error)
