@@ -1,5 +1,6 @@
 import JSONPretty from 'react-json-pretty';
 import JSONPrettyMon from 'react-json-pretty/dist/monikai';
+import { formatDate } from '../../utils/helpers';
 
 
 const CustomWSConnectionDetails = ({activeMessage, activeMessageId, connectionEstablished, wsServerURL}) => {
@@ -109,11 +110,11 @@ const MessageDetails = ({activeMessage}) => {
       }
     ]
   }
-
+  const arrivedOn = activeMessage?.arrived_on || activeMessage?.arrivedOn
   return (
       <>
         <div className="arrived-on">
-          <p>{activeMessage?.arrived_on || activeMessage?.arrivedOn}</p>
+          <p>{activeMessage && formatDate(arrivedOn)}</p>
         </div>
         <div className="data">
           <pre className="data">{JSON.stringify(test, null, 4)}</pre>

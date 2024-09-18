@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { parseRequestData } from "../../utils/helpers"
+import { formatDate, parseRequestData } from "../../utils/helpers"
 
 const RequestDetails = ({activeRequest}) => {
   const [activeTab, setActiveTab] = useState(c => c || 'Headers')
@@ -21,36 +21,36 @@ const RequestDetails = ({activeRequest}) => {
 
   const displayContent = () => {
     if (activeTab === 'Headers') {
-      return <RequestDataTable data={headers} element={'headers'}/>
+      return <RequestDataTable request={activeRequest} data={headers} element={'headers'}/>
     } else if (activeTab === 'Body') {
-      return <RequestDataTable data={body} element={'body'}/>
+      return <RequestDataTable request={activeRequest} data={body} element={'body'}/>
     } else if (activeTab === 'Query') {
-      return <RequestDataTable data={query} element={'query'}/>
+      return <RequestDataTable request={activeRequest} data={query} element={'query'}/>
     }
   }
 
   return (
-    <div className='request-details visible'>
+    <div className='request-details visible' data-method={activeRequest.method}>
       <div className='request-method'>
         <h1>{activeRequest.method}</h1>
         <p>{activeRequest.path || '/'}</p>
       </div>
 
-      <div className='request-main-details'>
-        <div className="tabs">
+      <div className='request-main-details' >
+        <div className="tabs" data-method={activeRequest.method}>
           <div 
-            className='tab request-headers'
+            className={`tab request-headers ${activeTab === 'Headers' && 'active'}`}
             onClick={(e) => activateTab(e)}
           >Headers</div>
-          {query?.length > 0 && <div 
-              className='tab request-query'
+          {Object.keys(query).length > 0 && <div 
+              className={`tab request-query ${activeTab === 'Query' && 'active'}`}
               onClick={(e) => activateTab(e)}
           >Query</div>}
           {activeRequest.method !== 'GET' && <div 
-            className='tab request-body'
+            className={`tab request-body ${activeTab === 'Body' && 'active'}`}
             onClick={(e) => activateTab(e)}
           >Body</div>}
-          <div className="arrived-on">{arrivedOn}</div>
+          <div className="arrived-on">{formatDate(arrivedOn)}</div>
         </div>
 
         <div className="content">
@@ -72,14 +72,14 @@ const EmptyRequestDetails = () => {
   )
 }
 
-const RequestDataTable = ({data, element}) => {
+const RequestDataTable = ({request, data, element}) => {
   if (!data) return
 
   if (typeof data === 'string') {
     return <code>{data}</code>
   } else {
     return (
-      <table className={`request-data-table ${element}`}>
+      <table className={`request-data-table ${element}`} data-method={request.method}>
         <tbody>
             {Object.keys(data).map(key => {
                 return (

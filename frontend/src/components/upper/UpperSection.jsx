@@ -55,8 +55,9 @@ const RequestListElement = ({r, activeRequestId, activateRequest, newRequestId})
       onClick={() => activateRequest(r.id)} 
       key={r.id}
       id={r.id.slice(0, 6)}
+      data-method={r.method}
       className={`
-        request red 
+        request 
         ${r.id === activeRequestId ? 'active' : ''} 
         ${r.id === newRequestId? 'new' : 'slide-right' } 
       `}

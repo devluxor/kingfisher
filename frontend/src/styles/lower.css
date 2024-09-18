@@ -45,27 +45,26 @@
 
 .request-method {
   display: flex;
-  align-items: end;
+  align-items: center;
   gap: 10px;
   min-height: 65px;
+  padding-left: 20px;
+  /* padding-bottom: 15px; */
+  /* justify-content: center; */
 }
 
 .request-method > h1 {
   font-size: 2.3rem;
-  /* margin-top: 32px;
-  margin-left: 20px; */
   font-weight: 600;
   color: black;
 }
 
 .request-method > p {
   font-size: 1.3rem;
-  margin-bottom: 3px;
+  margin-bottom: 8px;
   font-weight: 500;
-}
-
-.request-method {
-  background-color: red;
+  margin-top: auto;
+  /* align-self: flex-end; */
 }
 
 .request-main-details, .message-data {
@@ -75,26 +74,24 @@
 }
 
 .request-main-details {
-  border: var(--big-border-width) solid red;
+  border: var(--big-border-width) solid;
   border-top-width: 10px;
   flex-direction: column;
   gap: 0px;
   overflow-y: scroll;
   scrollbar-width: none;
-  background-color: black;
   font-weight: 600;
+  /* background-color: black !important; */
 }
 
 .request-main-details > .tabs {
   display: flex;
   gap: 10px;
-  background-color: red;
   padding: 5px 10px;
   font-weight: 600;
   color: black;
   /* position: relative; */
   /* top: 71vh; */
-  z-index: 100;
   width: 100%;
   border-radius: 0px;
   /* border-bottom: 2px solid red; */
@@ -122,7 +119,6 @@
   display: flex;
   /* margin-top: 30px; */
   /* height: 100%; */
-  color: red;
   overflow: scroll;
   scrollbar-width: none;
   justify-content:flex-start
@@ -130,14 +126,10 @@
 
 .request-data-table {
   flex: 0 0 100%;
+  background-color: black;
   /* margin: 10px; */
   /* border-collapse: collapse; */
-  font-size: 0.9rem;
-}
-
-.request-data-table tr { 
-  /* border-bottom: 2px solid rgb(70, 0, 0); */
-
+  /* font-size: 0.9rem; */
 }
 
 .request-data-table th {
@@ -160,11 +152,18 @@
 }
 
 .main-controls {
-  /* border: var(--big-border-width) solid gray; */
+  border: var(--big-border-width) solid #b7bfc9;
   width: 90px;
   align-items: center;
   justify-content: center;
   gap: 30px;
+  border-radius: 35px;
+  background-color:#b7bfc9;
+}
+
+.main-controls button {
+  background-color: #b7bfc9;
+  
 }
 
 .main-control-area {
@@ -194,29 +193,31 @@
   width: max(33%, 150px);
   transition: all 0.5 ease;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
   gap: 20px;
   /* visibility: collapse; */
   /* height: min-content; */
   flex: 1;
-  padding: 0 10px;
+  padding: 10px;
+  display: flex;
+  background-color: var(--main-app-color);
 }
 
 .messages-control form {
-  margin-top: 10%;
   display: flex;
   flex-direction: column;
   /* gap: 20px; */
-  align-items: center;
   /* width: 80%; */
+  align-items: center;
+  /* justify-content: center; */
 }
 
 .messages-control form input {
   border-radius: 10px;
-  width: 100%;
+  width: 300px;
   border: 3px solid var(--main-app-color);
   background-color: black;
-  height: 30px;
+  height: 35px;
   color: white;
   outline: none;
   -webkit-transition: 0.5s;
@@ -233,11 +234,13 @@ textarea {
 
 .ws-button {
   font-size: medium;
-  font-weight: 600;
-  background-color: var(--main-app-color);
+  font-weight: 800;
+  /* background-color: var(--main-app-color); */
   color: black;
+  color: var(--main-app-color);
   padding: 5px 20px;
   min-width: 130px;
+
 }
 
 .expandable {
@@ -272,7 +275,6 @@ textarea {
   /* border: var(--big-border-width) solid var(--main-app-color); */
   border-radius: 30px;
   background-color: var(--main-app-color);
-  background-color: green;
   background-color: white;
   height: 60px;
   display: flex;
@@ -281,7 +283,7 @@ textarea {
   transition: all 0.5s ease;
   opacity: 0;
   font-weight: 800;
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 
 .flash-message.visible {
@@ -295,6 +297,7 @@ textarea {
   /* overflow-y: scroll; */
   /* overflow: hidden; */
   /* padding-bottom: 0px; */
+  margin-left: 5px;
 }
 
 .message-details > .message-data {
@@ -307,10 +310,11 @@ textarea {
   flex-direction: column;
   gap: 0;
   overflow: hidden;
+  background-color: var(--main-app-color);
 }
 
 .message-data > div {
-  padding: 10px;
+  padding: 0px 10px 10px;
 }
 
 .message-details > .message-server-url {
@@ -343,14 +347,37 @@ textarea {
 
 pre {
   /* background-color: #333; */
-  color: #fff;
+  color: #9eadb9;
   /* padding: 15px; */
   /* border-radius: 5px; */
   white-space: pre-wrap;
   /* word-wrap: break-word; */
   /* width: 100%; */
+  font-weight: 600;
 }
 
 .visible {
   opacity: 1;
+}
+
+.tabs[data-method="GET"],
+table[data-method="GET"],
+*[data-method="GET"] > div {
+  border-color: var(--get-color) !important;
+  background-color: var(--get-color) !important;
+}
+
+*[data-method="GET"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="POST"],
+table[data-method="POST"],
+*[data-method="POST"] > div {
+  border-color: var(--post-color) !important;
+  background-color: var(--post-color);
+}
+
+*[data-method="POST"] th {
+  /* color: var(--post-color) !important; */
 }

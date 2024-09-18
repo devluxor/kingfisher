@@ -16,6 +16,7 @@ button:hover {
 
 .copy-nest-icon {
   fill: var(--icon-color);
+  fill: black;
   height: 1.6rem;
   height: 4vh;
   /* height: 100px; */
@@ -26,14 +27,15 @@ button:hover {
 }
 
 .send-test-request-icon, .new-nest-icon {
-  /* stroke: gray;
-  fill-rule:'evenodd';
+  /* stroke: gray; */
+  /* fill-rule:'evenodd';
   stroke-linecap:'round';
-  stroke-linejoin:'round';
-  stroke-width:4;
-  width: 60%; */
+  stroke-linejoin:'round'; */
+  /* stroke-width:20px; */
+  /* width: 60%; */
   /* stroke: white; */
   color: var(--icon-color);
+  color: black;
   /* fill: white; */
   height: 4vh;
 }

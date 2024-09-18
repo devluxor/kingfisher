@@ -130,18 +130,12 @@
   }
 }
 
-.request.red {
-  background-color: red;
+.request[data-method="GET"] {
+  background-color: var(--get-color);
 }
-
-.request.green {
-  background-color: green;
+.request[data-method="POST"] {
+  background-color: var(--post-color);
 }
-
-.request.yellow {
-  background-color: yellow;
-}
-
-.request.blue {
-  background-color: blue;
+.request[data-method="GET"] {
+  background-color: var(--get-color);
 }

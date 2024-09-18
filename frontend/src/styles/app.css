@@ -12,6 +12,7 @@ html {
 body {
   /* padding: 5px; */
   background-color: black;
+  /* background-color: var(--main-app-color); */
   /* border: 1px solid white; */
   height: 100vh;
 }
@@ -23,7 +24,6 @@ body {
 }
 
 .main-container {
-  color: aqua;
   background-color:var(--main-app-color);
 }
 

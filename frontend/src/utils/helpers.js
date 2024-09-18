@@ -1,3 +1,5 @@
+import dateFormat from "dateformat";
+
 export const normalizeNest = (sqlNest) => {
   return {
     id: sqlNest[0].nest_id,
@@ -93,4 +95,8 @@ export const parseRequestData = (activeRequest, data) => {
     activeRequest[data]
 
   return parsedData
+}
+
+export const formatDate = (dateString) => {
+  return dateFormat(new Date(dateString).toLocaleString())
 }
