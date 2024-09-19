@@ -32,9 +32,10 @@ export const isValidWSURL = (url) => {
 }
 
 export const processRequest = (request) => {
+  console.log(request)
   const nestId = request.params.nestId
-  const origin = request.headers.origin
-  const originIp = request.headers['x-forwarded-for']
+  const origin = request.headers.origin || request.headers.host
+  const originIp = request.headers['x-forwarded-for'] || request.ip
   const method = request.method
   const query = request.query
   const path = request.params[0]
@@ -54,7 +55,8 @@ export const processRequest = (request) => {
     body,
     arrivedOn, 
   }
-
+  console.log("🤖 ~ processRequest ~ processedRequest:", processedRequest)
+  
   return processedRequest
 }
 
