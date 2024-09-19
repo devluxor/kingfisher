@@ -27,16 +27,15 @@ apiRouter.get('/wsm/:nestId', async (req, res, next) => {
 })
 
 apiRouter.post('/createNest', async (req, res, next) => {
-  console.log(req)
+
   try {
     const nestId = generateId()
     const newNest = {
       id: nestId, 
       createdOn: new Date(), 
-      ip: req.headers['x-forwarded-for'] || req.ip, 
-      host: req.hostname,
+      originIp: req.headers['x-forwarded-for'] || req.ip,
     }
-    await storeNest(nestId, newNest.ip, newNest.host)
+    await storeNest(nestId, newNest.originIp)
     res.status(201).send(newNest)
   } catch (e) {
     next(e);

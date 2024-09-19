@@ -22,18 +22,18 @@ const db = new Pool({
   }
 })();
 
-export const storeNest = async (nestId, ip, hostName) => {
+export const storeNest = async (nestId, originIp) => {
   const sqlQuery = `
     INSERT INTO 
-        nests (id, ip, host_name, created_on) 
+        nests (id, origin_ip, created_on) 
     VALUES 
-        ($1, $2, $3, NOW())
+        ($1, $2, NOW())
   `
 
   try {
     const result = await db.query(
       sqlQuery,
-      [nestId, ip, hostName]
+      [nestId, originIp]
     );
     return result.rows[0];
   } catch (error) {
