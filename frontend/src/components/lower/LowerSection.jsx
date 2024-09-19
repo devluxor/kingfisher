@@ -4,6 +4,7 @@ import CustomWSConnectionDetails from "./CustomWSConnectionDetails"
 
 const LowerSection = ({
   currentNest,
+  setCurrentNest,
   requests, 
   activeRequestId, 
   testRequest, 
@@ -28,7 +29,7 @@ const LowerSection = ({
       <RequestDetails activeRequest={activeRequest}/>
 
       <MainControls 
-        currentNest={currentNest} 
+        currentNest={currentNest}
         testRequest={testRequest} 
         setWsServerURL={setWsServerURL} 
         connectionEstablished={connectionEstablished} 

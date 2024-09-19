@@ -254,7 +254,7 @@ function App() {
     try {
       developmentMode && console.log('CLOSING WS CONNECTION IN THE BACKEND WITH EXTERNAL WS SERVER')
       await closeWSCustomClientInBackend(currentNestId)
-      activeWSConnection.close()
+      activeWSConnection?.close()
       setMessages([])
       setConnectionEstablished(false)
     } catch (error) {
@@ -282,7 +282,6 @@ function App() {
 
       <LowerSection
         currentNest={currentNest}
-
         requests={requests} 
         activeRequestId={activeRequestId}
         testRequest={testRequest}

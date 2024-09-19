@@ -62,6 +62,7 @@ export const testRequest = async (nestId) => {
   else if (HTTPMethod === 'PUT') axiosService = axios.put
   else if (HTTPMethod === 'HEAD') axiosService = axios.head
   else if (HTTPMethod === 'PATCH') axiosService = axios.patch
+  else if (HTTPMethod === 'DELETE') axiosService = axios.delete
   else axiosService = axios.get
 
   try {

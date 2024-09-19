@@ -1,19 +1,25 @@
-.request[data-method="GET"] {
+.request[data-method="GET"],
+.flash-message[data-method="GET"] {
   background-color: var(--get-color);
 }
-.request[data-method="POST"] {
+.request[data-method="POST"],
+.flash-message[data-method="POST"] {
   background-color: var(--post-color);
 }
-.request[data-method="PUT"] {
+.request[data-method="PUT"],
+.flash-message[data-method="PUT"] {
   background-color: var(--put-color);
 }
-.request[data-method="PATCH"] {
+.request[data-method="PATCH"],
+.flash-message[data-method="PATCH"] {
   background-color: var(--patch-color);
 }
-.request[data-method="HEAD"] {
+.request[data-method="HEAD"],
+.flash-message[data-method="HEAD"] {
   background-color: var(--head-color);
 }
-.request[data-method="DELETE"] {
+.request[data-method="DELETE"],
+.flash-message[data-method="DELETE"] {
   background-color: var(--delete-color);
 }
 
@@ -54,7 +60,11 @@ table[data-method="PATCH"],
   background-color: var(--patch-color) !important;
 }
 *[data-method="PATCH"] td {
-  color: #c8ffe0 !important;
+  color: #5664a0 !important;
+}
+
+.tabs[data-method="PATCH"] .tab.active {
+  color: #5664a0;
 }
 
 .tabs[data-method="HEAD"],

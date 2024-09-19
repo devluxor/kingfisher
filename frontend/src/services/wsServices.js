@@ -50,7 +50,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler,
       }, 20)
     });
 
-    setFlashMessage(isRequestMessage ? { message: 'Request Received'} : { message: 'Message Received'})
+    setFlashMessage(isRequestMessage ? { message: 'Request Received', type: message.method } : { message: 'Message Received'})
     setTimeout(() => setFlashMessage(null), 2000)
     setter((previousState) => [message, ...(previousState ? previousState : [])])
   }

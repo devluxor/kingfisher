@@ -76,7 +76,7 @@ const RequestDataTable = ({request, data, element}) => {
   if (!data) return
 
   if (typeof data === 'string') {
-    return <code>{data}</code>
+    return <code className="request-data-raw-body">{data}</code>
   } else {
     return (
       <table className={`request-data-table ${element}`} data-method={request.method}>

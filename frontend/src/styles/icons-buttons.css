@@ -45,16 +45,6 @@ button:hover {
 }
 
 .send-test-request-icon, .new-nest-icon, .nest-history-icon, .copy-nest-url-icon {
-  /* stroke: gray; */
-  /* fill-rule:'evenodd';
-  stroke-linecap:'round';
-  stroke-linejoin:'round'; */
-  /* stroke-width:20px; */
-  /* width: 60%; */
-  /* stroke: white; */
-  /* color: var(--icon-color);
-  color: black; */
-  /* fill: white; */
   height: var(--icon-size);
 }
 
@@ -72,7 +62,7 @@ button:hover {
   stroke: black;
 }
 
-.nest-history a .nest:hover {
+.nest-history.visible a .nest:hover {
   stroke: var(--main-app-color);
   cursor: pointer;
 }
@@ -103,4 +93,8 @@ a:nth-child(6) .nest {
 
 .nest:hover {
   stroke: var(--main-app-color);
+}
+
+.nest.active {
+  stroke: var(--main-app-color) !important;
 }

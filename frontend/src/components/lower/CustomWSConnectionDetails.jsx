@@ -1,14 +1,18 @@
-import JSONPretty from 'react-json-pretty';
-import JSONPrettyMon from 'react-json-pretty/dist/monikai';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, parseMessageData } from '../../utils/helpers';
 
 
-const CustomWSConnectionDetails = ({activeMessage, activeMessageId, connectionEstablished, wsServerURL}) => {
-  
+const CustomWSConnectionDetails = ({activeMessage,connectionEstablished, wsServerURL}) => {
+  const WS_SERVER_URL_LONG = 40
+
+  const isWSServerURLLong = wsServerURL?.length > WS_SERVER_URL_LONG
+
   return (
     <div className='message-details' style={{visibility: connectionEstablished ? 'visible' : 'hidden'}}>
       <div className='message-server-url'>
-        <h1>{connectionEstablished && wsServerURL}</h1>
+        <h1
+          className={`${isWSServerURLLong ? 'long' : ''}`}
+        >
+          {connectionEstablished && wsServerURL}</h1>
       </div>
       <div className='message-data'>
         <MessageDetails activeMessage={activeMessage}/>
@@ -20,105 +24,16 @@ const CustomWSConnectionDetails = ({activeMessage, activeMessageId, connectionEs
 const MessageDetails = ({activeMessage}) => {
   if (!activeMessage) return
 
-  const test = {
-    "users": [
-      {
-        "id": 1,
-        "name": "John Doe",
-        "age": 28,
-        "email": "john.doe@example.com",
-        "isAdmin": false,
-        "preferences": {
-          "theme": "dark",
-          "notifications": {
-            "email": true,
-            "sms": false
-          },
-          "languages": ["en", "fr"]
-        },
-        "friends": [
-          {
-            "id": 2,
-            "name": "Jane Smith",
-            "since": "2022-05-15"
-          },
-          {
-            "id": 3,
-            "name": "Michael Brown",
-            "since": "2021-11-20"
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "name": "Alice Johnson",
-        "age": 34,
-        "email": "alice.j@example.com",
-        "isAdmin": true,
-        "preferences": {
-          "theme": "light",
-          "notifications": {
-            "email": false,
-            "sms": true
-          },
-          "languages": ["en", "es", "de"]
-        },
-        "friends": [
-          {
-            "id": 5,
-            "name": "David Wilson",
-            "since": "2023-02-10"
-          }
-        ]
-      }
-    ],
-    "settings": {
-      "siteName": "Example Website",
-      "version": "1.3.5",
-      "maxUsers": 5000,
-      "features": {
-        "commentsEnabled": true,
-        "liveChat": false,
-        "analytics": {
-          "enabled": true,
-          "trackingId": "UA-123456789-1"
-        }
-      }
-    },
-    "products": [
-      {
-        "productId": "A123",
-        "productName": "Wireless Headphoneddddddddddds",
-        "price": 99.99,
-        "inStock": true,
-        "categories": ["electronics", "audio"],
-        "ratings": {
-          "average": 4.5,
-          "reviews": 320
-        }
-      },
-      {
-        "productId": "B456",
-        "productName": "Smartphone",
-        "price": 699.99,
-        "inStock": false,
-        "categories": ["electronics", "mobile"],
-        "ratings": {
-          "average": 4.7,
-          "reviews": 850
-        }
-      }
-    ]
-  }
+  const messageData = parseMessageData(activeMessage)
   const arrivedOn = activeMessage?.arrived_on || activeMessage?.arrivedOn
+  
   return (
       <>
         <div className="arrived-on">
           <p>{activeMessage && formatDate(arrivedOn)}</p>
         </div>
         <div className="data">
-          <pre className="data">{JSON.stringify(test, null, 4)}</pre>
-          {/* <JSONPretty id="json-pretty" theme={JSONPrettyMon} data={activeMessage.data}></JSONPretty> */}
+          <pre className="data">{JSON.stringify(messageData, null, 4).replaceAll('\\"', '')}</pre>
         </div>
       </>
   )

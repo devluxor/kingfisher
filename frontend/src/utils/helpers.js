@@ -11,10 +11,13 @@ export const normalizeNest = (sqlNest) => {
   }
 }
 
-export const copyNestId = async (currentNestId) => {
+export const copyNestURL = async (currentNestId) => {
+  const baseURL = import.meta.env.DEV ? 
+                    `http://localhost:3000`: 
+                    `https://kingfisher.luxor.dev`
+
   try {
-    await navigator.clipboard.writeText(currentNestId)
-    console.log('Text copied to clipboard');
+    await navigator.clipboard.writeText(`${baseURL}/!/${currentNestId}`)
   } catch (error) {
     console.error('Failed to copy text: ', error);
   }
@@ -22,6 +25,7 @@ export const copyNestId = async (currentNestId) => {
 
 export const setupHistoryCache = () => {
   const localStore = localStorage.kingfisherHistoryCache
+
   if (!localStore) {
     const store = {}
     localStorage.setItem('kingfisherHistoryCache', JSON.stringify(store))
@@ -50,8 +54,8 @@ export const saveNestInHistoryCache = (nestId) => {
 }
 
 export const isNestInHistoryCache = (nestId) => {
-  const HistoryCache = JSON.parse(localStorage.getItem('kingfisherHistoryCache'))
-  return nestId in HistoryCache 
+  const historyCache = JSON.parse(localStorage.getItem('kingfisherhistoryCache'))
+  return nestId in historyCache 
 }
 
 export const isValidNestId = (nestId) => {
@@ -98,12 +102,20 @@ export const parseRequestData = (activeRequest, data) => {
   return parsedData
 }
 
+export const parseMessageData = (message) => {
+  const parsedData = isJSON(message.data) ?
+    JSON.parse(message.data) :
+    message.data
+
+  return parsedData
+}
+
 export const formatDate = (dateString) => {
   return dateFormat(new Date(dateString).toLocaleString())
 }
 
 export const randomHTTPMethod = () => {
-  const methods = ['GET', 'POST', 'PUT', 'HEAD', 'PATCH']
+  const methods = ['GET', 'POST', 'PUT', 'HEAD', 'PATCH', 'DELETE']
 
   return methods[Math.floor(Math.random() * methods.length)];
 }
@@ -111,4 +123,14 @@ export const randomHTTPMethod = () => {
 export const randomURLPatch = () => {
   const randomWords = generate(2)
   return `${randomWords[0]}/${randomWords[1]}`
+}
+
+export const lastNests = () => {
+  const NUMBER_OF_NESTS = 6
+  const nests = JSON.parse(localStorage.kingfisherHistoryCache)
+  const nestsIds = Object.keys(nests)
+
+  return nestsIds.length > NUMBER_OF_NESTS ? 
+    nestsIds.slice(-NUMBER_OF_NESTS).reverse() : 
+    nestsIds.reverse()
 }
