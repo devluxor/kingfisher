@@ -50,7 +50,7 @@ const RequestDetails = ({activeRequest}) => {
               className={`tab request-query ${activeTab === 'Query' && 'active'}`}
               onClick={(e) => activateTab(e)}
           >Query</div>}
-          {activeRequest.method !== 'GET' && <div 
+          {body && Object.keys(body).length > 0 && <div 
             className={`tab request-body ${activeTab === 'Body' && 'active'}`}
             onClick={(e) => activateTab(e)}
           >Body</div>}
