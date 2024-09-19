@@ -13,7 +13,7 @@ CREATE TABLE requests (
     nest_id VARCHAR(22) REFERENCES nests(id) NOT NULL,
     method VARCHAR(500) NOT NULL,
     origin VARCHAR(65535) NOT NULL,
-    origin_ip VARCHAR(15),
+    origin_ip VARCHAR(15) NOT NULL,
     path VARCHAR(65535) NOT NULL,
     query VARCHAR(65535) NOT NULL,
     headers VARCHAR(65535) NOT NULL,
