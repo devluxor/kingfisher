@@ -71,6 +71,11 @@
   font-weight: var(--xxl-font-weight);
 }
 
+.origin-address {
+  margin-left: auto;
+  margin-bottom: 1px;
+}
+
 .request-main-details > .tabs {
   display: flex;
   gap: var(--padding-and-gaps);
@@ -78,7 +83,6 @@
   font-weight: var(--xxl-font-weight);
   color: black;
   width: 100%;
-
 }
 
 .request-main-details .tab {
@@ -86,7 +90,9 @@
 }
 
 .request-main-details .arrived-on {
+  margin-top: 5px;
   margin-left: auto;
+  margin-right: 20px;
 }
 
 .tabs > .tab:hover {
