@@ -81,6 +81,13 @@ const MainControls = ({
     )
   }
 
+  const copyNest = () => {
+    copyNestURL(currentNest.id)
+    displayFlashMessage('Nest URL Copied')
+    setTimeout(
+      () => setFlashMessage(null), 4000)
+  }
+
   return (
     <div className='main-control-area'>
 
@@ -89,7 +96,7 @@ const MainControls = ({
           <SendIcon displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage}/>
         </button>
         <button
-          onClick={() => copyNestURL(currentNest.id)}
+          onClick={copyNest}
         ><CopyIcon displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage}/></button>
         <button onClick={resetCurrentNest}><PlusCircleIcon  displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage} /></button>
         <button onClick={() => setNestHistoryToggle(s => !s)}>
