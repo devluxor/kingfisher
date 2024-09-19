@@ -1,26 +1,20 @@
 @import url(./system.css);
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 html {
   overflow: hidden;
   font-family: "Inter Tight", sans-serif;
-  /* font-family: "Inter", sans-serif; */
   font-weight: 600;
 }
 
 body {
-  /* padding: 5px; */
-  background-color: black;
-  /* background-color: var(--main-app-color); */
-  /* border: 1px solid white; */
+  background-color: black !important;
   height: 100vh;
 }
 
 #root {
   width: max(1220px, 100%);
   height: 100%;
-  /* border: 1px solid blue; */
 }
 
 .main-container {
@@ -32,7 +26,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px black inset !important;
-    -webkit-text-fill-color: white !important;
+    -webkit-text-fill-color: var(--white) !important;
 }
 
 

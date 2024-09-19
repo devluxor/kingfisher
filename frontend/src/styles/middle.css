@@ -2,40 +2,33 @@
 .main-container.middle {
   color: var(--general-font-color);
   height: max(200px, 40%);
-  /* background-color: #064b85; */
-  /* background: var(--gradient); */
   background-color: var(--main-app-color);
   display: flex;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
+  border-bottom-left-radius: var(--general-border-radius);
+  border-bottom-right-radius: var(--general-border-radius);
   /* border-radius: 40px; */
   overflow: hidden;
 }
 
 .title-container, .stats-container {
-  /* border: 1px solid white; */
   display: flex;
 }
 
 .title-container {
   width: 60%;
-  /* flex-direction: column; */
-  /* justify-content: end; */
   align-items: end;
-  /* padding-bottom: 15px; */
   margin-bottom: -17px;
   margin-bottom: 45px;
   z-index: 10;
 }
 
 .title-container h1 {
-  font-size: 30vh;
-  margin-left: 55px;
+  font-size: var(--big-font);
+  margin-left: 50px;
 }
 
 .title-container h2 {
-  /* margin-bottom: 12.5px; */
-  font-size: 30vh;
+  font-size: var(--big-font);
   font-style: italic;
   margin-left: -880px;
   margin-left: -1410px;

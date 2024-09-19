@@ -1,20 +1,13 @@
-
 .main-container.lower {
   height: max(100px, 40%);
-  /* background-color: rgb(61, 42, 42); */
   background-color: black;
-  background-color: black;
-  /* border: var(--big-border-width) solid salmon; */
   display: flex;
   justify-content: space-between;
-  /* justify-content: center; */
-  /* height: 100%; */
-  font-weight: 300;
+  font-weight: var(--base-font-weight);
 }
 
-
 .request-details, .main-control-area, .message-details {
-  padding: 10px 0;
+  padding: var(--padding-and-gaps) 0;
 }
 
 .request-details, .message-details {
@@ -22,7 +15,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: var(--padding-and-gaps);
   transition: all 0.5s ease;
 }
 
@@ -32,9 +25,8 @@
 
 .request-method, .message-server-url, .request-main-details, .message-data {
   width: max(300px, 100%);
-  /* height: 22%; */
   border-radius: var(--general-border-radius);
-  padding: 10px;
+  padding: var(--padding-and-gaps);
   color: black;
 }
 
@@ -45,48 +37,45 @@
 .request-method {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--padding-and-gaps);
   min-height: 65px;
   padding-left: 25px;
-  /* padding-bottom: 15px; */
-  /* justify-content: center; */
 }
 
 .request-method > h1 {
   font-size: 2.3rem;
-  font-weight: 600;
+  font-weight: var(--xxl-font-weight);
   color: black;
 }
 
 .request-method > p {
-  font-size: 1.3rem;
+  font-size: var(--srD);
   margin-bottom: 8px;
-  font-weight: 500;
+  font-weight: var(--xl-font-weight);
   margin-top: auto;
-  /* align-self: flex-end; */
 }
 
 .request-main-details, .message-data {
   display: flex;
   height: 100%;
-  gap: 10px;
+  gap: var(--padding-and-gaps);
 }
 
 .request-main-details {
   border: var(--big-border-width) solid;
-  border-top-width: 10px;
+  border-top-width: var(--padding-and-gaps);
   flex-direction: column;
   gap: 0px;
   overflow-y: scroll;
   scrollbar-width: none;
-  font-weight: 600;
+  font-weight: var(--xxl-font-weight);
 }
 
 .request-main-details > .tabs {
   display: flex;
-  gap: 10px;
+  gap: var(--padding-and-gaps);
   padding: 5px 20px 5px 15px;
-  font-weight: 600;
+  font-weight: var(--xxl-font-weight);
   color: black;
   width: 100%;
 
@@ -101,19 +90,15 @@
 }
 
 .tabs > .tab:hover {
-  /* background-color: red; */
-  color: white;
+  color: var(--white);
 }
 
 .tabs > .tab.active {
-  /* background-color: red; */
-  color: white;
+  color: var(--white);
 }
 
 .request-main-details > div.content {
   display: flex;
-  /* margin-top: 30px; */
-  /* height: 100%; */
   overflow: scroll;
   scrollbar-width: none;
   justify-content:flex-start
@@ -122,21 +107,15 @@
 .request-data-table {
   flex: 0 0 100%;
   background-color: black;
-  /* margin: 10px; */
-  /* border-collapse: collapse; */
-  /* font-size: 0.9rem; */
 }
 
 .request-data-table th {
   min-width: 180px;
   text-align: left;
-  /* max-height: 20px; */
 }
 
 .request-data-table td {
   color: rgb(139, 114, 114);
-  /* border-left: 2px solid red; */
-  /* border-bottom: 2px solid red; */
   width: 100%;
   max-height: 20px;
 }
@@ -151,15 +130,12 @@
 }
 
 .main-controls {
-  border: var(--big-border-width) solid  var(--general-font-color);
-  border: var(--big-border-width) solid  whitesmoke;
   width: 100px;
   align-items: center;
   justify-content: center;
   gap: 2.5vh;
   border-radius: var(--general-border-radius);
-  background-color: var(--general-font-color);
-  background-color: whitesmoke;
+  background-color: var(--white);
   margin-left: 5px;
 }
 
@@ -171,12 +147,9 @@
 
 .main-control-area {
   width: max(100px, 30%);
-  /* border-left: 1px solid var(--main-app-color);
-  border-right: 1px solid var(--main-app-color); */
   display: flex;
   justify-content: space-between;
-  /* padding: 10px 0; */
-  gap: 10px;
+  gap: var(--padding-and-gaps);
 }
 
 .main-control-area > div {
@@ -187,7 +160,7 @@
 .messages-control-and-flash-panel {
   flex: 1;
   padding: 0px;
-  gap: 10px;
+  gap: var(--padding-and-gaps);
   min-width: 300px;
 }
 
@@ -199,10 +172,8 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  /* visibility: collapse; */
-  /* height: min-content; */
   flex: 1;
-  padding: 10px;
+  padding: var(--padding-and-gaps);
   display: flex;
   background-color: var(--main-app-color);
 }
@@ -210,26 +181,23 @@
 .messages-control form {
   display: flex;
   flex-direction: column;
-  /* gap: 20px; */
   width: 100%;
   align-items: center;
-  /* justify-content: center; */
-  padding: 0px 10px;
+  padding: 0px var(--padding-and-gaps);
 }
 
 .messages-control form input {
   all: unset;
   border-radius: 20px;
   width: 100%;
-  /* border: 3px solid var(--main-app-color); */
   background-color: black;
   height: 45px;
-  color: white;
+  color: var(--white);
   outline: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  padding: 0px 10px;
-  font-weight: 600;
+  padding: 0px var(--padding-and-gaps);
+  font-weight: var(--base-font-weight);
   box-shadow: none;
 }
 
@@ -237,18 +205,7 @@ form input:active,
 form input:focus,
 textarea {
   background-color: black;
-  border: 3px solid white;
-}
-
-.ws-button {
-  font-size: medium;
-  font-weight: 800;
-  /* background-color: var(--main-app-color); */
-  color: black;
-  color: var(--main-app-color);
-  padding: 5px 20px;
-  min-width: 130px;
-
+  border: 3px solid var(--white);
 }
 
 .expandable {
@@ -258,8 +215,6 @@ textarea {
   opacity: 0;
   overflow: scroll;
   transition: opacity 0.5s, overflow 1s;
-  /* transition: opacity 1s 2s; */
-  /* height: 50px; */
 }
 
 .expandable.visible {
@@ -270,47 +225,40 @@ textarea {
 }
 
 .expandable.invisible {
-  /* width: 0; */
   transition: opacity 0.5s, overflow 1s;
-  /* visibility: collapse; */
   opacity: 0;
   overflow: scroll;
 }
 
 .flash-message {
-  font-weight: 500;
+  font-weight: var(--base-font-weight);
   color: black;
-  /* border: var(--big-border-width) solid var(--main-app-color); */
   border-radius: var(--general-border-radius);
   background-color: var(--main-app-color);
-  background-color: white;
+  background-color: var(--white);
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.5s ease;
   opacity: 0;
-  font-weight: 800;
+  font-weight: var(--xxxxl-font-weight);
   font-size: 1.4rem;
-  /* width: max(380px, 40%);
-  width: max(380px, 35%);
-  min-width: 35%; */
   min-width: 100%;
 }
 
 .nest-history {
-  font-weight: 500;
   color: black;
   border-radius: var(--general-border-radius);
   background-color: var(--main-app-color);
-  background-color: white;
+  background-color: var(--white);
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.5s ease;
   opacity: 0;
-  font-weight: 800;
+  font-weight: var(--xxl-font-weight);
   font-size: 1.7rem;
   gap: 15px;
   min-width: 100%;
@@ -325,45 +273,35 @@ textarea {
 }
 
 .message-details {
-  /* border: 1px solid greenyellow; */
   display: flex;
   flex-direction: column;
-  /* overflow-y: scroll; */
-  /* overflow: hidden; */
-  /* padding-bottom: 0px; */
   margin-left: 5px;
 }
 
 .message-details > .message-data {
-  /* background-color: black; */
   color: black;
   border: var(--big-border-width) solid var(--main-app-color);
   padding: 0px;
-  /* height: 81.5%; */
   display: flex;
   flex-direction: column;
   gap: 0;
   overflow: hidden;
   background-color: var(--main-app-color);
-  border-radius: ;
+  border-radius: var(--general-border-radius);
 }
 
 .message-data > div {
-  padding: 0px 10px 10px;
+  padding: 0px var(--padding-and-gaps) var(--padding-and-gaps);
 }
 
 .message-details > .message-server-url {
   display: flex;
   align-items: center;
-  /* background-color: black; */
   background-color: var(--main-app-color);
-  /* background-color: #064b85; */
   color:black;
-  /* border: var(--big-border-width) solid var(--main-app-color); */
-  font-weight: 700;
+  font-weight: var(--xxxl-font-weight);
   font-size: 1.4rem;
   min-height: 65px;
-  /* margin-top: auto; */
   padding-left: 20px;
   overflow-x: scroll;
   scrollbar-width: none;
@@ -372,7 +310,7 @@ textarea {
 
 .message-data .arrived-on {
   text-align: end;
-  font-weight: 600;
+  font-weight: var(--xxl-font-weight);
   background-color: var(--main-app-color);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -386,14 +324,9 @@ textarea {
 }
 
 pre {
-  /* background-color: #333; */
-  color: #9eadb9;
-  /* padding: 15px; */
-  /* border-radius: 5px; */
+  color: var(--white);
   white-space: pre-wrap;
-  /* word-wrap: break-word; */
-  /* width: 100%; */
-  font-weight: 600;
+  font-weight: var(--xxl-font-weight);
 }
 
 .visible {

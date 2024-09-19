@@ -1,10 +1,8 @@
 
 /* Remove all unnecessary calls later */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:wght@300;400&family=Raleway:wght@200;300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-
-  scrollbar-width: thin;
   /* Sizes */
 
   /* General Absolute Sizes based on 16px, the font size by default
@@ -74,11 +72,14 @@
 
   /* Fonts */
 
-  --general-font: Montserrat, system-ui, Tahoma, Verdana, sans-serif;
+  --big-font: 30vh;
 
-
-  --base-font-weight: 500;
-  --bold-font-weight: 600;
+  --base-font-weight: 400;
+  --xl-font-weight: 500;
+  --xxl-font-weight: 600;
+  --xxxl-font-weight: 700;
+  --xxxxl-font-weight: 800;
+  --xxxxxl-font-weight: 900;
 
   /* General Absolute Values for Fonts */
   --fA: 12px;
@@ -92,8 +93,6 @@
   --fI: 48px;
   --fJ: 60px;
   --fK: 72px;
-
-
 
   /* General Relative Values for Fonts, equivalent to the previous values,
      assuming 1rem = 16px 
@@ -111,12 +110,23 @@
   --frJ: 3.75rem;
   --frK: 4.5rem;
 
+  /* General Measurements */
+
+  --rm-border-size: 12px;
+  --rm-size: 40px;
+  --rm-little-ball: 30px;
+
+  --icon-size: 4.1vh;
+
+  --padding-and-gaps: 10px;
+
 
   /* Colors */
 
-  /* Main derivatives */
+  --white: whitesmoke;
 
-  --light-green-border: hsl(180, 93%, 23%);
+
+  /* Main derivatives */
 
   --main-app-color:#0b4677;
   --second-color-gradient:#0c68af;
@@ -130,7 +140,7 @@
   --background-color:  hsl(210, 6%, 4%);
   --light-background-color:  hsl(0, 0%, 9%);
 
-  --general-font-color: #b7bfc9;
+  --general-font-color: var(--white);
 
   --table-key: #4b6c86;
 
@@ -167,10 +177,6 @@
   --cK: hsl(198, 71%, 7%);
 
   --low-contrast-font:  #5d8aad;
-  --tab-background: var(--cK);
-
-  --table-header-color: var(--cD);
-
 
   /* Methods */
 
@@ -181,17 +187,11 @@
   --patch-color:rgb(231, 214, 20);
   --head-color:rgb(209, 162, 238);
 
-  --stack-trace-background: rgb(15, 15, 15);
-
-  --stack-trace-trigger: var(--complementary);
-
-  --subtle-shadow: 0 4px 4px rgba(255, 255, 255, 0.1);
-
   --icon-color: rgb(110, 110, 110);
 
   --input-color: var(--main-app-color);
 
-  --icon-size: 4.1vh;
+
 
   /* Accents */
 
@@ -205,10 +205,9 @@
   /* Borders */
 
   --main-components-border: 1px solid var(--border-color);
-  --general-border-radius: 35px;
+  --general-border-radius: 40px;
 
   --big-border-width: 14px;
-
 
   --gradient: linear-gradient(to right, var(--main-app-color), var(--second-color-gradient));
 }

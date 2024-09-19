@@ -1,74 +1,50 @@
 .ws-connection {
   border: none;
-  background-color: black;
   background-color: transparent;
-  border-radius: var(--general-border-radius);
-  border-radius: 100px;
-  width: 5vh;
-  height: 5vh;
 }
-
-.ws-connection-icon {
-  stroke: black;
-  /* width: 3.3vh; */
-}
-
-
 
 .ws-connection.ws-connection.active .ws-connection-icon {
-  stroke: whitesmoke;
+  stroke: var(--white);
+} 
+
+.copy-nest-icon:hover {
+  fill: var(--white);
+}
+
+.send-test-request-icon, 
+.new-nest-icon, 
+.nest-history-icon, 
+.copy-nest-url-icon, 
+.nest, 
+.ws-connection-icon {
+  stroke: black;
+  height: var(--icon-size);
+}
+
+.send-test-request-icon:hover, 
+.new-nest-icon:hover, 
+.nest-history-icon:hover, 
+.copy-nest-url-icon:hover, 
+.nest-history-icon:hover,
+.nest-history-icon.active,
+.nest-history.visible a .nest:hover
+.nest:hover,
+.nest.active {
+  stroke: var(--main-app-color) !important;
+  cursor: pointer;
 }
 
 .ws-connection-icon:hover {
-  stroke: whitesmoke;
-  /* width: var(--icon-size); */
-}
-
-button:hover {
   cursor: pointer;
-  color: white;
+  stroke: var(--white) ;
 }
 
-.ws-icon {
-  fill: white;
-}
-
-.copy-nest-url-icon {
-  /* fill: var(--icon-color);
-  fill: black; */
-  height: var(--icon-size);
-
-}
-
-.copy-nest-icon:hover {
-  fill: white;
-}
-
-.send-test-request-icon, .new-nest-icon, .nest-history-icon, .copy-nest-url-icon {
-  height: var(--icon-size);
-}
-
-.nest-history-icon.active {
-  stroke: var(--main-app-color);
-}
-
-.send-test-request-icon:hover,
-.new-nest-icon:hover {
-  color: white;
-}
-
-.nest-history .nest {
-  height: 3.6vh;
-  stroke: black;
-}
-
-.nest-history.visible a .nest:hover {
-  stroke: var(--main-app-color);
+.nest:hover {
   cursor: pointer;
 }
 
 a:nth-child(1) .nest {
-  stroke: rgb(41, 41, 41);
+  stroke: black;
 }
 
 a:nth-child(2) .nest {
@@ -89,12 +65,4 @@ a:nth-child(5) .nest {
 
 a:nth-child(6) .nest {
   stroke: rgb(216, 216, 216);
-}
-
-.nest:hover {
-  stroke: var(--main-app-color);
-}
-
-.nest.active {
-  stroke: var(--main-app-color) !important;
 }

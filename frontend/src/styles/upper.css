@@ -1,50 +1,40 @@
 .main-container.upper {
   background-color: var(--main-app-color);
-  /* background-color: black; */
-  /* background: var(--gradient); */
   height: max(100px, 20%);
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: var(--rm-little-ball);
   justify-content: center;
 }
 
 .arrived-elements {
   width: 100%;
-  /* background-color: black; */
-  /* background: var(--gradient); */
-  /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
-  height: 30px;
+  height: var(--rm-little-ball);
   display: flex;
-  gap: 10px;
-  padding-left: 10px;
-  /* justify-content: ; */
-  /* overflow-x: auto; */
+  gap: var(--sB);
+  padding-left: var(--sB);
 }
 
 .arrived-elements > .request {
   cursor: pointer;
   color: black;
-  min-width: 40px;
-  height: 40px;
+  min-width: var(--rm-size);
+  height: var(--rm-size);
   border-radius: 100px;
-  margin-left: 10px;
-  border: 12px solid black;
-  /* transition: transform 0.3s ease; */
+  margin-left: var(--sB);
+  border: var(--rm-border-size) solid black;
   transition: border-color 0.6s ease;
 }
 
 .request.new {
-  /* border: 12px solid gold; */
   animation-name: request-enter;
   animation-duration: 0.8s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
-  background-color: aliceblue;
 }
 
 .request.active {
-  border: 12px solid rgb(255, 255, 255);
+  border: var(--rm-border-size) solid var(--white);
 }
 
 .request.slide-right {
@@ -69,7 +59,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(40px);
+    transform: translateX(var(--rm-size));
   }
 }
 
@@ -78,13 +68,12 @@
 }
 
 .arrived-elements > .message {
-  color: black;
-  background-color: white;
-  min-width: 40px;
-  height: 40px;
+  background-color: var(--white);
+  min-width: var(--rm-size);
+  height: var(--rm-size);
   border-radius: 100px;
-  margin-right: 10px ;
-  border: 12px solid black;
+  margin-right: var(--sB) ;
+  border: var(--rm-border-size) solid black;
   cursor: pointer;
   transition: border-color 0.6s ease;
 }
@@ -94,13 +83,12 @@
   animation-duration: 0.8s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
-  background-color: aliceblue;
-  /* border: 12px solid gold; */
-  margin-right: 10px;
+  background-color:var(--white);
+  margin-right: var(--sC);
 }
 
 .message.active {
-  border: 12px solid rgb(255, 255, 255);
+  border: var(--rm-border-size) solid var(--white);
   background-color: black;
 }
 
