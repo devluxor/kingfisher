@@ -129,13 +129,3 @@
     transform: translateX(-40px);
   }
 }
-
-.request[data-method="GET"] {
-  background-color: var(--get-color);
-}
-.request[data-method="POST"] {
-  background-color: var(--post-color);
-}
-.request[data-method="GET"] {
-  background-color: var(--get-color);
-}

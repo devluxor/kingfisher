@@ -1,0 +1,79 @@
+.request[data-method="GET"] {
+  background-color: var(--get-color);
+}
+.request[data-method="POST"] {
+  background-color: var(--post-color);
+}
+.request[data-method="PUT"] {
+  background-color: var(--put-color);
+}
+.request[data-method="PATCH"] {
+  background-color: var(--patch-color);
+}
+.request[data-method="HEAD"] {
+  background-color: var(--head-color);
+}
+.request[data-method="DELETE"] {
+  background-color: var(--delete-color);
+}
+
+.tabs[data-method="GET"],
+table[data-method="GET"],
+*[data-method="GET"] > div {
+  border-color: var(--get-color) !important;
+  background-color: var(--get-color) !important;
+}
+*[data-method="GET"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="POST"],
+table[data-method="POST"],
+*[data-method="POST"] > div {
+  border-color: var(--post-color) !important;
+  background-color: var(--post-color) !important;
+}
+*[data-method="POST"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="PUT"],
+table[data-method="PUT"],
+*[data-method="PUT"] > div {
+  border-color: var(--put-color) !important;
+  background-color: var(--put-color) !important;
+}
+*[data-method="PUT"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="PATCH"],
+table[data-method="PATCH"],
+*[data-method="PATCH"] > div {
+  border-color: var(--patch-color) !important;
+  background-color: var(--patch-color) !important;
+}
+*[data-method="PATCH"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="HEAD"],
+table[data-method="HEAD"],
+*[data-method="HEAD"] > div {
+  border-color: var(--head-color) !important;
+  background-color: var(--head-color) !important;
+}
+*[data-method="HEAD"] td {
+  color: #c8ffe0 !important;
+}
+
+.tabs[data-method="DELETE"],
+table[data-method="DELETE"],
+*[data-method="DELETE"] > div {
+  border-color: var(--delete-color) !important;
+  background-color: var(--delete-color) !important;
+}
+*[data-method="DELETE"] td {
+  color: #c8ffe0 !important;
+}
+

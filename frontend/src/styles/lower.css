@@ -33,14 +33,13 @@
 .request-method, .message-server-url, .request-main-details, .message-data {
   width: max(300px, 100%);
   /* height: 22%; */
-  border-radius: 30px;
+  border-radius: var(--general-border-radius);
   padding: 10px;
   color: black;
 }
 
 .request-main-details {
   padding: 0px;
-  border-radius: 30px;
 }
 
 .request-method {
@@ -81,20 +80,16 @@
   overflow-y: scroll;
   scrollbar-width: none;
   font-weight: 600;
-  /* background-color: black !important; */
 }
 
 .request-main-details > .tabs {
   display: flex;
   gap: 10px;
-  padding: 5px 10px;
+  padding: 5px 20px 5px 15px;
   font-weight: 600;
   color: black;
-  /* position: relative; */
-  /* top: 71vh; */
   width: 100%;
-  border-radius: 0px;
-  /* border-bottom: 2px solid red; */
+
 }
 
 .request-main-details .tab {
@@ -152,18 +147,22 @@
 }
 
 .main-controls {
-  border: var(--big-border-width) solid #b7bfc9;
-  width: 90px;
+  border: var(--big-border-width) solid  var(--general-font-color);
+  border: var(--big-border-width) solid  whitesmoke;
+  width: 100px;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  border-radius: 35px;
-  background-color:#b7bfc9;
+  gap: 3vh;
+  border-radius: var(--general-border-radius);
+  background-color: var(--general-font-color);
+  background-color: whitesmoke;
+  margin-left: 5px;
 }
 
 .main-controls button {
-  background-color: #b7bfc9;
-  
+  background-color: transparent;
+  color: var(--main-app-color);
+  border: none;
 }
 
 .main-control-area {
@@ -189,7 +188,7 @@
 
 .messages-control {
   border: var(--big-border-width) solid var(--main-app-color);
-  border-radius: 30px;
+  border-radius: var(--general-border-radius);
   width: max(33%, 150px);
   transition: all 0.5 ease;
   align-items: center;
@@ -207,22 +206,26 @@
   display: flex;
   flex-direction: column;
   /* gap: 20px; */
-  /* width: 80%; */
+  width: 100%;
   align-items: center;
   /* justify-content: center; */
+  padding: 0px 10px;
 }
 
 .messages-control form input {
-  border-radius: 10px;
-  width: 300px;
-  border: 3px solid var(--main-app-color);
+  all: unset;
+  border-radius: 20px;
+  width: 100%;
+  /* border: 3px solid var(--main-app-color); */
   background-color: black;
-  height: 35px;
+  height: 45px;
   color: white;
   outline: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  padding-left: 10px;
+  padding: 0px 10px;
+  font-weight: 600;
+  box-shadow: none;
 }
 
 form input:active,
@@ -273,7 +276,7 @@ textarea {
   font-weight: 500;
   color: black;
   /* border: var(--big-border-width) solid var(--main-app-color); */
-  border-radius: 30px;
+  border-radius: var(--general-border-radius);
   background-color: var(--main-app-color);
   background-color: white;
   height: 60px;
@@ -284,6 +287,23 @@ textarea {
   opacity: 0;
   font-weight: 800;
   font-size: 1.7rem;
+}
+
+.nest-history {
+  font-weight: 500;
+  color: black;
+  border-radius: var(--general-border-radius);
+  background-color: var(--main-app-color);
+  background-color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  opacity: 0;
+  font-weight: 800;
+  font-size: 1.7rem;
+  gap: 15px
 }
 
 .flash-message.visible {
@@ -311,6 +331,7 @@ textarea {
   gap: 0;
   overflow: hidden;
   background-color: var(--main-app-color);
+  border-radius: ;
 }
 
 .message-data > div {
@@ -329,6 +350,15 @@ textarea {
   font-size: 1.4rem;
   min-height: 65px;
   /* margin-top: auto; */
+  padding-left: 20px;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.message-server-url h1.long {
+  /* color: pink; */
+  /* font-size: 1rem; */
 }
 
 .message-data .arrived-on {
@@ -337,6 +367,7 @@ textarea {
   background-color: var(--main-app-color);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  padding-right: 20px;
 }
 
 .message-data .data {
@@ -358,26 +389,4 @@ pre {
 
 .visible {
   opacity: 1;
-}
-
-.tabs[data-method="GET"],
-table[data-method="GET"],
-*[data-method="GET"] > div {
-  border-color: var(--get-color) !important;
-  background-color: var(--get-color) !important;
-}
-
-*[data-method="GET"] td {
-  color: #c8ffe0 !important;
-}
-
-.tabs[data-method="POST"],
-table[data-method="POST"],
-*[data-method="POST"] > div {
-  border-color: var(--post-color) !important;
-  background-color: var(--post-color);
-}
-
-*[data-method="POST"] th {
-  /* color: var(--post-color) !important; */
 }

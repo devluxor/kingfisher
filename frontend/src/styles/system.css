@@ -171,7 +171,6 @@
 
   --table-header-color: var(--cD);
 
-  --map-filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 
   /* Methods */
 
@@ -179,7 +178,7 @@
   --post-color:rgb(235, 144, 25);
   --put-color: rgb(69, 157, 223);
   --delete-color:rgb(194, 73, 87);
-  --patch-color:rgb(240, 225, 55);
+  --patch-color:rgb(216, 199, 17);
   --head-color:rgb(209, 162, 238);
 
   --stack-trace-background: rgb(15, 15, 15);
@@ -191,6 +190,8 @@
   --icon-color: rgb(110, 110, 110);
 
   --input-color: var(--main-app-color);
+
+  --icon-size: 4.1vh;
 
   /* Accents */
 
@@ -204,7 +205,7 @@
   /* Borders */
 
   --main-components-border: 1px solid var(--border-color);
-  --general-border-radius: 3px;
+  --general-border-radius: 35px;
 
   --big-border-width: 14px;
 
