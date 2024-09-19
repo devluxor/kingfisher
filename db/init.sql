@@ -4,8 +4,7 @@ DROP TABLE IF EXISTS ws_messages;
 
 CREATE TABLE nests (
     id VARCHAR(22) PRIMARY KEY,
-    ip VARCHAR(39) NOT NULL,
-    host_name VARCHAR(300) NOT NULL,
+    origin_ip VARCHAR(50) NOT NULL,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
