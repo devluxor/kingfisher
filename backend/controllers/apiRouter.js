@@ -33,7 +33,7 @@ apiRouter.post('/createNest', async (req, res, next) => {
     const newNest = {
       id: nestId, 
       createdOn: new Date(), 
-      ip: req.ip, 
+      ip: req.headers['x-forwarded-for'] || req.ip, 
       host: req.hostname,
     }
     await storeNest(nestId, req.ip, req.hostname)
