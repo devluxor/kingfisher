@@ -27,7 +27,7 @@ apiRouter.get('/wsm/:nestId', async (req, res, next) => {
 })
 
 apiRouter.post('/createNest', async (req, res, next) => {
-  console.log(req)
+
   try {
     const nestId = generateId()
     const newNest = {

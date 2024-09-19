@@ -55,7 +55,6 @@ export const processRequest = (request) => {
     arrivedOn, 
   }
 
-  console.log(processedRequest)
   return processedRequest
 }
 
