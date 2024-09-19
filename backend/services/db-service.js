@@ -87,8 +87,7 @@ export const getNest = async (nestId) => {
   const sqlQuery = `
     SELECT
         nests.id AS nest_id,
-        nests.ip AS nest_ip,
-        nests.host_name AS nest_host_name,
+        nests.origin_ip AS nest_ip,
         nests.created_on AS nest_created_on,
         requests.id,
         requests.method,
