@@ -42,7 +42,7 @@ const RequestDetails = ({activeRequest}) => {
             className={`tab request-headers ${activeTab === 'Headers' && 'active'}`}
             onClick={(e) => activateTab(e)}
           >Headers</div>
-          {Object.keys(query).length > 0 && <div 
+          {Object.keys(query)?.length > 0 && <div 
               className={`tab request-query ${activeTab === 'Query' && 'active'}`}
               onClick={(e) => activateTab(e)}
           >Query</div>}
