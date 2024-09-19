@@ -19,7 +19,15 @@ const MainControls = ({
 
   const connectionOn = (e) => {
     e.preventDefault()
-    if (!isValidWSURL(wsServerURL)) return
+    if (wsServerURL === '') {
+      displayFlashMessage('No WS Server URL')
+      setTimeout(() => hideFlashMessage(), 3000)
+      return
+    } else if (!isValidWSURL(wsServerURL)) {
+      displayFlashMessage('Invalid WS Server URL')
+      setTimeout(() => hideFlashMessage(), 3000)
+      return
+    }
     
     createConnection()
     if (flashMessage) return
@@ -54,6 +62,8 @@ const MainControls = ({
   }
 
   const displayFlashMessage = (message, type) => {
+    if (flashMessage) setFlashMessage(null)
+
     if (!document.querySelector('.nest-history.visible') && message.charAt(0) === '#') return
 
     setFlashMessage({message, type})
@@ -67,7 +77,7 @@ const MainControls = ({
 
     setTimeout(
       () => setFlashMessage(null), 
-      flashMessage?.message === 'Request Received' ? 1000 : 250
+      flashMessage?.message === 'Request Received' ? 1000 : 50
     )
   }
 
@@ -92,8 +102,6 @@ const MainControls = ({
 
         <div className='messages-control expandable'>
           <form>
-            {/* <label htmlFor="wsServerURL">
-            </label><br/> */}
             <input
               readOnly={connectionEstablished}
               type="text" 
@@ -129,7 +137,9 @@ const MainControls = ({
           className={`flash-message ${flashMessage ? 'visible' : ''}`}
           data-method={flashMessage?.type ? flashMessage.type : ''}
         >
-          {flashMessage?.message}
+          <h1
+            className={`${flashMessage?.message.charAt(0) === '#' ? 'nest-url' : ''}`}
+          >{flashMessage?.message}</h1>
         </div>
 
 
@@ -265,7 +275,7 @@ const NestInCache = ({ currentNest, nestId, closeConnection, setWsServerURL, dis
     setWsServerURL('')
     navigate(`/${nestId}`)
   }
-  console.log(nestId, currentNest)
+
   return (
     <a
       onClick={goToCachedNest}

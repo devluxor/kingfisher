@@ -188,6 +188,7 @@
   flex: 1;
   padding: 0px;
   gap: 10px;
+  min-width: 300px;
 }
 
 .messages-control {
@@ -291,6 +292,10 @@ textarea {
   opacity: 0;
   font-weight: 800;
   font-size: 1.4rem;
+  /* width: max(380px, 40%);
+  width: max(380px, 35%);
+  min-width: 35%; */
+  min-width: 100%;
 }
 
 .nest-history {
@@ -307,11 +312,16 @@ textarea {
   opacity: 0;
   font-weight: 800;
   font-size: 1.7rem;
-  gap: 15px
+  gap: 15px;
+  min-width: 100%;
 }
 
 .flash-message.visible {
   opacity: 1;
+}
+
+.flash-message h1.nest-url {
+  font-size: 1.2rem;
 }
 
 .message-details {
