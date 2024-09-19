@@ -1,6 +1,6 @@
 
 const MiddleSection = ({currentNest}) => {
-  console.log('MID RENDERED')
+  import.meta.env.DEV && console.log('MID RENDERED')
 
   return (
     <section className='main-container middle'>

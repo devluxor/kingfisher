@@ -8,7 +8,7 @@ const UpperSection = ({
   activeMessageId,
   setActiveMessageId
 }) => {
-  console.log('UpperSection RENDERED')
+  import.meta.env.DEV && console.log('UpperSection RENDERED')
 
   sortDescending(requests)
   sortDescending(messages)
