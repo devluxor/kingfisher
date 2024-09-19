@@ -19,9 +19,7 @@ const RequestDetails = ({activeRequest}) => {
   const query = parseRequestData(activeRequest, 'query')
   const arrivedOn = activeRequest.arrivedOn || activeRequest.arrived_on
   const originAddress = activeRequest.origin_ip || activeRequest.originIp || activeRequest.origin
-
-  console.log(activeRequest)
-
+  
   const displayContent = () => {
     if (activeTab === 'Headers') {
       return <RequestDataTable request={activeRequest} data={headers} element={'headers'}/>

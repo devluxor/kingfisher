@@ -99,6 +99,10 @@
   animation-fill-mode:forwards;
 }
 
+.request:hover, .message:hover {
+  border-color: var(--white);
+}
+
 @keyframes message-enter {
   0% {
     transform: translateX(200%);

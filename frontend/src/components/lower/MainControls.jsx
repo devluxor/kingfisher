@@ -95,7 +95,7 @@ const MainControls = ({
         <button onClick={() => setNestHistoryToggle(s => !s)}>
           <ClockIcon nestHistoryToggle={nestHistoryToggle} displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage}/>
         </button>
-        <WSSwitch wsToggleOn={wsToggleOn} toggleWSConnectionPanel={toggleWSConnectionPanel} displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage} />
+        <WSIcon wsToggleOn={wsToggleOn} toggleWSConnectionPanel={toggleWSConnectionPanel} displayFlashMessage={displayFlashMessage} hideFlashMessage={hideFlashMessage} />
       </div>
 
       <div className="messages-control-and-flash-panel">
@@ -149,26 +149,6 @@ const MainControls = ({
     </div>
   )
 }
-
-const WSSwitch = ({wsToggleOn, toggleWSConnectionPanel, displayFlashMessage, hideFlashMessage}) => {
-
-  return (
-    <div 
-    className="ws-toggle-container" 
-    onClick={toggleWSConnectionPanel}
-    onMouseEnter={() => displayFlashMessage('WS Connection Panel', 'hover')}
-    onMouseLeave={hideFlashMessage}
-    >
-      <div 
-        className={`ws-toggle-switch ${wsToggleOn ? 'on' : 'off'}`} 
-      >
-        <div 
-          className={`ws-toggle-handle ${wsToggleOn ? 'on' : 'off'}`} 
-        />
-      </div>
-    </div>
-  );
-};
 
 const ClockIcon = ({nestHistoryToggle, displayFlashMessage, hideFlashMessage}) => (
   <svg
@@ -316,5 +296,25 @@ const PowerIcon = () => (
     <line x1="12" y1="2" x2="12" y2="12" />
   </svg>
 );
+
+const WSIcon = ({wsToggleOn, toggleWSConnectionPanel, displayFlashMessage, hideFlashMessage}) => {
+
+  return (
+    <svg
+    onClick={toggleWSConnectionPanel}
+    onMouseEnter={() => displayFlashMessage('WS Connection Panel', 'hover')}
+    onMouseLeave={hideFlashMessage}
+    className={`ws-panel-icon ${wsToggleOn ? 'active' : ''}`}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+)};
 
 export default MainControls

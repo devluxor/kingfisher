@@ -7,24 +7,27 @@
   stroke: var(--white);
 } 
 
-.copy-nest-icon:hover {
-  fill: var(--white);
-}
 
 .send-test-request-icon, 
 .new-nest-icon, 
 .nest-history-icon, 
-.copy-nest-url-icon, 
+.copy-nest-url-icon,
+.ws-panel-icon, 
 .nest, 
 .ws-connection-icon {
   stroke: black;
   height: var(--icon-size);
 }
 
+.ws-panel-icon.active {
+  stroke: var(--main-app-color);
+}
+
 .send-test-request-icon:hover, 
-.new-nest-icon:hover, 
+.new-nest-icon:hover,
 .nest-history-icon:hover, 
 .copy-nest-url-icon:hover, 
+.ws-panel-icon:hover, 
 .nest-history-icon:hover,
 .nest-history-icon.active,
 .nest-history.visible a .nest:hover
@@ -39,8 +42,14 @@
   stroke: var(--white) ;
 }
 
+
 .nest:hover {
+  stroke: var(--main-app-color) !important;
   cursor: pointer;
+}
+
+.nest {
+  transition: all 0.4s ease;
 }
 
 a:nth-child(1) .nest {
