@@ -32,6 +32,8 @@ export const isValidWSURL = (url) => {
 }
 
 export const processRequest = (request) => {
+  console.log(request)
+  
   const nestId = request.params.nestId
   const method = request.method
   const query = request.query
