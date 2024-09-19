@@ -18,6 +18,9 @@ const RequestDetails = ({activeRequest}) => {
   const body = parseRequestData(activeRequest, 'body')
   const query = parseRequestData(activeRequest, 'query')
   const arrivedOn = activeRequest.arrivedOn || activeRequest.arrived_on
+  const originAddress = activeRequest.origin_ip || activeRequest.originIp || activeRequest.origin
+
+  console.log(activeRequest)
 
   const displayContent = () => {
     if (activeTab === 'Headers') {
@@ -37,6 +40,9 @@ const RequestDetails = ({activeRequest}) => {
       </div>
 
       <div className='request-main-details' >
+        <div className="arrived-on">{formatDate(arrivedOn)}</div>
+
+
         <div className="tabs" data-method={activeRequest.method}>
           <div 
             className={`tab request-headers ${activeTab === 'Headers' && 'active'}`}
@@ -50,7 +56,7 @@ const RequestDetails = ({activeRequest}) => {
             className={`tab request-body ${activeTab === 'Body' && 'active'}`}
             onClick={(e) => activateTab(e)}
           >Body</div>}
-          <div className="arrived-on">{formatDate(arrivedOn)}</div>
+          <div className="origin-address">@{originAddress}</div>
         </div>
 
         <div className="content">

@@ -32,9 +32,8 @@ export const isValidWSURL = (url) => {
 }
 
 export const processRequest = (request) => {
-  console.log(request)
-
   const nestId = request.params.nestId
+  const origin = request.headers.origin
   const originIp = request.headers['x-forwarded-for']
   const method = request.method
   const query = request.query
@@ -46,6 +45,7 @@ export const processRequest = (request) => {
   const processedRequest = { 
     id, 
     nestId,
+    origin,
     originIp, 
     path,
     query, 
