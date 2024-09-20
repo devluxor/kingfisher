@@ -13,6 +13,7 @@ import './styles/lower.css'
 import './styles/ws-switch.css'
 import './styles/icons-buttons.css'
 import './styles/method-colors.css'
+import './styles/mobile.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   import.meta.env.DEV ?   

@@ -19,7 +19,7 @@
   cursor: pointer;
   color: black;
   min-width: var(--rm-size);
-  height: var(--rm-size);
+  min-height: var(--rm-size);
   border-radius: 100px;
   margin-left: var(--sB);
   border: var(--rm-border-size) solid black;
@@ -70,7 +70,7 @@
 .arrived-elements > .message {
   background-color: var(--white);
   min-width: var(--rm-size);
-  height: var(--rm-size);
+  min-height: var(--rm-size);
   border-radius: 100px;
   margin-right: var(--sB) ;
   border: var(--rm-border-size) solid black;

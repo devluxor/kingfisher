@@ -14,7 +14,6 @@
   transition: all 0.4s ease;
 }
 
-
 .request-details, .message-details {
   width: max(300px, 43%);
   display: flex;
