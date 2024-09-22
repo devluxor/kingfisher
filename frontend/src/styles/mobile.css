@@ -3,6 +3,7 @@
     width: 100vw;
     display: flex;
     /* height: 1000px; */
+    font-size: 12px;
   }
 
   /* Upper */
@@ -63,55 +64,72 @@
     padding: 0px;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     width: 75vw;
+    margin-top: 55px;
+    gap: 10px;
     /* width: max(24vw, 25vw); */
   }
 
-  .request-details, .message-details {  
+  .request-method h1 {
+    font-size: 2rem;
+  }
+
+  .request-method p, .message-server-url h1{
+    font-size: 1.2rem;
+  }
+
+  .request-details, .message-details, .main-control-area, .messages-control-and-flash-panel {  
     padding: 0px;
     margin: 0px;
     height: 33vh;
-    width: 68vw !important;
+    width: 72vw;
   }
 
-  .request-details {
-    margin-top: 60px;
-  }
-
-  .messages-control-and-flash-panel {
-    width: 68vw;
+  .message-details {
+    height: 25vh;
   }
 
   .main-control-area {
     flex-direction: column;
-    width: 68vw;
     justify-content: center;
     align-items: center;
   }
 
   .main-controls {
     flex-direction: row !important;
-    width: 68vw;
     position: absolute;
+    align-items: center;
+    justify-content: center;
     top: 1vh;
     margin: 0px;
+    width: 72vw;
   }
 
-  .message-details {
-    padding: 0px;
-    margin: 0px;
-    height: 33vh;
-    width: min-content;
+  .nest-history {
+    gap: 30px;
   }
-
-
-  /* Icons */
 
   svg {
-    width: 3vh;
-
+    width: 2.5vh;
   }
 
+  svg.ws-panel-icon {
+    margin-bottom: 3px;
+  }
+
+  .request-data-table {
+    max-width: 2vw;
+    font-size: 0.65rem;
+  }
+
+  .request-data-table-key {
+    min-width: 110px !important;
+  }
+
+  .request-data-table-value {
+    /* max-width: 100px !important; */
+    padding-right: 20px;
+    /* background-color: gray; */
 }
 
