@@ -62,6 +62,7 @@
   display: flex;
   height: 100%;
   gap: var(--padding-and-gaps);
+  font-size: 1.2rem;
 }
 
 .request-main-details {
@@ -110,7 +111,7 @@
   display: flex;
   overflow: scroll;
   scrollbar-width: none;
-  justify-content:flex-start
+  justify-content:flex-start;
 }
 
 .request-data-table {
@@ -259,7 +260,6 @@ textarea {
 .nest-history {
   color: black;
   border-radius: var(--general-border-radius);
-  background-color: var(--main-app-color);
   background-color: var(--white);
   height: 60px;
   display: flex;
