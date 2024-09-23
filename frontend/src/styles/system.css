@@ -162,21 +162,21 @@
 
   */
 
-  --cA: hsl(184, 89%, 96%);
+  /* --cA: hsl(184, 89%, 96%);
   --cB: hsl(186, 88%, 90%);
   --cC: hsl(186, 85%, 82%);
-  --cD: hsl(186, 84%, 69%);
+  --cD: hsl(186, 84%, 69%); */
 
-  --cE: hsl(188, 77%, 56%); /* Main app color*/
+  /* --cE: hsl(188, 77%, 56%); Main app color */
 
-  --cF: hsl(188, 85%, 43%);
+  /* --cF: hsl(188, 85%, 43%);
   --cG: hsl(191, 83%, 36%);
   --cH: hsl(193, 75%, 31%);
   --cI: hsl(194, 62%, 27%);
   --cJ: hsl(197, 57%, 24%);
-  --cK: hsl(198, 71%, 7%);
+  --cK: hsl(198, 71%, 7%); */
 
-  --low-contrast-font:  #5d8aad;
+  /* --low-contrast-font:  #5d8aad; */
 
   /* Methods */
 
@@ -187,9 +187,9 @@
   --patch-color:rgb(231, 214, 20);
   --head-color:rgb(209, 162, 238);
 
-  --icon-color: rgb(110, 110, 110);
+  /* --icon-color: rgb(110, 110, 110);
 
-  --input-color: var(--main-app-color);
+  --input-color: var(--main-app-color); */
 
 
 
@@ -204,7 +204,6 @@
 
   /* Borders */
 
-  --main-components-border: 1px solid var(--border-color);
   --general-border-radius: 40px;
 
   --big-border-width: 14px;

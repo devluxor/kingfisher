@@ -1,8 +1,46 @@
 @media (max-width: 480px) {
+
+  @keyframes request-enter {
+    0% {
+      transform: translateY(-200%);
+    }
+    100% {
+      transform: translateY(75%);
+    }
+    
+  }
+  
+  @keyframes slide-right {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(var(--rm-size));
+    }
+  }
+
+  @keyframes message-enter {
+    0% {
+      transform: translateY(-200%);
+    }
+    100% {
+      transform: translateY(75%);
+    }
+    
+  }
+  
+  @keyframes slide-left {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(var(--rm-size));
+    }
+  }
+
   #root {
     width: 100vw;
     display: flex;
-    /* height: 1000px; */
     font-size: 12px;
   }
 
@@ -12,7 +50,7 @@
     height: 100vh;
     width: 25vw;
     flex-direction: row;
-    gap: 10px;
+    gap: 0px;
     border-top-right-radius: var(--general-border-radius);
     border-bottom-right-radius: var(--general-border-radius);
     padding-top: 10px;
@@ -20,15 +58,18 @@
 
   .arrived-elements {
     margin: 0px;
-    padding: 0px;
+    padding-left: 0px ;
     flex-direction: column;
     height: 100vh;
-    /* width: 100px; */
-    /* background-color: greenyellow; */
+    justify-content: start;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
   }
   
   .arrived-elements.messages {
     flex-direction: column;
+    padding-right: 0px;
   }
 
   .arrived-elements >.request, .arrived-elements > .message {
@@ -38,8 +79,6 @@
 
   .request, .request.new, .request.slide-right,
   .message, .message.new, .message.slide-left {
-    animation: none;
-    transition: none;
     width: var(--rm-size);
   }
 
@@ -68,7 +107,6 @@
     width: 75vw;
     margin-top: 55px;
     gap: 10px;
-    /* width: max(24vw, 25vw); */
   }
 
   .request-method h1 {
