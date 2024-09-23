@@ -128,6 +128,10 @@
     height: 33vh;
     width: 72vw;
   }
+
+  .messages-control-and-flash-panel {
+    align-items: center;
+  }
   
   .message-details {
     height: 25vh;
@@ -147,6 +151,10 @@
     top: 1vh;
     margin: 0px;
     width: 72vw;
+  }
+
+  .nest-history, .flash-message {
+    min-width: 72vw;
   }
 
   .nest-history {
