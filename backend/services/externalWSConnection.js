@@ -39,7 +39,11 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener("error", (event) => {
     logger.error("WebSocket error: ", event.error);
     const clients = (() => frontendWSClients)();
-    clients[nestId]?.send(JSON.stringify({error: event.error}))
+    try {
+      clients[nestId].send(JSON.stringify({error: event.error}))
+    } catch (e) {
+      logger.error('client not found when trying to send error message', e)
+    }
     ws.close()
   });
 
