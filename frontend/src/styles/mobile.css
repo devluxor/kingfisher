@@ -39,13 +39,16 @@
   }
 
   #root {
+    height: 100vh;
     width: 100vw;
     display: flex;
     font-size: 12px;
+    overflow: scroll;
+    scrollbar-width: none;
   }
-
+  
   /* Upper */
-
+  
   .main-container.upper {
     height: 100vh;
     width: 25vw;
@@ -55,7 +58,7 @@
     border-bottom-right-radius: var(--general-border-radius);
     padding-top: 10px;
   }
-
+  
   .arrived-elements {
     margin: 0px;
     padding-left: 0px ;
@@ -71,31 +74,31 @@
     flex-direction: column;
     padding-right: 0px;
   }
-
+  
   .arrived-elements >.request, .arrived-elements > .message {
     padding: 0px;
     margin: 0px;
   }
-
+  
   .request, .request.new, .request.slide-right,
   .message, .message.new, .message.slide-left {
     width: var(--rm-size);
   }
-
-
+  
+  
   /* Middle */
-
+  
   .main-container.middle {
     display: none;
   }
-
+  
   .title-container h1, .title-container h2 {
     display: none;
   }
-
-
+  
+  
   /* Lower */
-
+  
   .main-container.lower {
     background-color: black;
     height: 100vh;
@@ -107,27 +110,29 @@
     width: 75vw;
     margin-top: 55px;
     gap: 10px;
+    overflow: scroll;
+    scrollbar-width: none;
   }
-
+  
   .request-method h1 {
     font-size: 2rem;
   }
-
+  
   .request-method p, .message-server-url h1{
     font-size: 1.2rem;
   }
-
+  
   .request-details, .message-details, .main-control-area, .messages-control-and-flash-panel {  
     padding: 0px;
     margin: 0px;
     height: 33vh;
     width: 72vw;
   }
-
+  
   .message-details {
     height: 25vh;
   }
-
+  
   .main-control-area {
     flex-direction: column;
     justify-content: center;
