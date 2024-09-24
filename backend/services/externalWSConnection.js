@@ -10,9 +10,13 @@ let frontendWSClients = {}
 const wsLocalServer = new WebSocketServer({port: config.WS_PORT_CUSTOM})
 
 wsLocalServer.on('connection', (ws, request) => {
-  logger.info('📯 Backend-Frontend Custom Connection WebSocket Channel connected!')
+  logger.info('📯 Backend-Frontend Custom Connection WebSocket Channel Connected!')
   const nestId = request.url.split('=')[1]
   frontendWSClients[nestId] = ws
+})
+
+wsLocalServer.on('close', (ws, request) => {
+  logger.info('🛑 Backend-Frontend Custom Connection WebSocket Channel Closed!')
 })
 
 export const isConnectionWithFrontendReady = async (nestId) => {
