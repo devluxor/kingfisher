@@ -86,7 +86,8 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener('close', () => {
     logger.info('❌ Connection with external ws server closed')
     const clients = (() => frontendWSClients)();
-    clients[nestId]?.terminate()
+    clients[nestId].close()
+    delete clients[nestId]
   })
   
   return ws
