@@ -70,6 +70,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     } catch (e) {
       logger.error('client not found when trying to send error message', e)
     }
+    clients[nestId].close()
     ws.close()
   });
 
