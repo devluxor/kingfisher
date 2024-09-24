@@ -19,11 +19,16 @@ wsLocalServer.on('close', (ws, request) => {
   logger.info('🛑 Backend-Frontend Custom Connection WebSocket Channel Closed!')
 })
 
+wsLocalServer.on('message', (message) => {
+  logger.info('Message received from frontend: ', message)
+})
+
 export const isConnectionWithFrontendReady = async (nestId) => {
   return new Promise((resolve) => {
     const checkConnection = () => {
       const clients = (() => frontendWSClients)();
       if (clients.hasOwnProperty(nestId)) {
+        logger.info('connection with frontend ready')
         resolve(true);
       } else {
         setTimeout(checkConnection, 500); // Retry after 500ms if not found
@@ -60,7 +65,6 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener("error", (event) => {
     logger.error("WebSocket error: ", event.error);
     const clients = (() => frontendWSClients)();
-    logger.info(clients)
     try {
       clients[nestId].send(JSON.stringify({error: event.error}))
     } catch (e) {
