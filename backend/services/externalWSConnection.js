@@ -68,7 +68,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     try {
       clients[nestId].send(JSON.stringify({error: event.error}))
     } catch (e) {
-      logger.error('client not found when trying to send error message', e)
+      logger.error('⚠ client not found when trying to send error message: ', e)
     }
     clients[nestId].close()
     delete clients[nestId]
@@ -86,8 +86,12 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener('close', () => {
     logger.info('❌ Connection with external ws server closed')
     const clients = (() => frontendWSClients)();
-    clients[nestId].close()
-    delete clients[nestId]
+    try {
+      clients[nestId]?.close()
+      delete clients[nestId]
+    } catch (e) {
+      logger.error('⚠ client not found when trying to close external ws-connection: ', e)
+    }
   })
   
   return ws
