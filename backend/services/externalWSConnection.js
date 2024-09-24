@@ -28,7 +28,7 @@ export const isConnectionWithFrontendReady = async (nestId) => {
     const checkConnection = () => {
       const clients = (() => frontendWSClients)();
       if (clients.hasOwnProperty(nestId)) {
-        logger.info('connection with frontend ready')
+        logger.info('Connection with Frontend Ready')
         resolve(true);
       } else {
         setTimeout(checkConnection, 500); // Retry after 500ms if not found
