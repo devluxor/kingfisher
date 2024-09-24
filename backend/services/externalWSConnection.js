@@ -15,16 +15,33 @@ wsLocalServer.on('connection', (ws, request) => {
   frontendWSClients[nestId] = ws
 })
 
+export const isConnectionWithFrontendReady = async (nestId) => {
+  return new Promise((resolve) => {
+    const checkConnection = () => {
+      const clients = (() => frontendWSClients)();
+      if (clients.hasOwnProperty(nestId)) {
+        resolve(true);
+      } else {
+        setTimeout(checkConnection, 500); // Retry after 500ms if not found
+      }
+    };
+
+    checkConnection();
+  });
+}
+
 // 1: this client will receive messages from the external WS server
 // located using the URL introduced in the frontend input
 export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
+  // await isConnectionWithFrontendReady(nestId)
+
   if (!isValidWSURL(wsServerURL)) {
     logger.error('WebSocket error: INVALID WS SERVER URL')
     const clients = (() => frontendWSClients)();
     setTimeout(() => clients[nestId]?.send(JSON.stringify({error: 'invalid port number'})), 2000)
     return
   };
-
+  
   let ws
   try {
     ws = new WebSocket(wsServerURL)
@@ -59,7 +76,7 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
   ws.addEventListener('close', () => {
     logger.info('❌ Connection with external ws server closed')
     const clients = (() => frontendWSClients)();
-    clients[nestId]?.close()
+    clients[nestId]?.terminate()
   })
   
   return ws

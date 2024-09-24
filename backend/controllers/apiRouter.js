@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { initializeCustomWSConnectionClient } from "../services/externalWSConnection.js";
+import { initializeCustomWSConnectionClient, isConnectionWithFrontendReady } from "../services/externalWSConnection.js";
 import { getNest, getWSMessages, storeNest } from '../services/db-service.js'
 import { generateId } from "../utils/others.js";
 import { WebSocket } from "ws";
@@ -50,6 +50,7 @@ apiRouter.post('/createWsConnection', async (req, res, next) => {
   try {
     const nestId = req.body.nestId
     const wsServerURL = req.body.wsServerURL
+    await isConnectionWithFrontendReady(nestId)
     const ws = initializeCustomWSConnectionClient(wsServerURL, nestId)
     wsConnections[nestId] = ws
     res.status(201).send({nestId})
