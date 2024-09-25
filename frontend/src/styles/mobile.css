@@ -108,7 +108,7 @@
     align-items: center;
     justify-content: start;
     width: 75vw;
-    margin-top: 6vh;
+    padding-top: 7.7vh;
     gap: 10px;
     overflow: scroll;
     scrollbar-width: none;
