@@ -108,14 +108,14 @@
     align-items: center;
     justify-content: start;
     width: 75vw;
-    margin-top: 55px;
+    margin-top: 6vh;
     gap: 10px;
     overflow: scroll;
     scrollbar-width: none;
   }
   
   .request-method h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
   
   .request-method p, .message-server-url h1{
@@ -127,6 +127,55 @@
     margin: 0px;
     height: 33vh;
     width: 72vw;
+  }
+
+  .request-main-details, 
+  .request-method, 
+  .messages-control.expandable, 
+  .message-server-url, 
+  .message-data,
+  .nest-history.visible {
+    width: 72vw ;
+  }
+
+  .request-method {
+    min-height: 0px;
+    height: 6vh;
+  }
+
+  .request-method h1 {
+    font-size: 1.3rem;
+    margin-top: auto;
+  }
+
+  .request-method p {
+    font-size: 0.8rem;
+    margin: 0px;
+    margin-top: auto;
+    margin-bottom: 1px;
+  }
+
+
+  .request-main-details, .message-data {
+    font-size: 0.8rem;
+    padding-bottom: 0px;
+  }
+
+  .request-main-details .arrived-on {
+    margin-right: 3px;
+    margin-top: 7px
+  }
+
+  .request-main-details, .request-data-table th, div.tabs {
+    padding: 0px 4px 0px 2px !important;
+  }
+
+  .message-data pre.data {
+    font-size: 0.7rem;
+  }
+
+  .messages-control form {
+    width: 60vw;
   }
 
   .messages-control-and-flash-panel {
@@ -158,11 +207,15 @@
   }
 
   .nest-history {
-    gap: 30px;
+    gap: 5vw;
   }
 
   svg {
     width: 2.5vh;
+  }
+
+  svg.nest {
+    width: 2vh;
   }
 
   svg.ws-panel-icon {
@@ -175,13 +228,8 @@
   }
 
   .request-data-table-key {
-    min-width: 110px !important;
+    min-width: 90px !important;
   }
 
-  .request-data-table-value {
-    /* max-width: 100px !important; */
-    padding-right: 20px;
-    /* background-color: gray; */
-}
 
 }
