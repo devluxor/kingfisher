@@ -178,6 +178,10 @@
     width: 60vw;
   }
 
+  .messages-control input#wsServerURL {
+    height: 3vh;
+  }
+
   .messages-control-and-flash-panel {
     align-items: center;
   }
