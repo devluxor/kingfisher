@@ -77,7 +77,8 @@ const MainControls = ({
 
     setTimeout(
       () => setFlashMessage(null), 
-      flashMessage?.message === 'Request Received' ? 1000 : 50
+      flashMessage?.type === 'hover'  ?
+         50 : 1500
     )
   }
 
@@ -141,7 +142,7 @@ const MainControls = ({
         </div>
 
         <div 
-          className={`flash-message ${flashMessage ? 'visible' : ''}`}
+          className={`flash-message ${flashMessage?.type === 'error' ? 'error' : ''} ${flashMessage ? 'visible' : ''}`}
           data-method={flashMessage?.type ? flashMessage.type : ''}
         >
           <h1

@@ -4,7 +4,6 @@ import CustomWSConnectionDetails from "./CustomWSConnectionDetails"
 
 const LowerSection = ({
   currentNest,
-  setCurrentNest,
   requests, 
   activeRequestId, 
   testRequest, 

@@ -33,7 +33,7 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler,
 
     if (message.error) {
       developmentMode && console.log('ERROR IN CONNECTION 🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎🦎')
-      setFlashMessage({ message: 'WS Connection: ERROR'})
+      setFlashMessage({ message: 'WS Connection: ERROR', type: 'error'})
       setTimeout(() => setFlashMessage(null), 2000)
       errorHandler(true)
       ws.close()
