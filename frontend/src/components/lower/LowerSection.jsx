@@ -1,6 +1,6 @@
-import MainControls from "./MainControls"
 import RequestDetails from "./RequestDetails"
 import CustomWSConnectionDetails from "./CustomWSConnectionDetails"
+import MainControlArea from "./MainControlArea"
 
 const LowerSection = ({
   currentNest,
@@ -27,7 +27,7 @@ const LowerSection = ({
     <section className='main-container lower'>
       <RequestDetails activeRequest={activeRequest}/>
 
-      <MainControls 
+      <MainControlArea 
         currentNest={currentNest}
         testRequest={testRequest} 
         setWsServerURL={setWsServerURL} 
