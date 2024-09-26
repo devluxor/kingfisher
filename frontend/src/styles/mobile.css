@@ -63,7 +63,7 @@
     margin: 0px;
     padding-left: 0px ;
     flex-direction: column;
-    height: 100vh;
+    height: 98vh;
     justify-content: start;
     align-items: center;
     overflow-y: scroll;
@@ -101,7 +101,7 @@
   
   .main-container.lower {
     background-color: black;
-    height: 100vh;
+    height: 99vh;
     margin: 0px;
     padding: 0px;
     flex-direction: column;
