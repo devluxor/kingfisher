@@ -80,7 +80,11 @@ export const initializeCustomWSConnectionClient = (wsServerURL, nestId) => {
     logger.info(`🚀 Message from external WebSocket server ${wsServerURL} received by backend client`, event.data)
     await storeWSMessage(processedMessage)
     const clients = (() => frontendWSClients)();
-    clients[nestId]?.send(JSON.stringify(processedMessage))
+    try {
+      clients[nestId]?.send(JSON.stringify(processedMessage))
+    } catch (e) {
+      logger.error('⚠ client not found when trying to send message to frontend app: ', e)
+    }
   })
 
   ws.addEventListener('close', () => {
