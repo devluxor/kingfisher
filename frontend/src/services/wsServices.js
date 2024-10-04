@@ -1,3 +1,4 @@
+import config from "../config"
 import { isJSON, isRequest } from "../utils/helpers"
 
 const developmentMode = import.meta.env.DEV
@@ -8,8 +9,8 @@ export const createWSClient = (currentNestId, wsServerURL, setter, errorHandler,
 
   if (!wsServerURL) {
     wsServerURL = developmentMode ? 
-      `ws://localhost:8080?nestId=${currentNestId}` : 
-      `wss://kingfisher.luxor.dev/ws?nestId=${currentNestId}`
+      `${config.DEV_WS_SERVER_URL}?nestId=${currentNestId}` : 
+      `${config.WS_SERVER_URL}?nestId=${currentNestId}`
   } 
 
   // connects to ws server in backend (either for the request ws connection, or custom-external ws connection)

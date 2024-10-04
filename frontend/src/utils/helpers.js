@@ -1,5 +1,6 @@
 import dateFormat from "dateformat";
 import { generate } from "random-words";
+import config from "../config";
 
 export const normalizeNest = (sqlNest) => {
   return {
@@ -13,8 +14,8 @@ export const normalizeNest = (sqlNest) => {
 
 export const copyNestURL = async (currentNestId) => {
   const baseURL = import.meta.env.DEV ? 
-                    `http://localhost:3000`: 
-                    `https://kingfisher.luxor.dev`
+                    config.DEV_SERVER_URL: 
+                    config.NEST_SERVER_URL
 
   try {
     await navigator.clipboard.writeText(`${baseURL}/!/${currentNestId}`)

@@ -8,6 +8,8 @@ import UpperSection from "./components/upper/UpperSection.jsx"
 import MiddleSection from "./components/middle/MiddleSection.jsx"
 import LowerSection from "./components/lower/LowerSection.jsx"
 
+import config from "./config.js"
+
 import axios from "axios"
 const developmentMode = import.meta.env.DEV
 
@@ -221,8 +223,8 @@ function App() {
     try {
       developmentMode && console.log('CREATING CLIENT IN THE FRONTEND')
       const wsURL = developmentMode ? 
-        `ws://localhost:9090?nestId=${currentNestId}` : 
-        `wss://kingfisher.luxor.dev/ws-external?nestId=${currentNestId}`
+        `${config.DEV_CUSTOM_WS_SERVER_URL}?nestId=${currentNestId}` : 
+        `${config.CUSTOM_WS_SERVER_URL}?nestId=${currentNestId}`
       const ws = createWSClient(currentNestId, wsURL, setMessages, setErrorInConnection, setFlashMessage);
       
       setActiveWSConnection(ws)

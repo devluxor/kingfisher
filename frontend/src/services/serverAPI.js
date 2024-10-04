@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { randomHTTPMethod, randomURLPatch } from '../utils/helpers';
 
+import config from '../config';
+
 const developmentMode = import.meta.env.DEV
 
 const baseURL = developmentMode ? 
-                  `http://localhost:3000/api` : 
-                  `https://luxor.dev/kingfisher/api`
+                  config.DEV_API_SERVER_URL : 
+                  config.API_SERVER_URL
 
 const axiosInstance = axios.create({
   baseURL
@@ -52,9 +54,9 @@ export const getWSMessages = async (nestId, serverURL) => {
 }
 
 export const testRequest = async (nestId) => {
-  const baseURL = developmentMode ? 
-                    `http://localhost:3000`: 
-                    `https://kingfisher.luxor.dev`
+  const baseURL = import.meta.env.DEV ? 
+                    config.DEV_SERVER_URL: 
+                    config.NEST_SERVER_URL
   
   const HTTPMethod = randomHTTPMethod()
   let axiosService
