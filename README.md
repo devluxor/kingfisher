@@ -28,7 +28,8 @@ The UI is comprised by two main elements:
 
 - The bottom element contains the main controls panel and the Websocket connection panel, besides the left and rightmost panels already described, with the requests and messages details. Each icon represents a function (each icon is described when you hover the mouse over it):
 
-    ![Main controls panel](assets/2024-10-04-13-53-48.png)
+![Main controls](assets/2024-10-04-14-12-25.png)
+
     - The feather performs a test request to the server using a random HTTP method.
     - The two squares copy the current nest URL to the clipboard
     - The plus sign generates a new nest
