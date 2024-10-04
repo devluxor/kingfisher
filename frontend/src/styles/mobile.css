@@ -237,3 +237,25 @@
 
 
 }
+
+@media (max-height: 740px) {
+  :root {
+    font-size: 11px;
+  }
+
+  .messages-control form {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .messages-control form input {
+    height: 26px;
+  }
+
+  .ws-connection-icon {
+    padding-top: 5px;
+    height: 22px;
+  }
+}
