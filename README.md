@@ -47,13 +47,26 @@ You will need:
 
 ### Instructions
 
-Once you've cloned the repo, go to the `db` folder and run:
+Cloned the repo, and create a `.env` file within the `backend` (or `typescript-backend`) with the configuration environment variables. Port numbers can be changed, and the PostgreSQL database variables too, just remember to also change them in the `db/docker-compose.yml` file accordingly. As an example, the `.env` file could look like this:
+
+```txt
+PORT=3000
+WS_PORT=8080
+WS_PORT_CUSTOM=9090
+PG_USER=luxor 
+PG_HOST=localhost 
+PG_DB=test-db
+PG_PASSWORD=development
+PG_PORT=5432
+```
+
+Once the file is created, go to the `db` folder and run:
 
 ```sh
 docker compose up --detached
 ```
 
-In the `backend` server, run:
+Within the `backend` (or `typescript-backend`) folder, run:
 
 ```sh
 npm install
